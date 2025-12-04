@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String EXTRA_USERNAME = "userName";
+    public static final String EXTRA_IS_ADMIN = "isAdmin";
 
     private ActivityLoginBinding binding;
     //TODO: Add rps repository declaration here, once repo is implemented.
@@ -38,10 +40,14 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //TODO: Replace following code with real DB-based verification once repo is ready.
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("testUser1", userName);
-        startActivity(intent);
+        Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
+        intent.putExtra(EXTRA_USERNAME, userName);
 
+        //TODO: Replace later with real DB isAdmin check.
+        boolean isAdmin = userName.equalsIgnoreCase("admin");
+        intent.putExtra(EXTRA_IS_ADMIN, isAdmin);
+
+        startActivity(intent);
     }
 
     private void toastMaker(String message) {
