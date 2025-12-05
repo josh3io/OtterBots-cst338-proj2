@@ -42,8 +42,9 @@ public class GamePlayActivity extends AppCompatActivity {
 
             userCurrentGuess = GAME_CHOICES.get(0);
             npcChoice();
-
-            userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
+            userChoice(userCurrentGuess);
+            //TODO: Implement result from rps round in UI, updateGameplayUI;
+            // another idea is to instead handle UI updates in choice functions?
 
             // TODO: REMOVE THIS DEBUG TOAST
            toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
@@ -67,6 +68,9 @@ public class GamePlayActivity extends AppCompatActivity {
        });
 
 
+    }
+    private void userChoice(String userCurrentGuess) {
+        userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
     }
 
     // Function generates and sets an npcPlay to be set
