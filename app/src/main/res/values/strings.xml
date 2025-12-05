@@ -16,5 +16,12 @@
     <string name="logout">Logout</string>
     <string name="welcome_admin_otterbot">Welcome\nAdmin OtterBot</string>
     <string name="add_user">Add User</string>
+    <string name="game_play">Game Play</string>
+    <string name="result">Result:</string>
+    <string name="you_chose">You Chose:</string>
+    <string name="npc_chose">NPC Chose:</string>
+    <string name="rock">Rock</string>
+    <string name="paper">Paper</string>
+    <string name="scissors">Scissors</string>
 
 </resources>
