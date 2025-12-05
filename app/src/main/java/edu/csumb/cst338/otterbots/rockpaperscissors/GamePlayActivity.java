@@ -1,17 +1,13 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityGamePlayBinding;
@@ -22,6 +18,7 @@ public class GamePlayActivity extends AppCompatActivity {
     private HashMap<Integer, String> GAME_CHOICES = new HashMap<>();
     private String npcCurrentGuess = "";
     private String userCurrentGuess = "";
+    private boolean userWon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +37,17 @@ public class GamePlayActivity extends AppCompatActivity {
     private void setupUserUI(ActivityGamePlayBinding binding) {
         binding.rockPlayButton.setOnClickListener((v) -> {
             // TODO: Implement rock play logic
-            // TODO: REMOVE THIS DEBUG TOAST
 
             // TODO: Implement npc play, updateNpcGuess, in each onclicklistner
-            npcPlay();
-           toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: Rock");
+
+            userCurrentGuess = GAME_CHOICES.get(0);
+            npcChoice();
+
+            userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
+
+            // TODO: REMOVE THIS DEBUG TOAST
+           toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
+           toastMaker("USER WON: " + userWon);
 
         });
 
@@ -67,10 +70,12 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     // Function generates and sets an npcPlay to be set
-     private void npcPlay() {
+     private void npcChoice() {
         int npc_guess = random.nextInt(GAME_CHOICES.size());
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
+    
+   // TODO: Refractor to update total UI for finsihed round for both user and Npc
     // TODO: Handle binding logic to update NPC guess text after user sets their play
         // Helper function to set text Npc Guess
     private void updateNpcPlay(ActivityGamePlayBinding binding) {
