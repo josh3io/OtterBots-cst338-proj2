@@ -39,6 +39,9 @@ public class GamePlayActivity extends AppCompatActivity {
             // TODO: Implement npc play, updateNpcGuess, in each onclicklistner
 
             userCurrentGuess = GAME_CHOICES.get(0);
+            setNpcChoice();
+
+            userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
             npcChoice();
             setUserChoice(userCurrentGuess);
             //TODO: Implement result from rps round in UI, updateGameplayUI;
@@ -72,7 +75,7 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     // Function generates and sets an npcPlay to be set
-     private void npcChoice() {
+     private void setNpcChoice() {
         int npc_guess = random.nextInt(GAME_CHOICES.size());
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
