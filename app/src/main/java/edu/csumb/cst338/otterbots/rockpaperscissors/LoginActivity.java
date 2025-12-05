@@ -29,13 +29,13 @@ public class LoginActivity extends AppCompatActivity {
     private void verifyUser() {
         String userName = binding.userNameLoginEditText.getText().toString().trim();
         if (userName.isEmpty()) {
-            toastMaker("Username should not be blank.");
+            toastMaker(getString(R.string.error_username_blank));
             return;
         }
 
         String userPassword = binding.passwordLoginEditText.getText().toString().trim();
         if (userPassword.isEmpty()) {
-            toastMaker("Password should not be blank.");
+            toastMaker(getString(R.string.error_password_blank));
             return;
         }
 
