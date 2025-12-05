@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">OtterBots Rock Paper Scissors</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_title">Welcome to\nOtterBot\nRock Paper Scissors\n\nPlease Sign In</string>
+    <string name="welcome_username">Welcome\nuserName</string>
+    <string name="wins">Wins:</string>
+    <string name="losses">Losses:</string>
+    <string name="ties">Ties:</string>
+    <string name="current_streak">Current Streak:</string>
+    <string name="max_streak">Max Streak:</string>
+    <string name="games_played">Games Played:</string>
+    <string name="start_new_game">Start New Game</string>
+    <string name="view_leaderboard">View Leaderboard</string>
+    <string name="logout">Logout</string>
+    <string name="welcome_admin_otterbot">Welcome\nAdmin OtterBot</string>
+    <string name="add_user">Add User</string>
+
 </resources>
