@@ -5,8 +5,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Random;
 
@@ -41,7 +39,7 @@ public class GamePlayActivity extends AppCompatActivity {
             // TODO: Implement npc play, updateNpcGuess, in each onclicklistner
 
             userCurrentGuess = GAME_CHOICES.get(0);
-            npcChoice();
+            setNpcChoice();
 
             userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
 
@@ -70,7 +68,7 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     // Function generates and sets an npcPlay to be set
-     private void npcChoice() {
+     private void setNpcChoice() {
         int npc_guess = random.nextInt(GAME_CHOICES.size());
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
