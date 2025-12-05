@@ -21,6 +21,7 @@ public class GamePlayActivity extends AppCompatActivity {
     Random random = new Random();
     private HashMap<Integer, String> GAME_CHOICES = new HashMap<>();
     private String npcCurrentGuess = "";
+    private String userCurrentGuess = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class GamePlayActivity extends AppCompatActivity {
         GAME_CHOICES.put(0, "ROCK");
         GAME_CHOICES.put(1, "PAPER");
         GAME_CHOICES.put(2, "SCISSORS");
+
+
 
        ActivityGamePlayBinding binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
        setContentView(binding.getRoot());
@@ -72,6 +75,23 @@ public class GamePlayActivity extends AppCompatActivity {
         // Helper function to set text Npc Guess
     private void updateNpcPlay(ActivityGamePlayBinding binding) {
 
+    }
+    // Helper function to determine of user won or lost (true, false)
+    private boolean determineWinner(String userGuess, String npcGuess) {
+        // determine all winning cases, anything else means user lost
+        if (userGuess.equals(GAME_CHOICES.get(0)) && npcGuess.equals(GAME_CHOICES.get(2))){
+           // user pick rock, npc pick scissor
+            return true;
+        }
+        if (userGuess.equals(GAME_CHOICES.get(1)) && npcGuess.equals(GAME_CHOICES.get(0))){
+            // user pick paper, npc pick rock
+            return true;
+        }
+        if (userGuess.equals(GAME_CHOICES.get(2)) && npcGuess.equals(GAME_CHOICES.get(1))){
+            // user pick scissors, npc pick paper
+            return true;
+        }
+        return false;
     }
 
 
