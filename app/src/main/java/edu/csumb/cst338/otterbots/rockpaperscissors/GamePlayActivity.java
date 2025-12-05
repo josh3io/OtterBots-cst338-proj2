@@ -40,10 +40,8 @@ public class GamePlayActivity extends AppCompatActivity {
 
             userCurrentGuess = GAME_CHOICES.get(0);
             setNpcChoice();
-
-            userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
-            setNpcChoice();
             setUserChoice(userCurrentGuess);
+
             //TODO: Implement result from rps round in UI, updateGameplayUI;
             // another idea is to instead handle UI updates in choice functions?
 
@@ -55,17 +53,33 @@ public class GamePlayActivity extends AppCompatActivity {
 
         binding.paperPlayButton.setOnClickListener((v) -> {
             // TODO: Implement paper play logic
-            toastMaker("Player selected paper");
+            userCurrentGuess = GAME_CHOICES.get(1);
+            setNpcChoice();
+            setUserChoice(userCurrentGuess);
+
+            toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
+            toastMaker("USER WON: " + userWon);
         });
 
         binding.scissorsPlayButton.setOnClickListener((v) -> {
             // TODO: Implement scissors play logic
-            toastMaker("Player selected scissors");
+            userCurrentGuess = GAME_CHOICES.get(1);
+            setNpcChoice();
+            setUserChoice(userCurrentGuess);
+
+            toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
+            toastMaker("USER WON: " + userWon);
         });
 
        binding.returnSelectableTextView.setOnClickListener((v) -> {
           // TODO: Implement return button function
-           toastMaker("Player selected return");
+
+           userCurrentGuess = GAME_CHOICES.get(2);
+           setNpcChoice();
+           setUserChoice(userCurrentGuess);
+
+           toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
+           toastMaker("USER WON: " + userWon);
        });
 
 
