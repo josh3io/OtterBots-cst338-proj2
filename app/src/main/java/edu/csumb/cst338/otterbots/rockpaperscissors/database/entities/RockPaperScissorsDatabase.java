@@ -12,6 +12,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+
 
 /**
  * Description: Manage the database for the application
@@ -23,7 +25,6 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {Dummy.class}, version = 1, exportSchema = false)
 public abstract class RockPaperScissorsDatabase extends RoomDatabase {
-    private static final String TAG = "OTTERBOTS.RPS.Database";
     private static final String DATABASE_NAME = "RockPaperScissorsDatabase";
     static final String USER_TABLE = "userTable";
     static final String USER_STATS_TABLE = "userStatsTable";
@@ -69,7 +70,7 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.i(TAG, "DATABASE CREATED!");
+            Log.i(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
                 //TODO: add default values for the database here
             });
