@@ -5,8 +5,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Random;
 
@@ -42,7 +40,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
             userCurrentGuess = GAME_CHOICES.get(0);
             npcChoice();
-            userChoice(userCurrentGuess);
+            setUserChoice(userCurrentGuess);
             //TODO: Implement result from rps round in UI, updateGameplayUI;
             // another idea is to instead handle UI updates in choice functions?
 
@@ -69,7 +67,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
 
     }
-    private void userChoice(String userCurrentGuess) {
+    private void setUserChoice(String userCurrentGuess) {
         userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
     }
 
