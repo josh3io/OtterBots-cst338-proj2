@@ -42,7 +42,7 @@ public class GamePlayActivity extends AppCompatActivity {
             setNpcChoice();
 
             userWon = determineWinner(userCurrentGuess, npcCurrentGuess);
-            npcChoice();
+            setNpcChoice();
             setUserChoice(userCurrentGuess);
             //TODO: Implement result from rps round in UI, updateGameplayUI;
             // another idea is to instead handle UI updates in choice functions?
