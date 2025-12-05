@@ -50,7 +50,10 @@ public class LandingActivity extends AppCompatActivity {
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to Game Activity.
+            // TODO: Refractor intents to intentfactory
             toastMaker("Start New Game (user)");
+            Intent intent = new Intent(getApplicationContext(), GamePlayActivity.class);
+            startActivity(intent);
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
