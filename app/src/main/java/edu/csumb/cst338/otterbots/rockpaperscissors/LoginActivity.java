@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -13,7 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String EXTRA_IS_ADMIN = "isAdmin";
 
     private ActivityLoginBinding binding;
-    //TODO: Add rps repository declaration here, once repo is implemented.
+    private RockPaperScissorsRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //TODO: Add repository initialization here, once repo is implemented.
+        repository = RockPaperScissorsRepository.getRepository(getApplication());
 
         binding.loginButton.setOnClickListener(v -> verifyUser());
     }
