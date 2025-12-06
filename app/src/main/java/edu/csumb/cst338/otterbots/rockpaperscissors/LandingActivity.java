@@ -33,7 +33,7 @@ public class LandingActivity extends AppCompatActivity {
         boolean isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
 
         if (userName == null || userName.trim().isEmpty()) {
-            userName = "Player"; // So UI doesn't look broken
+            userName = getString(R.string.default_player_name); // So UI doesn't look broken
         }
 
         if (isAdmin) {
@@ -51,19 +51,19 @@ public class LandingActivity extends AppCompatActivity {
 
     private void setupUserUI(ActivityLandingUserBinding binding, String userName) {
         // Welcome Text
-        binding.titleLandingTextView.setText("Welcome\n" + userName);
+        binding.titleLandingTextView.setText(getString(R.string.welcome_user, userName));
 
         //TODO: Pull real stats from DB instead of just labels.
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to Game Activity.
-            toastMaker("Start New Game (user)");
+            toastMaker(getString(R.string.toast_start_new_game_user));
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to Leaderboard Activity.
-            toastMaker("View Leaderboard (user)");
+            toastMaker(getString(R.string.toast_view_leaderboard_user));
         });
 
         // Logout
@@ -72,25 +72,25 @@ public class LandingActivity extends AppCompatActivity {
 
     private void setupAdminUI(ActivityLandingAdminBinding binding, String userName) {
         // Welcome text: Show Admin + userName
-        binding.titleLandingTextView.setText("Welcome\nOtterBot " + userName);
+        binding.titleLandingTextView.setText(getString(R.string.welcome_admin, userName));
 
         // TODO: Pull real stats from DB instead of just labels.
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to Game Activity.
-            toastMaker("Start New Game (admin)");
+            toastMaker(getString(R.string.toast_start_new_game_admin));
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to Leaderboard Activity.
-            toastMaker("View Leaderboard (admin)");
+            toastMaker(getString(R.string.toast_view_leaderboard_admin));
         });
 
         // Add User (admin-only feature)
         binding.addUserTextView.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to addUser Activity.
-            toastMaker("Add User (admin)");
+            toastMaker(getString(R.string.toast_add_user_admin));
         });
 
         // Logout
