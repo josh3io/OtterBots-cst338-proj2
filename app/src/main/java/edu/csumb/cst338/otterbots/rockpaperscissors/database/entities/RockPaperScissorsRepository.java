@@ -61,6 +61,16 @@ public class RockPaperScissorsRepository {
     //TODO: add DAO wrapper methods here; they should all use LiveData<Object> return types
 
     /**
+     * Add a new round to the database
+     * @param round the round entity to record
+     */
+    public void insertRound(RpsRound round) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            rpsRoundDAO.insert(round);
+        });
+    }
+
+    /**
      * Get all rps rounds for a userStatsId
      * @param userStatsId the userStatsId id to use for looking up round records
      * @return list of records or null ArrayList if none are found
