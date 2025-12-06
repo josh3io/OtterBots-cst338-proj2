@@ -24,5 +24,7 @@
     <string name="toast_start_new_game_admin">Start New Game (admin)</string>
     <string name="toast_view_leaderboard_admin">View Leaderboard (admin)</string>
     <string name="toast_add_user_admin">Add User (admin)</string>
+    <string name="error_username_blank">Username should not be blank.</string>
+    <string name="error_password_blank">Password should not be blank.</string>
 
 </resources>
