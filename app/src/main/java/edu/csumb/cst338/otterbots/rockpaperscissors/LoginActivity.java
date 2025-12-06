@@ -1,5 +1,6 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -39,18 +40,19 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        //TODO: Replace following code with real DB-based verification once repo is ready.
-        Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
-        intent.putExtra(EXTRA_USERNAME, userName);
-
-        //TODO: Replace later with real DB isAdmin check.
+        //TODO: Replace hardcoded login + admin validation with real repo/DB verification once User DAO is implemented.
         boolean isAdmin = userName.equalsIgnoreCase("admin");
-        intent.putExtra(EXTRA_IS_ADMIN, isAdmin);
-
+        Intent intent = LandingActivity.createIntent(LoginActivity.this, userName, isAdmin);
         startActivity(intent);
     }
 
     private void toastMaker(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static Intent createLogoutIntent(Context context) {
+        Intent logoutIntent = new Intent(context, LoginActivity.class);
+        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return logoutIntent;
     }
 }

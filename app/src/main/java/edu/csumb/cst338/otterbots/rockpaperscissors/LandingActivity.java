@@ -3,6 +3,7 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_IS_ADMIN;
 import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_USERNAME;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -13,6 +14,13 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingA
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingUserBinding;
 
 public class LandingActivity extends AppCompatActivity {
+
+    public static Intent createIntent(Context context, String userName, boolean isAdmin) {
+        Intent intent = new Intent(context, LandingActivity.class);
+        intent.putExtra(EXTRA_USERNAME, userName);
+        intent.putExtra(EXTRA_IS_ADMIN, isAdmin);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +98,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        Intent logoutIntent = new Intent(this, LoginActivity.class);
-
-        // Clear back stack so Back doesn't return to Landing
-        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent logoutIntent = LoginActivity.createLogoutIntent(this);
         startActivity(logoutIntent);
         finish();
     }
