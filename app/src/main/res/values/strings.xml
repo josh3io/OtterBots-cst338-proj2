@@ -23,5 +23,9 @@
     <string name="rock">Rock</string>
     <string name="paper">Paper</string>
     <string name="scissors">Scissors</string>
+    <string name="you_win">YOU WIN!</string>
+    <string name="npc_wins">NPC WINS :(</string>
+    <string name="it_s_a_tie">IT\'S A TIE</string>
+    <string name="you_lose">YOU LOSE :(</string>
 
 </resources>
