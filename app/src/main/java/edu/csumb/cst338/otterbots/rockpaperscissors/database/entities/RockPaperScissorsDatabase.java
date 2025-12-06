@@ -23,7 +23,7 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 
 //TODO: add data object entity classes here; remove Dummy
 
-@Database(entities = {RpsRound.class}, version = 1, exportSchema = false)
+@Database(entities = {RpsRound.class, UserStats.class}, version = 1, exportSchema = false)
 public abstract class RockPaperScissorsDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "RockPaperScissorsDatabase";
     static final String USER_TABLE = "userTable";
@@ -84,4 +84,10 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
      * @return DAO for the rps round table
      */
     public abstract RpsRoundDAO rpsRoundDAO();
+
+    /**
+     * abstract method for the user stats DAO
+     * @return DAO for the user stats table
+     */
+    public abstract UserStatsDAO userStatsDAO();
 }
