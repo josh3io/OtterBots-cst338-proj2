@@ -27,6 +27,7 @@ public class RockPaperScissorsRepository {
     private RockPaperScissorsRepository(Application application) {
         RockPaperScissorsDatabase db = RockPaperScissorsDatabase.getDatabase(application);
         this.rpsRoundDAO = db.rpsRoundDAO();
+        this.userStatsDAO = db.userStatsDAO();
     }
 
     /**
