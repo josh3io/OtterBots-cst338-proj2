@@ -12,7 +12,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
-import edu.csumb.cst338.otterbots.rockpaperscissors.R;
 
 public class RockPaperScissorsRepository {
     private static RockPaperScissorsRepository repository;
