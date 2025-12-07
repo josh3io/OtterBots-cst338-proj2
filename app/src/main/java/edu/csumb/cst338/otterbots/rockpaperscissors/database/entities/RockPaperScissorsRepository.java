@@ -16,8 +16,8 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 public class RockPaperScissorsRepository {
     private static RockPaperScissorsRepository repository;
 
-    private RpsRoundDAO rpsRoundDAO;
-    private UserStatsDAO userStatsDAO;
+    protected RpsRoundDAO rpsRoundDAO;
+    protected UserStatsDAO userStatsDAO;
 
     /**
      * Constructor
@@ -27,6 +27,9 @@ public class RockPaperScissorsRepository {
         RockPaperScissorsDatabase db = RockPaperScissorsDatabase.getDatabase(application);
         this.rpsRoundDAO = db.rpsRoundDAO();
         this.userStatsDAO = db.userStatsDAO();
+    }
+
+    public RockPaperScissorsRepository() {
     }
 
     /**
