@@ -1,6 +1,5 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
-import android.net.ipsec.ike.TunnelModeChildSessionParams;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -79,12 +78,14 @@ public class GamePlayActivity extends AppCompatActivity {
        });
     }
     private void setUserChoice(String userChoice) {
+        this.userChoice = 1;
         userCurrentGuess = userChoice;
     }
 
     // Function generates and sets an npcPlay to be set
      private void setNpcChoice() {
         int npc_guess = random.nextInt(GAME_CHOICES.size());
+        this.npcChoice = npc_guess;
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
 
@@ -95,21 +96,30 @@ public class GamePlayActivity extends AppCompatActivity {
            // user pick rock, npc pick scissorA
             roundTie = false; // redundant but for safety
             userWon = true;
+            wins = wins + 1;
             npcWon = false;
+            updateStreak();
+            printStats();
             return;
         }
         if (userCurrentGuess.equals(GAME_CHOICES.get(1)) && npcCurrentGuess.equals(GAME_CHOICES.get(0))){
             // user pick paper, npc pick rock
             roundTie = false;
             userWon = true;
+            wins = wins + 1;
             npcWon = false;
+            updateStreak();
+            printStats();
             return;
         }
         if (userCurrentGuess.equals(GAME_CHOICES.get(2)) && npcCurrentGuess.equals(GAME_CHOICES.get(1))){
             // user pick scissors, npc pick paper
             roundTie = false;
             userWon = true;
+            wins = wins + 1;
             npcWon = false;
+            updateStreak();
+            printStats();
             return;
         }
         // forgot to include a tie lol
@@ -117,12 +127,27 @@ public class GamePlayActivity extends AppCompatActivity {
             roundTie = true;
             userWon = false;
             npcWon = false;
+            ties = ties + 1;
+            updateStreak();
+            printStats();
             return;
         }
         roundTie = false;
         userWon = false;
         npcWon = true;
+        losses = losses + 1;
+        currentStreak = 0;
+        printStats();
+    }
 
+    // helper function to update streaks
+    private void updateStreak() {
+        if (wins > currentStreak) {
+            currentStreak = wins;
+            if (currentStreak > maxStreak) {
+                maxStreak = currentStreak;
+            }
+        }
     }
 
     private void updateGameplayUI(ActivityGamePlayBinding binding){
@@ -139,9 +164,11 @@ public class GamePlayActivity extends AppCompatActivity {
         }
     }
 
-    private void finishedRpsRound() {
+    // TODO: make into toastStats for debugging
+    private void printStats(){
+        System.out.printf("Wins: %s Loses: %s Ties: %s Max Streak: %s Current Streak: %s",
+                wins, losses, ties, maxStreak, currentStreak);
     }
-
      private void toastMaker(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
