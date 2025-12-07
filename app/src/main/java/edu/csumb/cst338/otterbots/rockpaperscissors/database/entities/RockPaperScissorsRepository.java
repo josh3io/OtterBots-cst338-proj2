@@ -12,12 +12,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
-import edu.csumb.cst338.otterbots.rockpaperscissors.R;
 
 public class RockPaperScissorsRepository {
     private static RockPaperScissorsRepository repository;
 
     private RpsRoundDAO rpsRoundDAO;
+    private UserStatsDAO userStatsDAO;
 
     /**
      * Constructor
@@ -26,6 +26,7 @@ public class RockPaperScissorsRepository {
     private RockPaperScissorsRepository(Application application) {
         RockPaperScissorsDatabase db = RockPaperScissorsDatabase.getDatabase(application);
         this.rpsRoundDAO = db.rpsRoundDAO();
+        this.userStatsDAO = db.userStatsDAO();
     }
 
     /**
@@ -77,6 +78,19 @@ public class RockPaperScissorsRepository {
      */
     public LiveData<ArrayList<RpsRound>> getAllUserStatsIdRounds(int userStatsId) {
         return Transformations.map(rpsRoundDAO.getAllRoundsByUserStatsId(userStatsId), list -> {
+            if (list == null) {
+                return new ArrayList<>();
+            }
+            return new ArrayList<>(list);
+        });
+    }
+
+    /**
+     * Get all user stats for the leaderboard
+     * @return list of all user stats ordered by wins - losses
+     */
+    public LiveData<ArrayList<UserStats>> getAllUserStatsByRank() {
+        return Transformations.map(userStatsDAO.getAllUserStatsByRank(), list -> {
             if (list == null) {
                 return new ArrayList<>();
             }

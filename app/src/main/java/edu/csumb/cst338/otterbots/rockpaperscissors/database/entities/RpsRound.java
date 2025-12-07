@@ -1,5 +1,6 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors.database.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -18,6 +19,7 @@ public class RpsRound {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
+    @ColumnInfo(index = true)
     private int userStatsId;
     private int userChoice;
     private int npcChoice;

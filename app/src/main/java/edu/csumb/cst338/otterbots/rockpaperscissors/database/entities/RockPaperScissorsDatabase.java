@@ -7,12 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.LocalDateTypeConverter;
 
 
 /**
@@ -23,7 +25,8 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 
 //TODO: add data object entity classes here; remove Dummy
 
-@Database(entities = {RpsRound.class}, version = 1, exportSchema = false)
+@TypeConverters(LocalDateTypeConverter.class)
+@Database(entities = {RpsRound.class, UserStats.class}, version = 1, exportSchema = false)
 public abstract class RockPaperScissorsDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "RockPaperScissorsDatabase";
     static final String USER_TABLE = "userTable";
@@ -84,4 +87,10 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
      * @return DAO for the rps round table
      */
     public abstract RpsRoundDAO rpsRoundDAO();
+
+    /**
+     * abstract method for the user stats DAO
+     * @return DAO for the user stats table
+     */
+    public abstract UserStatsDAO userStatsDAO();
 }
