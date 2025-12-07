@@ -18,8 +18,18 @@ public class GamePlayActivity extends AppCompatActivity {
     private String npcCurrentGuess = "";
     private String userCurrentGuess = "";
     private boolean userWon;
-
     private boolean npcWon;
+
+    // fields for database update userStats
+    private int wins = 0;
+    private int losses = 0;
+    private int ties = 0;
+    private int maxStreak = 0;
+    private int currentStreak = 0;
+
+    // fields for database update userStats
+    private int userChoice; // choices will be ints to get RPS choices from hashmap
+    private int npcChoice;
 
     // Check if rps round ends in tie
     private boolean roundTie;
@@ -127,6 +137,9 @@ public class GamePlayActivity extends AppCompatActivity {
         if (roundTie) {
             binding.resultOutputTextView.setText(R.string.it_s_a_tie);
         }
+    }
+
+    private void finishedRpsRound() {
     }
 
      private void toastMaker(String message) {
