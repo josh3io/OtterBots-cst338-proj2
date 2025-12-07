@@ -79,7 +79,8 @@ public class GamePlayActivity extends AppCompatActivity {
         });
 
        binding.returnSelectableTextView.setOnClickListener((v) -> {
-          // TODO: Implement return button function
+           // finish() returns user to the last view in the stack (home screen)
+           finish();
        });
 
 
