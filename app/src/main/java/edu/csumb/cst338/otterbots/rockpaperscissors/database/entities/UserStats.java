@@ -1,6 +1,7 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
@@ -12,17 +13,29 @@ import java.util.Objects;
  */
 
 
-@Entity(tableName = RockPaperScissorsDatabase.USER_STATS_TABLE)
+@Entity(
+        tableName = RockPaperScissorsDatabase.USER_STATS_TABLE,
+        indices = {@Index(value={"userId"}, unique = true)}
+)
 public class UserStats {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
-    private Integer userId;
-    private Integer wins;
-    private Integer losses;
-    private Integer ties;
-    private Integer maxStreak;
-    private Integer currentStreak;
+    private int userId;
+    private int wins;
+    private int losses;
+    private int ties;
+    private int maxStreak;
+    private int currentStreak;
+
+    public UserStats(int userId, int wins, int losses, int ties, int maxStreak, int currentStreak) {
+        this.userId = userId;
+        this.wins = wins;
+        this.losses = losses;
+        this.ties = ties;
+        this.maxStreak = maxStreak;
+        this.currentStreak = currentStreak;
+    }
 
     @Override
     public String toString() {
@@ -57,51 +70,51 @@ public class UserStats {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public Integer getWins() {
+    public int getWins() {
         return wins;
     }
 
-    public void setWins(Integer wins) {
+    public void setWins(int wins) {
         this.wins = wins;
     }
 
-    public Integer getLosses() {
+    public int getLosses() {
         return losses;
     }
 
-    public void setLosses(Integer losses) {
+    public void setLosses(int losses) {
         this.losses = losses;
     }
 
-    public Integer getTies() {
+    public int getTies() {
         return ties;
     }
 
-    public void setTies(Integer ties) {
+    public void setTies(int ties) {
         this.ties = ties;
     }
 
-    public Integer getMaxStreak() {
+    public int getMaxStreak() {
         return maxStreak;
     }
 
-    public void setMaxStreak(Integer maxStreak) {
+    public void setMaxStreak(int maxStreak) {
         this.maxStreak = maxStreak;
     }
 
-    public Integer getCurrentStreak() {
+    public int getCurrentStreak() {
         return currentStreak;
     }
 
-    public void setCurrentStreak(Integer currentStreak) {
+    public void setCurrentStreak(int currentStreak) {
         this.currentStreak = currentStreak;
     }
 }

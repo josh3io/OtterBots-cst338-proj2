@@ -100,4 +100,22 @@ public class RockPaperScissorsRepository {
             return new ArrayList<>(list);
         });
     }
+
+    /**
+     * Add or update a userStats record
+     */
+    public void insertOrUpdateUserStats(UserStats stats) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            userStatsDAO.insert(stats);
+        });
+    }
+
+    /**
+     * Get the stats for a single user
+     * @param userId the user to get stats for
+     * @return a record of userStats or null
+     */
+    public LiveData<UserStats> getUserStatsByUserId(int userId) {
+        return userStatsDAO.getUserStatsByUserId(userId);
+    }
 }
