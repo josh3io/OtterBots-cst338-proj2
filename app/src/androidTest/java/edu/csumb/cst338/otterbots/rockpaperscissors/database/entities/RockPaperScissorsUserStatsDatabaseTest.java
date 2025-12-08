@@ -85,6 +85,9 @@ public class RockPaperScissorsUserStatsDatabaseTest {
                 handler));
     }
 
+    /**
+     * Test a second insert for the same user. it should replace.
+     */
     @Test
     public void testUpdate() throws Exception {
         repository.insertOrUpdateUserStats(testStats1);
@@ -118,6 +121,7 @@ public class RockPaperScissorsUserStatsDatabaseTest {
                 handler2
         ));
 
+        // test that we still only have one record
         LiveData<ArrayList<UserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
         // observer the list query to be sure we only get one record back
         // waiting for two records should timeout
@@ -126,6 +130,30 @@ public class RockPaperScissorsUserStatsDatabaseTest {
             assertEquals(1, data.size());
         };
         assertFalse(listUserStatsTestObserver.test(
+                allUserStatsLiveData,
+                data -> data.size() > 1,
+                listHandler
+        ));
+    }
+
+    /**
+     * Test that we have a leaderboard after two users add stats records
+     * @throws Exception
+     */
+    @Test
+    public void testMultipleUsers() throws Exception {
+        repository.insertOrUpdateUserStats(testStats1);
+        repository.insertOrUpdateUserStats(testStats3);
+
+        // test that we still have two records for the two users
+        LiveData<ArrayList<UserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
+        // observer the list query to be sure we only get one record back
+        // waiting for two records should timeout
+        LiveDataOnChangedHandler<ArrayList<UserStats>> listHandler = data -> {
+            // this should never run
+            assertEquals(2, data.size());
+        };
+        assertTrue(listUserStatsTestObserver.test(
                 allUserStatsLiveData,
                 data -> data.size() > 1,
                 listHandler
