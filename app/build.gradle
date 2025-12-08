@@ -41,6 +41,7 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.runner
     implementation libs.androidx.junit
+    implementation libs.androidx.recyclerview
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
