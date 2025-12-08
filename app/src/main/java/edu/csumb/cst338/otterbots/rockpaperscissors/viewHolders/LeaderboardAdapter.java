@@ -1,5 +1,6 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders;
 
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.RankedUserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 
@@ -33,12 +35,13 @@ public class LeaderboardAdapter extends ListAdapter<UserStats, RecyclerView.View
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         //TODO: replace userId with userName
         RankedUserStats current = RankedUserStats.getRankedUserStats(position, "", getItem(position));
+        Log.d(MainActivity.TAG, current.toString());
         if (holder instanceof LeaderboardViewHolder) {
             LeaderboardViewHolder holderInstance = (LeaderboardViewHolder) holder;
             holderInstance.bind(current);
         } else if (holder instanceof LeaderboardViewHeader) {
             LeaderboardViewHeader headerInstance = (LeaderboardViewHeader) holder;
-            headerInstance.bind(current);
+            // use default text values for the header. no binding.
         }
     }
 

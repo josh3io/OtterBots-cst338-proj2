@@ -1,5 +1,6 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.R;
 import edu.csumb.cst338.otterbots.rockpaperscissors.RankedUserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
@@ -28,11 +30,12 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(RankedUserStats stats) {
-        rankTextView.setText(stats.getRank());
+        Log.d(MainActivity.TAG,"User Stats binding "+stats);
+        rankTextView.setText(String.valueOf(stats.getRank()));
         usernameTextView.setText(stats.getUserName());
-        winsTextView.setText(stats.getWins());
-        lossesTextView.setText(stats.getLosses());
-        tiesTextView.setText(stats.getTies());
+        winsTextView.setText(String.valueOf(stats.getWins()));
+        lossesTextView.setText(String.valueOf(stats.getLosses()));
+        tiesTextView.setText(String.valueOf(stats.getTies()));
     }
 
     static LeaderboardViewHolder create(ViewGroup parent) {

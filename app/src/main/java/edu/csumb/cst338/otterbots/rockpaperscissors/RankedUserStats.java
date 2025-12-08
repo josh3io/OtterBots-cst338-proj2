@@ -1,5 +1,7 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
+import java.util.Objects;
+
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 
 public class RankedUserStats extends UserStats {
@@ -27,8 +29,37 @@ public class RankedUserStats extends UserStats {
         this.userName = userName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        RankedUserStats that = (RankedUserStats) o;
+        return rank == that.rank && Objects.equals(userName, that.userName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), rank, userName);
+    }
+
+    @Override
+    public String toString() {
+        return "RankedUserStats{" +
+                "rank=" + rank +
+                ", userName='" + userName + '\'' +
+                ", userStats=" + super.toString() +
+                '}';
+    }
+
     public static RankedUserStats getRankedUserStats(int rank, String userName, UserStats stats) {
-        RankedUserStats ranked = (RankedUserStats) stats;
+        //RankedUserStats ranked = (RankedUserStats) stats;
+        RankedUserStats ranked = new RankedUserStats(
+                stats.getUserId(),
+                stats.getWins(),
+                stats.getLosses(),
+                stats.getTies(),
+                stats.getMaxStreak(),
+                stats.getCurrentStreak());
         ranked.setRank(rank);
         ranked.setUserName(userName);
 

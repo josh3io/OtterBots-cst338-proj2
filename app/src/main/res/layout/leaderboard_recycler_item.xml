@@ -16,7 +16,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="4dp"
-        android:text="Rank"
+        android:text="@string/rank"
         android:textSize="18sp" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="4dp"
-        android:text="Username"
+        android:text="@string/username"
         android:textSize="18sp" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="4dp"
-        android:text="Wins"
+        android:text="@string/wins"
         android:textSize="18sp" />
 
     <TextView
@@ -55,7 +55,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="4dp"
-        android:text="Losses"
+        android:text="@string/losses"
         android:textSize="18sp" />
 
     <TextView
@@ -68,7 +68,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="4dp"
-        android:text="Ties"
+        android:text="@string/ties"
         android:textSize="18sp" />
 
 

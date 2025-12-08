@@ -11,27 +11,9 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.R;
 import edu.csumb.cst338.otterbots.rockpaperscissors.RankedUserStats;
 
 public class LeaderboardViewHeader extends RecyclerView.ViewHolder {
-    private final TextView rankTextView;
-    private final TextView usernameTextView;
-    private final TextView winsTextView;
-    private final TextView lossesTextView;
-    private final TextView tiesTextView;
 
     private LeaderboardViewHeader(View leaderboardView) {
         super(leaderboardView);
-        rankTextView = leaderboardView.findViewById(R.id.recyclerItemRankTextView);
-        usernameTextView = leaderboardView.findViewById(R.id.recyclerItemUsernameTextView);
-        winsTextView = leaderboardView.findViewById(R.id.recyclerItemWinsTextView);
-        lossesTextView = leaderboardView.findViewById(R.id.recyclerItemLossesTextView);
-        tiesTextView = leaderboardView.findViewById(R.id.recyclerItemTiesTextView);
-    }
-
-    public void bind(RankedUserStats stats) {
-        rankTextView.setText(stats.getRank());
-        usernameTextView.setText(stats.getUserName());
-        winsTextView.setText(stats.getWins());
-        lossesTextView.setText(stats.getLosses());
-        tiesTextView.setText(stats.getTies());
     }
 
     static LeaderboardViewHeader create(ViewGroup parent) {
