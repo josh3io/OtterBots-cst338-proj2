@@ -47,13 +47,17 @@ public class RockPaperScissorsDatabaseTest {
 
     /**
      * extend the RPS repository so we can mock with an in memory database
+     * and a single thread executor and allow main thread queries
      */
     private class TestRepository extends RockPaperScissorsRepository {
         public TestRepository(Application application) {
+            // get an in memory db instead of our singleton
             db = Room.inMemoryDatabaseBuilder(application, RockPaperScissorsDatabase.class)
                     .setTransactionExecutor(Executors.newSingleThreadExecutor())
                     .allowMainThreadQueries()
                     .build();
+
+            // and load up the DAOs here.
             this.rpsRoundDAO = db.rpsRoundDAO();
             this.userStatsDAO = db.userStatsDAO();
         }
@@ -66,6 +70,7 @@ public class RockPaperScissorsDatabaseTest {
 
         assertNotNull(repository);
 
+        // create an observer for livedata tests. see the helper class below.
         rpsRoundTestObserver = new LiveDataObserver<>();
 
         testRound1 = new RpsRound(1,2,3,"win");
@@ -92,13 +97,17 @@ public class RockPaperScissorsDatabaseTest {
     @Test
     public void testRpsRound() throws Exception {
         repository.insertRound(testRound1);
+
+        // get the data
         LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
 
+        // this handler for the livedata observer runs our tests
         OnChangedHandler<ArrayList<RpsRound>> handler = data -> {
             assertNotNull(data);
             assertEquals(1, data.size());
             assertEquals("win", data.get(0).getResult());
         };
+        // we want to wait until we get the right data or the test times out
         assertTrue(rpsRoundTestObserver.test(
                 lookupRoundLiveData,
                 data -> data != null && data.size() == 1,
@@ -146,32 +155,61 @@ public class RockPaperScissorsDatabaseTest {
     }
 }
 
+
+/**
+ * Handler function template for LiveData Observer
+ * @param <T> the type we will be operating on.
+ */
 @FunctionalInterface
 interface OnChangedHandler<T> {
+    /**
+     * Handle the onChange for livedata observer
+     * @param data the data we will handle.
+     */
     void handle(T data);
 }
 
+/**
+ * Template class to observe live data change results
+ * @param <T> the type of data we will be acting on in our change handler
+ */
 class LiveDataObserver<T> {
-    @Rule
-    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+    /**
+     * This is where we will run our tests or timeout trying.
+     * @param liveData the LiveData<T> we will be acting on
+     * @param condition Wait for this condition to be true to run our change handler. this protects against early intermediate changes
+     * @param handler This is what will run on our LiveData wrapped data. we want to do our data testing here.
+     * @return boolean if the observer times out. this will happen if our 'condition' is not met.
+     * @throws InterruptedException if something interrupts the processing
+     */
     public boolean test(LiveData<T> liveData, java.util.function.Predicate<T> condition, OnChangedHandler<T> handler) throws InterruptedException {
+        // set a latch that we can decrement once our tests are done
         final CountDownLatch latch = new CountDownLatch(1);
 
+        // the actual observer
         Observer<T> observer = new Observer<T>() {
             @Override
             public void onChanged(T data) {
+                // don't act on our data too early! wait for preconditions
                 if (!condition.test(data)) {
                     return;
                 }
+                // handler will run the actual tests we are interested in
                 handler.handle(data);
+                // now that we are done, decrement the latch
                 latch.countDown();
 
+                // without this, removeObserver happens in a background thread and that's broken.
+                // wrap it so it runs on the main thread.
                 ArchTaskExecutor.getInstance().executeOnMainThread(
                     () -> liveData.removeObserver(this)
                 );
             }
         };
+        // run the observer
         liveData.observeForever(observer);
+        // wait for the latch to decrement for up to 5 seconds. Tests should handle the return value
+        // or we could end up with false positives for tests.
         return latch.await(5, TimeUnit.SECONDS);
     }
 }
