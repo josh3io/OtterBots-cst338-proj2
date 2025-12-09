@@ -2,53 +2,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootLogin"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     style="@style/ScreenRoot"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
+
 
     <TextView
-        android:id="@+id/titleLoginTextView"
+        android:id="@+id/titleRegisterTextView"
         style="@style/PrimaryTitle"
-        android:text="@string/login_title"
+        android:text="@string/register_activity_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/userNameLoginEditText"
+        android:id="@+id/userNameRegisterEditText"
         style="@style/PrimaryInput"
         android:autofillHints="username"
         android:hint="@string/username"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleLoginTextView" />
+        app:layout_constraintTop_toBottomOf="@id/titleRegisterTextView" />
 
     <EditText
-        android:id="@+id/passwordLoginEditText"
+        android:id="@+id/passwordRegisterEditText"
         style="@style/PrimaryInput"
         android:autofillHints="password"
         android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userNameLoginEditText" />
+        app:layout_constraintTop_toBottomOf="@id/userNameRegisterEditText" />
 
-    <Button
-        android:id="@+id/loginButton"
-        style="@style/PrimaryButton"
-        android:text="@string/login"
+    <EditText
+        android:id="@+id/passwordConfirmRegisterEditText"
+        style="@style/PrimaryInput"
+        android:autofillHints="confirm password"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordLoginEditText" />
+        app:layout_constraintTop_toBottomOf="@id/passwordRegisterEditText" />
 
-    <TextView
-        android:id="@+id/registerTextView"
-        style="@style/ClickableText"
+    <Button
+        android:id="@+id/registerButton"
+        style="@style/PrimaryButton"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
-
-
+        app:layout_constraintTop_toBottomOf="@id/passwordConfirmRegisterEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

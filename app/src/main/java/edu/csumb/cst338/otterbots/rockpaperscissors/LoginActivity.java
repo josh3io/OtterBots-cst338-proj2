@@ -3,6 +3,7 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,13 @@ public class LoginActivity extends AppCompatActivity {
         repository = RockPaperScissorsRepository.getRepository(getApplication());
 
         binding.loginButton.setOnClickListener(v -> verifyUser());
+
+        binding.registerTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(RegisterActivity.createRegisterIntent(v.getContext()));
+            }
+        });
     }
 
     private void verifyUser() {
