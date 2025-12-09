@@ -3,8 +3,10 @@ package edu.csumb.cst338.otterbots.rockpaperscissors.database.entities;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import android.app.Application;
 import android.content.Context;
@@ -68,6 +70,117 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
     }
 
 
+    /*
+     * *********************
+     * BARE TESTS FOR DAO
+     * *********************
+     */
+    @Test
+    public void testDaoInsert() throws Exception {
+        repository.rpsRoundDAO.insert(testRound1);
+
+        // get the data
+        LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
+
+        // this handler for the livedata observer runs our tests
+        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
+            assertNotNull(data);
+            assertEquals(1, data.size());
+            assertEquals("win", data.get(0).getResult());
+        };
+        // we want to wait until we get the right data or the test times out
+        assertTrue(rpsRoundTestObserver.test(
+                lookupRoundLiveData,
+                data -> data != null && data.size() == 1,
+                handler));
+    }
+
+    @Test
+    public void testDaoUpdate() throws Exception {
+        repository.rpsRoundDAO.insert(testRound1);
+
+        // get the data
+        LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
+
+        // this handler for the livedata observer runs our tests
+        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
+            assertNotNull(data);
+            assertEquals(1, data.size());
+            assertEquals("win", data.get(0).getResult());
+        };
+        // we want to wait until we get the right data or the test times out
+        assertTrue(rpsRoundTestObserver.test(
+                lookupRoundLiveData,
+                data -> data != null && data.size() == 1,
+                handler));
+
+        // modify the round
+        RpsRound roundToUpdate = lookupRoundLiveData.getValue().get(0);
+        roundToUpdate.setResult("FOO");
+        repository.rpsRoundDAO.update(roundToUpdate);
+
+        lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
+
+        // this handler for the livedata observer runs our tests
+        // the size shouldn't change, but 0th entry should have changed
+        handler = data -> {
+            assertNotNull(data);
+            assertEquals(1, data.size());
+            assertEquals("FOO", data.get(0).getResult());
+        };
+        // we want to wait until we get the right data or the test times out
+        assertTrue(rpsRoundTestObserver.test(
+                lookupRoundLiveData,
+                data -> data != null && data.size() == 1,
+                handler));
+    }
+
+    @Test
+    public void testDaoDelete() throws Exception {
+        repository.rpsRoundDAO.insert(testRound1);
+
+        // get the data
+        LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
+
+        // this handler for the livedata observer runs our tests
+        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
+            assertNotNull(data);
+            assertEquals(1, data.size());
+            assertEquals("win", data.get(0).getResult());
+        };
+        // we want to wait until we get the right data or the test times out
+        assertTrue(rpsRoundTestObserver.test(
+                lookupRoundLiveData,
+                data -> data != null && data.size() == 1,
+                handler));
+
+        // modify the round
+        RpsRound roundToUpdate = lookupRoundLiveData.getValue().get(0);
+        repository.rpsRoundDAO.delete(roundToUpdate);
+
+        lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
+
+        // this handler for the livedata observer runs our tests
+        // the size shouldn't change, but 0th entry should have changed
+        handler = data -> {
+            // this should never run
+            fail();
+        };
+        // we want to wait until we get the right data or the test times out
+        // this should timeout because after delete, there should be no records
+        // so the predicate fails
+        assertFalse(rpsRoundTestObserver.test(
+                lookupRoundLiveData,
+                data -> data != null && data.size() == 1,
+                handler));
+    }
+
+    /*
+     * **********************
+     * TEST REPOSITORY ACCESS
+     * **********************
+     */
+
     /**
      * test a single record insert
      */
@@ -130,5 +243,6 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
                 data -> data != null && data.size() == 2,
                 handler));
     }
+
 }
 
