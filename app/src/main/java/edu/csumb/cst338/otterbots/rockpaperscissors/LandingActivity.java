@@ -6,10 +6,16 @@ import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_U
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import edu.csumb.cst338.otterbots.rockpaperscissors.api.RpsRandomNumberGenerator;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingAdminBinding;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingUserBinding;
 
@@ -47,6 +53,12 @@ public class LandingActivity extends AppCompatActivity {
             setContentView(binding.getRoot());
             setupUserUI(binding, userName);
         }
+
+        // initialize the random number generator for gameplay
+        RpsRandomNumberGenerator.initializeGenerator();
+        /* Example usage:
+         *  int number = RpsRandomNumberGenerator.getRandomNumber();
+         */
     }
 
     private void setupUserUI(ActivityLandingUserBinding binding, String userName) {
