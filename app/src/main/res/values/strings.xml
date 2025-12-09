@@ -29,5 +29,12 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="return_to_main">Return to Main</string>
     <string name="rank">Rank</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register_activity_title">Welcome to OtterBot Rock Paper Scissors.\n\nPlease register a username and password</string>
+    <string name="register">Register</string>
+    <string name="username_must_not_be_blank">Username must not be blank</string>
+    <string name="password_must_not_be_blank">Password must not be blank</string>
+    <string name="password_confirmation_must_match">Password confirmation must match</string>
+    <string name="return_to_login">Return to login</string>
 
 </resources>

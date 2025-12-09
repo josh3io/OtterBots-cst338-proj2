@@ -89,7 +89,7 @@ public class LandingActivity extends AppCompatActivity {
 
         // Add User (admin-only feature)
         binding.addUserTextView.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to addUser Activity.
+            // TODO: Replace toast with navigation to ADMIN addUser Activity.
             toastMaker(getString(R.string.toast_add_user_admin));
         });
 
