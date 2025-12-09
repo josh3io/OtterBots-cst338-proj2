@@ -31,6 +31,7 @@ public class RpsRound {
         this.userChoice = userChoice;
         this.npcChoice = npcChoice;
         this.result = result;
+        this.date = LocalDateTime.now();
     }
 
     public Integer getId() {

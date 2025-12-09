@@ -16,8 +16,8 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 public class RockPaperScissorsRepository {
     private static RockPaperScissorsRepository repository;
 
-    private RpsRoundDAO rpsRoundDAO;
-    private UserStatsDAO userStatsDAO;
+    protected RpsRoundDAO rpsRoundDAO;
+    protected UserStatsDAO userStatsDAO;
 
     /**
      * Constructor
@@ -27,6 +27,9 @@ public class RockPaperScissorsRepository {
         RockPaperScissorsDatabase db = RockPaperScissorsDatabase.getDatabase(application);
         this.rpsRoundDAO = db.rpsRoundDAO();
         this.userStatsDAO = db.userStatsDAO();
+    }
+
+    public RockPaperScissorsRepository() {
     }
 
     /**
@@ -96,5 +99,23 @@ public class RockPaperScissorsRepository {
             }
             return new ArrayList<>(list);
         });
+    }
+
+    /**
+     * Add or update a userStats record
+     */
+    public void insertOrUpdateUserStats(UserStats stats) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            userStatsDAO.insert(stats);
+        });
+    }
+
+    /**
+     * Get the stats for a single user
+     * @param userId the user to get stats for
+     * @return a record of userStats or null
+     */
+    public LiveData<UserStats> getUserStatsByUserId(int userId) {
+        return userStatsDAO.getUserStatsByUserId(userId);
     }
 }

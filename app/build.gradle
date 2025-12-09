@@ -45,6 +45,10 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
+    // need this for observing livedata in tests
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+
+
     def room_version = "2.8.4"
 
     implementation "androidx.room:room-runtime:$room_version"
