@@ -54,4 +54,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordConfirmRegisterEditText" />
+
+    <!-- back to login -->
+    <TextView
+        android:id="@+id/backToLoginTextView"
+        style="@style/ClickableText"
+        android:text="@string/return_to_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

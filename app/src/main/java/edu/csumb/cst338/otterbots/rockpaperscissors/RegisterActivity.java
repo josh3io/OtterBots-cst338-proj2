@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,6 +33,13 @@ public class RegisterActivity extends AppCompatActivity {
         repository = RockPaperScissorsRepository.getRepository(getApplication());
 
         binding.registerButton.setOnClickListener(v -> registerUser());
+
+        binding.backToLoginTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(LoginActivity.createLogoutIntent(v.getContext()));
+            }
+        });
     }
 
     /**
