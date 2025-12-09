@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import android.app.Application;
 import android.content.Context;
@@ -14,6 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -64,6 +66,108 @@ public class RockPaperScissorsUserStatsDatabaseTest {
     public void afterEach() throws IOException {
         repository = null;
     }
+
+    /*
+     * *********************
+     * BARE TESTS FOR DAO
+     * *********************
+     */
+    @Test
+    public void testDaoInsert() throws Exception {
+        repository.userStatsDAO.insert(testStats1);
+
+        // get the data
+        LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
+
+        // this handler for the livedata observer runs our tests
+        LiveDataOnChangedHandler<UserStats> handler = data -> {
+            assertNotNull(data);
+            assertEquals(1,data.getUserId());
+        };
+        // we want to wait until we get the right data or the test times out
+        assertTrue(singleUserStatsTestObserver.test(
+                userStatsLiveData,
+                Objects::nonNull,
+                handler));
+    }
+
+    @Test
+    public void testDaoUpdate() throws Exception {
+        repository.userStatsDAO.insert(testStats1);
+
+        // get the data
+        LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
+
+        // this handler for the livedata observer runs our tests
+        LiveDataOnChangedHandler<UserStats> handler = Assert::assertNotNull;
+        // we want to wait until we get the right data or the test times out
+        assertTrue(singleUserStatsTestObserver.test(
+                userStatsLiveData,
+                Objects::nonNull,
+                handler));
+
+        // modify the stats
+        UserStats stats = userStatsLiveData.getValue();
+        stats.setWins(100);
+        repository.userStatsDAO.update(stats);
+
+        userStatsLiveData = repository.getUserStatsByUserId(1);
+
+        // this handler for the livedata observer runs our tests
+        // the wins should have changed
+        handler = data -> {
+            assertNotNull(data);
+            assertEquals(100, stats.getWins());
+        };
+        // we want to wait until we get the right data or the test times out
+        assertTrue(singleUserStatsTestObserver.test(
+                userStatsLiveData,
+                Objects::nonNull,
+                handler));
+    }
+
+    @Test
+    public void testDaoDelete() throws Exception {
+        repository.userStatsDAO.insert(testStats1);
+
+        // get the data
+        LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
+
+        // this handler for the livedata observer runs our tests
+        LiveDataOnChangedHandler<UserStats> handler = Assert::assertNotNull;
+        // we want to wait until we get the right data or the test times out
+        assertTrue(singleUserStatsTestObserver.test(
+                userStatsLiveData,
+                Objects::nonNull,
+                handler));
+
+        // delete the round
+        repository.userStatsDAO.delete(userStatsLiveData.getValue());
+
+        userStatsLiveData = repository.getUserStatsByUserId(1);
+
+        // this handler for the livedata observer runs our tests
+        // the size shouldn't change, but 0th entry should have changed
+        handler = data -> {
+            // this should never run
+            fail();
+        };
+        // we want to wait until we get the right data or the test times out
+        // this should timeout because after delete, there should be no records
+        // so the predicate fails
+        assertFalse(singleUserStatsTestObserver.test(
+                userStatsLiveData,
+                Objects::nonNull,
+                handler));
+    }
+
+    /*
+     * **********************
+     * TEST REPOSITORY ACCESS
+     * **********************
+     */
+
+
     /**
      * test a single record insert
      */

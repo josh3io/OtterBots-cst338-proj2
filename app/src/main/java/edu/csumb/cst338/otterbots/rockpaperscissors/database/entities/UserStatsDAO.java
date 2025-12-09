@@ -2,9 +2,13 @@ package edu.csumb.cst338.otterbots.rockpaperscissors.database.entities;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
+
+import org.junit.runners.Parameterized;
 
 import java.util.List;
 
@@ -18,6 +22,12 @@ import java.util.List;
 public interface UserStatsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(UserStats stats);
+
+    @Update
+    void update(UserStats stats);
+
+    @Delete
+    void delete(UserStats stats);
 
     /**
      * Get stats record for a user
