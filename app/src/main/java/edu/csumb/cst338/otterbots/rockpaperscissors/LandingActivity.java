@@ -62,8 +62,8 @@ public class LandingActivity extends AppCompatActivity {
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to Leaderboard Activity.
-            toastMaker(getString(R.string.toast_view_leaderboard_user));
+            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(binding.getRoot().getContext(), userName, false);
+            startActivity(intent);
         });
 
         // Logout
@@ -83,8 +83,8 @@ public class LandingActivity extends AppCompatActivity {
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to Leaderboard Activity.
-            toastMaker(getString(R.string.toast_view_leaderboard_admin));
+            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(binding.getRoot().getContext(), userName, true);
+            startActivity(intent);
         });
 
         // Add User (admin-only feature)

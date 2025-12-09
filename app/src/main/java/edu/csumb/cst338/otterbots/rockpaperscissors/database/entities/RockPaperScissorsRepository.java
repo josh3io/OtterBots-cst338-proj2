@@ -24,6 +24,7 @@ public class RockPaperScissorsRepository {
      * @param application the android application
      */
     private RockPaperScissorsRepository(Application application) {
+        Log.d(MainActivity.TAG, "Instantiating Repository");
         RockPaperScissorsDatabase db = RockPaperScissorsDatabase.getDatabase(application);
         this.rpsRoundDAO = db.rpsRoundDAO();
         this.userStatsDAO = db.userStatsDAO();

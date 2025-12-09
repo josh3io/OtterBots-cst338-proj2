@@ -26,7 +26,7 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.Loca
 //TODO: add data object entity classes here; remove Dummy
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {RpsRound.class, UserStats.class}, version = 1, exportSchema = false)
+@Database(entities = {RpsRound.class, UserStats.class}, version = 4, exportSchema = false)
 public abstract class RockPaperScissorsDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "RockPaperScissorsDatabase";
     static final String USER_TABLE = "userTable";
@@ -44,11 +44,13 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
      * @return singleton database instance for the app
      */
     static RockPaperScissorsDatabase getDatabase(final Context context) {
+        Log.d(MainActivity.TAG, "Getting database singleton");
         if (INSTANCE == null) {
             // lock for singleton creation
             synchronized (RockPaperScissorsDatabase.class) {
                 // we might have been queuing, so check again now that we have the lock
                 if (INSTANCE == null) {
+                    Log.d(MainActivity.TAG,"Building Room Database");
                     // create the database instance
                     // delete everything and add the default values
                     //     if we're changing the db version
@@ -56,7 +58,7 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
                                     context.getApplicationContext(),
                                     RockPaperScissorsDatabase.class,
                                     DATABASE_NAME
-                            ).fallbackToDestructiveMigration(false)
+                            ).fallbackToDestructiveMigration(true)
                             .addCallback(addDefaultValues)
                             .build();
                 }
@@ -71,11 +73,23 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
      */
     private static final RoomDatabase.Callback addDefaultValues = new RoomDatabase.Callback() {
         @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            Log.d(MainActivity.TAG,"Opening Database");
+        }
+
+        @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.i(MainActivity.TAG, "DATABASE CREATED!");
+            Log.d(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
                 //TODO: add default values for the database here
+                Log.i(MainActivity.TAG, "Inserting default data");
+                UserStatsDAO userStatsDAO = INSTANCE.userStatsDAO();
+                userStatsDAO.insert(new UserStats(1,1,2,3,4,4));
+                userStatsDAO.insert(new UserStats(2,2,2,3,4,4));
+                userStatsDAO.insert(new UserStats(3,5,2,3,4,4));
+
             });
         }
     };

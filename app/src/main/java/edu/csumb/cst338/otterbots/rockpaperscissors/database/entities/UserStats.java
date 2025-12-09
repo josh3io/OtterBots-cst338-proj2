@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.R;
+
 /**
  * Description: Entity for the user stats database table
  * Author: Josh Goldberg
@@ -118,3 +120,4 @@ public class UserStats {
         this.currentStreak = currentStreak;
     }
 }
+

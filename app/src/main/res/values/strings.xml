@@ -26,5 +26,8 @@
     <string name="toast_add_user_admin">Add User (admin)</string>
     <string name="error_username_blank">Username should not be blank.</string>
     <string name="error_password_blank">Password should not be blank.</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="return_to_main">Return to Main</string>
+    <string name="rank">Rank</string>
 
 </resources>
