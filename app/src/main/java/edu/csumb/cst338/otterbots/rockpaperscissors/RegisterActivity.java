@@ -2,16 +2,12 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityRegisterBinding;
@@ -64,6 +60,10 @@ public class RegisterActivity extends AppCompatActivity {
         // password confirmation must equal the password so we know the user knows their password
         // at least for now.
         if (password1.equals(password2)) {
+            // Only persist username after all register validations pass
+            SharedPreferences prefs = getSharedPreferences(LoginActivity.PREFS_NAME, MODE_PRIVATE);
+            prefs.edit().putString(LoginActivity.KEY_LAST_USERNAME, userName).apply();
+
             //TODO: Insert the new user record
             // repository.insertUser(....)
             //TODO: Initiate the user session

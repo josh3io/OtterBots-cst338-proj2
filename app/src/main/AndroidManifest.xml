@@ -13,6 +13,8 @@
         android:theme="@style/Theme.OtterBotsRockPaperScissors">
         <activity
             android:name=".GamePlayActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity

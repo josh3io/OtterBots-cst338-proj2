@@ -13,11 +13,13 @@ import java.util.concurrent.Future;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 
+
 public class RockPaperScissorsRepository {
     private static RockPaperScissorsRepository repository;
 
     protected RpsRoundDAO rpsRoundDAO;
     protected UserStatsDAO userStatsDAO;
+    protected UserDAO userDAO;
 
     /**
      * Constructor
@@ -28,6 +30,7 @@ public class RockPaperScissorsRepository {
         RockPaperScissorsDatabase db = RockPaperScissorsDatabase.getDatabase(application);
         this.rpsRoundDAO = db.rpsRoundDAO();
         this.userStatsDAO = db.userStatsDAO();
+        this.userDAO = db.userDAO();
     }
 
     public RockPaperScissorsRepository() {
@@ -119,4 +122,34 @@ public class RockPaperScissorsRepository {
     public LiveData<UserStats> getUserStatsByUserId(int userId) {
         return userStatsDAO.getUserStatsByUserId(userId);
     }
+
+    /**
+     * Get a user by username
+     * @param username the username to look up
+     * @return the user record or null
+     */
+    public LiveData<User> getUserByUsername(String username) {
+        return userDAO.getUserByUsername(username);
+    }
+
+    /**
+     * Get a user by username and password for login
+     * @param username the username to look up
+     * @param password the password to look up
+     * @return the user record or null
+     */
+    public LiveData<User> getUserLogin(String username, String password) {
+        return userDAO.getUserLogin(username, password);
+    }
+
+    /**
+     * Insert a new user record
+     * @param user the user entity to insert
+     */
+    public void insertUser(User user) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.insert(user);
+        });
+    }
+
 }
