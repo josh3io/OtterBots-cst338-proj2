@@ -11,6 +11,7 @@
     <string name="current_streak">Current Streak:</string>
     <string name="max_streak">Max Streak:</string>
     <string name="games_played">Games Played:</string>
+
     <string name="start_new_game">Start New Game</string>
     <string name="view_leaderboard">View Leaderboard</string>
     <string name="logout">Logout</string>
@@ -23,10 +24,12 @@
     <string name="rock">Rock</string>
     <string name="paper">Paper</string>
     <string name="scissors">Scissors</string>
+
     <string name="you_win">YOU WIN!</string>
     <string name="npc_wins">NPC WINS :(</string>
     <string name="it_s_a_tie">IT\'S A TIE</string>
     <string name="you_lose">YOU LOSE :(</string>
+
     <string name="welcome_user">Welcome\n%s</string>
     <string name="welcome_admin">Welcome\nOtterBot %s</string>
     <string name="default_player_name">Player</string>
@@ -40,12 +43,12 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="return_to_main">Return to Main</string>
     <string name="rank">Rank</string>
-    <string name="confirm_password">Confirm Password</string>
+
+    <string name="confirm_password">Confirm password</string>
     <string name="register_activity_title">Welcome to OtterBot Rock Paper Scissors.\n\nPlease register a username and password</string>
     <string name="register">Register</string>
     <string name="username_must_not_be_blank">Username must not be blank</string>
     <string name="password_must_not_be_blank">Password must not be blank</string>
     <string name="password_confirmation_must_match">Password confirmation must match</string>
     <string name="return_to_login">Return to login</string>
-
 </resources>

@@ -36,16 +36,13 @@ public class GamePlayActivity extends AppCompatActivity {
         GAME_CHOICES.put(1, "PAPER");
         GAME_CHOICES.put(2, "SCISSORS");
 
-
-
-       ActivityGamePlayBinding binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
-       setContentView(binding.getRoot());
-       setupUserUI(binding);
+        ActivityGamePlayBinding binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setupUserUI(binding);
     }
 
     private void setupUserUI(ActivityGamePlayBinding binding) {
         binding.rockPlayButton.setOnClickListener((v) -> {
-
             setNpcChoice();
             setUserChoice("ROCK");
             determineWinner();
@@ -57,28 +54,27 @@ public class GamePlayActivity extends AppCompatActivity {
             setUserChoice("PAPER");
             determineWinner();
             updateGameplayUI(binding);
-
         });
 
         binding.scissorsPlayButton.setOnClickListener((v) -> {
-
             setNpcChoice();
             setUserChoice("SCISSORS");
             determineWinner();
             updateGameplayUI(binding);
         });
 
-       binding.returnSelectableTextView.setOnClickListener((v) -> {
-           // finish() returns user to the last view in the stack (home screen)
-           finish();
-       });
+        binding.returnSelectableTextView.setOnClickListener((v) -> {
+            // finish() returns user to the last view in the stack (home screen)
+            finish();
+        });
     }
+
     private void setUserChoice(String userChoice) {
         userCurrentGuess = userChoice;
     }
 
     // Function generates and sets an npcPlay to be set
-     private void setNpcChoice() {
+    private void setNpcChoice() {
         int npc_guess = random.nextInt(GAME_CHOICES.size());
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
@@ -86,8 +82,8 @@ public class GamePlayActivity extends AppCompatActivity {
     // Helper function to determine of user won or lost (true, false)
     private void determineWinner() {
         // determine all user winning cases, anything else means user lost
-        if (userCurrentGuess.equals(GAME_CHOICES.get(0)) && npcCurrentGuess.equals(GAME_CHOICES.get(2))){
-           // user pick rock, npc pick scissorA
+        if (userCurrentGuess.equals(GAME_CHOICES.get(0)) && npcCurrentGuess.equals(GAME_CHOICES.get(2))) {
+            // user pick rock, npc pick scissorA
             roundTie = false; // redundant but for safety
             userWon = true;
             wins = wins + 1;
@@ -96,7 +92,7 @@ public class GamePlayActivity extends AppCompatActivity {
             printStats();
             return;
         }
-        if (userCurrentGuess.equals(GAME_CHOICES.get(1)) && npcCurrentGuess.equals(GAME_CHOICES.get(0))){
+        if (userCurrentGuess.equals(GAME_CHOICES.get(1)) && npcCurrentGuess.equals(GAME_CHOICES.get(0))) {
             // user pick paper, npc pick rock
             roundTie = false;
             userWon = true;
@@ -106,7 +102,7 @@ public class GamePlayActivity extends AppCompatActivity {
             printStats();
             return;
         }
-        if (userCurrentGuess.equals(GAME_CHOICES.get(2)) && npcCurrentGuess.equals(GAME_CHOICES.get(1))){
+        if (userCurrentGuess.equals(GAME_CHOICES.get(2)) && npcCurrentGuess.equals(GAME_CHOICES.get(1))) {
             // user pick scissors, npc pick paper
             roundTie = false;
             userWon = true;
@@ -144,10 +140,10 @@ public class GamePlayActivity extends AppCompatActivity {
         }
     }
 
-    private void updateGameplayUI(ActivityGamePlayBinding binding){
+    private void updateGameplayUI(ActivityGamePlayBinding binding) {
         binding.youChoseOutputTextView.setText(userCurrentGuess);
         binding.npcChoseOutputTextView.setText(npcCurrentGuess);
-        if (userWon){
+        if (userWon) {
             binding.resultOutputTextView.setText(R.string.you_win);
         }
         if (npcWon) {
@@ -159,11 +155,14 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     // TODO: make into toastStats for debugging
-    private void printStats(){
-        System.out.printf("Wins: %s Loses: %s Ties: %s Max Streak: %s Current Streak: %s",
-                wins, losses, ties, maxStreak, currentStreak);
+    private void printStats() {
+        System.out.printf(
+                "Wins: %s Loses: %s Ties: %s Max Streak: %s Current Streak: %s",
+                wins, losses, ties, maxStreak, currentStreak
+        );
     }
-     private void toastMaker(String message) {
+
+    private void toastMaker(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
