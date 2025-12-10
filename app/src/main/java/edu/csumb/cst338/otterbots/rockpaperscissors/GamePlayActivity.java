@@ -1,6 +1,5 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
-import android.net.ipsec.ike.TunnelModeChildSessionParams;
 import android.os.Bundle;
 import android.widget.Toast;
 
