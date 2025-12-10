@@ -15,6 +15,8 @@ import java.util.concurrent.Executors;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.LocalDateTypeConverter;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.User;
+
 
 
 /**
@@ -26,10 +28,10 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.Loca
 //TODO: add data object entity classes here; remove Dummy
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {RpsRound.class, UserStats.class}, version = 4, exportSchema = false)
+@Database(entities = {RpsRound.class, UserStats.class, User.class}, version = 5, exportSchema = false)
 public abstract class RockPaperScissorsDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "RockPaperScissorsDatabase";
-    static final String USER_TABLE = "userTable";
+    static final String USER_TABLE = "userLogin";
     static final String USER_STATS_TABLE = "userStatsTable";
     static final String RPS_ROUND_TABLE = "rpsRoundTable";
 
@@ -107,4 +109,9 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
      * @return DAO for the user stats table
      */
     public abstract UserStatsDAO userStatsDAO();
+    /**
+     * abstract method for the user DAO
+     * @return DAO for the user table
+     */
+    public abstract UserDAO userDAO();
 }
