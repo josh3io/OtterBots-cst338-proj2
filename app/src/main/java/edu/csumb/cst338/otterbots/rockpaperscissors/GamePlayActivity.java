@@ -23,6 +23,13 @@ public class GamePlayActivity extends AppCompatActivity {
     // Check if rps round ends in tie
     private boolean roundTie;
 
+    // fields for tracking user stats
+    private int wins = 0;
+    private int losses = 0;
+    private int ties = 0;
+    private int maxStreak = 0;
+    private int currentStreak = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
