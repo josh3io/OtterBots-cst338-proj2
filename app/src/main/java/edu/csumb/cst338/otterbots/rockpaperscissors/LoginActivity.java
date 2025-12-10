@@ -2,6 +2,7 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -17,12 +18,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private RockPaperScissorsRepository repository;
+    public static final String PREFS_NAME = "otterbots_prefs";
+    public static final String KEY_LAST_USERNAME = "last_username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String saved = sharedPreferences.getString(KEY_LAST_USERNAME, "");
+        if (!saved.isEmpty()) {
+            binding.userNameLoginEditText.setText(saved);
+        }
 
         repository = RockPaperScissorsRepository.getRepository(getApplication());
 
@@ -42,6 +51,10 @@ public class LoginActivity extends AppCompatActivity {
             toastMaker(getString(R.string.error_username_blank));
             return;
         }
+
+        // Save only valid, non-empty usernames.
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        prefs.edit().putString(KEY_LAST_USERNAME, userName).apply();
 
         String userPassword = binding.passwordLoginEditText.getText().toString().trim();
         if (userPassword.isEmpty()) {

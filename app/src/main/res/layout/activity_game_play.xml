@@ -31,6 +31,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameplayTitleTextView" />
 
+
+    <TextView
+        android:id="@+id/resultOutputTextView"
+        android:layout_width="273dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:padding="8dp"
+        android:textSize="18dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/resultLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/resultLabelTextView" />
+
     <TextView
         android:id="@+id/youChoseLabelTextView"
         android:layout_width="wrap_content"
@@ -43,6 +56,19 @@
         />
 
     <TextView
+        android:id="@+id/youChoseOutputTextView"
+        android:layout_width="273dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:padding="8dp"
+        android:textSize="18dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/youChoseLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/youChoseLabelTextView" />
+
+
+    <TextView
         android:id="@+id/npcChose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +79,20 @@
         app:layout_constraintTop_toBottomOf="@+id/youChoseLabelTextView"
         />
 
-<!-- User play button -->
+    <TextView
+        android:id="@+id/npcChoseOutputTextView"
+        android:layout_width="273dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:padding="8dp"
+        android:textSize="18dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/npcChose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/npcChose" />
+
+
+    <!-- User play button -->
 
     <Button
         android:id="@+id/rockPlayButton"

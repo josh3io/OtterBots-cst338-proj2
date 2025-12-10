@@ -1,6 +1,5 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
-import android.net.ipsec.ike.TunnelModeChildSessionParams;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -18,8 +17,14 @@ public class GamePlayActivity extends AppCompatActivity {
     private String npcCurrentGuess = "";
     private String userCurrentGuess = "";
     private boolean userWon;
-
     private boolean npcWon;
+
+    // fields for database update userStats
+    private int wins = 0;
+    private int losses = 0;
+    private int ties = 0;
+    private int maxStreak = 0;
+    private int currentStreak = 0;
 
     // Check if rps round ends in tie
     private boolean roundTie;
@@ -38,51 +43,35 @@ public class GamePlayActivity extends AppCompatActivity {
        setupUserUI(binding);
     }
 
-    // TODO: REMOVE THIS DEBUG TOAST
     private void setupUserUI(ActivityGamePlayBinding binding) {
         binding.rockPlayButton.setOnClickListener((v) -> {
-            // TODO: Implement rock play logic
-
-            // TODO: Implement npc play, updateNpcGuess, in each onclicklistner
 
             setNpcChoice();
             setUserChoice("ROCK");
             determineWinner();
-
-            //TODO: Implement result from rps round in UI, updateGameplayUI;
-            // another idea is to instead handle UI updates in choice functions?
-
-           toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
-           toastMaker("USER WON: " + userWon);
-
+            updateGameplayUI(binding);
         });
 
         binding.paperPlayButton.setOnClickListener((v) -> {
             setNpcChoice();
             setUserChoice("PAPER");
             determineWinner();
+            updateGameplayUI(binding);
 
-            //TODO: add updateGameplayUI();
-
-            toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
-            toastMaker("USER WON: " + userWon);
         });
 
         binding.scissorsPlayButton.setOnClickListener((v) -> {
-            // TODO: Implement scissors play logic
+
             setNpcChoice();
             setUserChoice("SCISSORS");
             determineWinner();
-
-            toastMaker("NPC GUESS: " + npcCurrentGuess + " Player guess: " + userCurrentGuess);
-            toastMaker("USER WON: " + userWon);
+            updateGameplayUI(binding);
         });
 
        binding.returnSelectableTextView.setOnClickListener((v) -> {
-          // TODO: Implement return button function
+           // finish() returns user to the last view in the stack (home screen)
+           finish();
        });
-
-
     }
     private void setUserChoice(String userChoice) {
         userCurrentGuess = userChoice;
@@ -93,9 +82,6 @@ public class GamePlayActivity extends AppCompatActivity {
         int npc_guess = random.nextInt(GAME_CHOICES.size());
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
-    
-   // TODO: Refractor to update total UI for finsihed round for both user and Npc
-    // TODO: Handle binding logic to update NPC guess text after user sets their play
 
     // Helper function to determine of user won or lost (true, false)
     private void determineWinner() {
@@ -104,21 +90,30 @@ public class GamePlayActivity extends AppCompatActivity {
            // user pick rock, npc pick scissorA
             roundTie = false; // redundant but for safety
             userWon = true;
+            wins = wins + 1;
             npcWon = false;
+            updateStreak();
+            printStats();
             return;
         }
         if (userCurrentGuess.equals(GAME_CHOICES.get(1)) && npcCurrentGuess.equals(GAME_CHOICES.get(0))){
             // user pick paper, npc pick rock
             roundTie = false;
             userWon = true;
+            wins = wins + 1;
             npcWon = false;
+            updateStreak();
+            printStats();
             return;
         }
         if (userCurrentGuess.equals(GAME_CHOICES.get(2)) && npcCurrentGuess.equals(GAME_CHOICES.get(1))){
             // user pick scissors, npc pick paper
             roundTie = false;
             userWon = true;
+            wins = wins + 1;
             npcWon = false;
+            updateStreak();
+            printStats();
             return;
         }
         // forgot to include a tie lol
@@ -126,16 +121,48 @@ public class GamePlayActivity extends AppCompatActivity {
             roundTie = true;
             userWon = false;
             npcWon = false;
-            toastMaker("Looks like its a tie");
+            ties = ties + 1;
+            updateStreak();
+            printStats();
             return;
         }
         roundTie = false;
         userWon = false;
         npcWon = true;
-
+        losses = losses + 1;
+        currentStreak = 0;
+        printStats();
     }
 
+    // helper function to update streaks
+    private void updateStreak() {
+        if (wins > currentStreak) {
+            currentStreak = wins;
+            if (currentStreak > maxStreak) {
+                maxStreak = currentStreak;
+            }
+        }
+    }
 
+    private void updateGameplayUI(ActivityGamePlayBinding binding){
+        binding.youChoseOutputTextView.setText(userCurrentGuess);
+        binding.npcChoseOutputTextView.setText(npcCurrentGuess);
+        if (userWon){
+            binding.resultOutputTextView.setText(R.string.you_win);
+        }
+        if (npcWon) {
+            binding.resultOutputTextView.setText(R.string.you_lose);
+        }
+        if (roundTie) {
+            binding.resultOutputTextView.setText(R.string.it_s_a_tie);
+        }
+    }
+
+    // TODO: make into toastStats for debugging
+    private void printStats(){
+        System.out.printf("Wins: %s Loses: %s Ties: %s Max Streak: %s Current Streak: %s",
+                wins, losses, ties, maxStreak, currentStreak);
+    }
      private void toastMaker(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
