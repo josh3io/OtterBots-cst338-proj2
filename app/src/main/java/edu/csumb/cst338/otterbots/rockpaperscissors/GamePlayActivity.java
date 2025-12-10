@@ -26,10 +26,6 @@ public class GamePlayActivity extends AppCompatActivity {
     private int maxStreak = 0;
     private int currentStreak = 0;
 
-    // fields for database update userStats
-    private int userChoice; // choices will be ints to get RPS choices from hashmap
-    private int npcChoice;
-
     // Check if rps round ends in tie
     private boolean roundTie;
 
@@ -78,14 +74,12 @@ public class GamePlayActivity extends AppCompatActivity {
        });
     }
     private void setUserChoice(String userChoice) {
-        this.userChoice = 1;
         userCurrentGuess = userChoice;
     }
 
     // Function generates and sets an npcPlay to be set
      private void setNpcChoice() {
         int npc_guess = random.nextInt(GAME_CHOICES.size());
-        this.npcChoice = npc_guess;
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
 
