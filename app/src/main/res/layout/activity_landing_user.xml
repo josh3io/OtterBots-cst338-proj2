@@ -2,19 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
+    android:id="@+id/rootLandingUser"
+    style="@style/ScreenRoot"
     tools:context=".LandingActivity">
 
     <!-- Welcome Title -->
     <TextView
         android:id="@+id/titleLandingTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        style="@style/PrimaryTitle"
         android:text="@string/welcome_username"
-        android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,63 +18,45 @@
     <!-- Stats Labels -->
     <TextView
         android:id="@+id/winsLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        style="@style/StatLabel"
         android:text="@string/wins"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleLandingTextView" />
 
     <TextView
         android:id="@+id/lossesLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        style="@style/StatLabel"
         android:text="@string/losses"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/winsLabelTextView" />
 
     <TextView
         android:id="@+id/tiesLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        style="@style/StatLabel"
         android:text="@string/ties"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lossesLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/lossesLabelTextView" />
 
     <TextView
         android:id="@+id/currentStreakLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        style="@style/StatLabel"
         android:text="@string/current_streak"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tiesLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/tiesLabelTextView" />
 
     <TextView
         android:id="@+id/maxStreakLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        style="@style/StatLabel"
         android:text="@string/max_streak"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentStreakLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/currentStreakLabelTextView" />
 
     <TextView
-        android:id="@+id/gamesPlayed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:id="@+id/gamesPlayedTextView"
+        style="@style/StatLabel"
         android:text="@string/games_played"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maxStreakLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/maxStreakLabelTextView" />
 
     <!-- Start New Game Button -->
     <Button
@@ -87,34 +65,24 @@
         android:text="@string/start_new_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gamesPlayed" />
+        app:layout_constraintTop_toBottomOf="@id/gamesPlayedTextView" />
 
     <!-- View Leaderboard -->
     <TextView
         android:id="@+id/viewLeaderboardTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="5dp"
+        style="@style/ClickableText"
         android:text="@string/view_leaderboard"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startNewGameButton" />
+        app:layout_constraintTop_toBottomOf="@id/startNewGameButton" />
 
     <!-- Logout -->
     <TextView
         android:id="@+id/logoutTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="5dp"
+        style="@style/ClickableText"
         android:text="@string/logout"
-        android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewLeaderboardTextView" />
+        app:layout_constraintTop_toBottomOf="@id/viewLeaderboardTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

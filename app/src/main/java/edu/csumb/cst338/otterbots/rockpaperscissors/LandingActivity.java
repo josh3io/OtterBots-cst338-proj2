@@ -3,16 +3,30 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_IS_ADMIN;
 import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_USERNAME;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import edu.csumb.cst338.otterbots.rockpaperscissors.api.RpsRandomNumberGenerator;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingAdminBinding;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingUserBinding;
 
 public class LandingActivity extends AppCompatActivity {
+
+    public static Intent createIntent(Context context, String userName, boolean isAdmin) {
+        Intent intent = new Intent(context, LandingActivity.class);
+        intent.putExtra(EXTRA_USERNAME, userName);
+        intent.putExtra(EXTRA_IS_ADMIN, isAdmin);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +39,7 @@ public class LandingActivity extends AppCompatActivity {
         boolean isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
 
         if (userName == null || userName.trim().isEmpty()) {
-            userName = "Player"; // So UI doesn't look broken
+            userName = getString(R.string.default_player_name); // So UI doesn't look broken
         }
 
         if (isAdmin) {
@@ -39,26 +53,31 @@ public class LandingActivity extends AppCompatActivity {
             setContentView(binding.getRoot());
             setupUserUI(binding, userName);
         }
+
+        // initialize the random number generator for gameplay
+        RpsRandomNumberGenerator.initializeGenerator();
+        /* Example usage:
+         *  int number = RpsRandomNumberGenerator.getRandomNumber();
+         */
     }
 
     private void setupUserUI(ActivityLandingUserBinding binding, String userName) {
         // Welcome Text
-        binding.titleLandingTextView.setText("Welcome\n" + userName);
+        binding.titleLandingTextView.setText(getString(R.string.welcome_user, userName));
 
         //TODO: Pull real stats from DB instead of just labels.
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to Game Activity.
             // TODO: Refractor intents to intentfactory
-            toastMaker("Start New Game (user)");
+            toastMaker(getString(R.string.toast_start_new_game_user));
             Intent intent = new Intent(getApplicationContext(), GamePlayActivity.class);
             startActivity(intent);
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to Leaderboard Activity.
-            toastMaker("View Leaderboard (user)");
+            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(binding.getRoot().getContext(), userName, false);
+            startActivity(intent);
         });
 
         // Logout
@@ -67,25 +86,25 @@ public class LandingActivity extends AppCompatActivity {
 
     private void setupAdminUI(ActivityLandingAdminBinding binding, String userName) {
         // Welcome text: Show Admin + userName
-        binding.titleLandingTextView.setText("Welcome\nOtterBot " + userName);
+        binding.titleLandingTextView.setText(getString(R.string.welcome_admin, userName));
 
         // TODO: Pull real stats from DB instead of just labels.
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to Game Activity.
-            toastMaker("Start New Game (admin)");
+            toastMaker(getString(R.string.toast_start_new_game_admin));
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to Leaderboard Activity.
-            toastMaker("View Leaderboard (admin)");
+            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(binding.getRoot().getContext(), userName, true);
+            startActivity(intent);
         });
 
         // Add User (admin-only feature)
         binding.addUserTextView.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to addUser Activity.
-            toastMaker("Add User (admin)");
+            // TODO: Replace toast with navigation to ADMIN addUser Activity.
+            toastMaker(getString(R.string.toast_add_user_admin));
         });
 
         // Logout
@@ -93,10 +112,7 @@ public class LandingActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        Intent logoutIntent = new Intent(this, LoginActivity.class);
-
-        // Clear back stack so Back doesn't return to Landing
-        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent logoutIntent = LoginActivity.createLogoutIntent(this);
         startActivity(logoutIntent);
         finish();
     }
