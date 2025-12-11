@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,12 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         binding.registerButton.setOnClickListener(v -> registerUser());
 
-        binding.backToLoginTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(LoginActivity.createLogoutIntent(v.getContext()));
-            }
-        });
+        binding.backToLoginTextView.setOnClickListener(v -> startActivity(LoginActivity.createLogoutIntent(v.getContext())));
     }
 
     /**
@@ -67,7 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
             //TODO: Insert the new user record
             // repository.insertUser(....)
             //TODO: Initiate the user session
-            Intent intent = LandingActivity.createIntent(RegisterActivity.this, userName, false);
+            // Temp: Using -1 until RegisterActivity is wired to the DB
+            // TODO: After repository insertUser(...) is implemented, pass the real userId instead of -1
+            Intent intent = LandingActivity.createIntent(RegisterActivity.this, userName,-1,false);
             startActivity(intent);
         } else {
             toastMaker(getString(R.string.password_confirmation_must_match));
