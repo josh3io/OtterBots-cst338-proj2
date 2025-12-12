@@ -53,4 +53,6 @@
     <string name="return_to_login">Return to login</string>
     <string name="invalid_username">Invalid username</string>
     <string name="invalid_password">Invalid Password</string>
+    <string name="delete_users">Delete Users</string>
+    <string name="delete_user_admin">Delete User (admin)</string>
 </resources>

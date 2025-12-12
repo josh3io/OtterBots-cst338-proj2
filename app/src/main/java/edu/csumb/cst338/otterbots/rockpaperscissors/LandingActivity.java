@@ -168,6 +168,12 @@ public class LandingActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Delete Users (admin-only feature)
+        binding.deleteUserTextView.setOnClickListener(v -> {
+            // TODO: Replace toast with navigation to ADMIN DeleteUserActivity
+            toastMaker(getString(R.string.delete_user_admin));
+        });
+
         // Add User (admin-only feature)
         binding.addUserTextView.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to ADMIN addUser Activity.
