@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +12,6 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperS
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String EXTRA_USERNAME = "userName";
-    public static final String EXTRA_IS_ADMIN = "isAdmin";
-
     private ActivityLoginBinding binding;
     private RockPaperScissorsRepository repository;
     public static final String PREFS_NAME = "otterbots_prefs";
@@ -37,24 +33,19 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.loginButton.setOnClickListener(v -> verifyUser());
 
-        binding.registerTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(RegisterActivity.createRegisterIntent(v.getContext()));
-            }
-        });
+        binding.registerTextView.setOnClickListener(v -> startActivity(RegisterActivity.createRegisterIntent(v.getContext())));
     }
 
     private void verifyUser() {
-        String userName = binding.userNameLoginEditText.getText().toString().trim();
-        if (userName.isEmpty()) {
+        String username = binding.userNameLoginEditText.getText().toString().trim();
+        if (username.isEmpty()) {
             toastMaker(getString(R.string.error_username_blank));
             return;
         }
 
         // Save only valid, non-empty usernames.
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        prefs.edit().putString(KEY_LAST_USERNAME, userName).apply();
+        prefs.edit().putString(KEY_LAST_USERNAME, username).apply();
 
         String userPassword = binding.passwordLoginEditText.getText().toString().trim();
         if (userPassword.isEmpty()) {
@@ -62,10 +53,30 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        //TODO: Replace hardcoded login + admin validation with real repo/DB verification once User DAO is implemented.
-        boolean isAdmin = userName.equalsIgnoreCase("admin");
-        Intent intent = LandingActivity.createIntent(LoginActivity.this, userName, isAdmin);
-        startActivity(intent);
+        // Look up user by username, then validate the password in code
+        repository.getUserByUsername(username).observe(this, user -> {
+            if (user == null) {
+                // No user with that username
+                toastMaker(getString(R.string.invalid_username));
+                binding.userNameLoginEditText.setSelection(0);
+                return;
+            }
+            if (!userPassword.equals(user.getPassword())) {
+                toastMaker(getString(R.string.invalid_password));
+                binding.passwordLoginEditText.setSelection(0);
+                return;
+            }
+
+            boolean isAdmin = user.getIsAdmin() == 1;
+
+            Intent intent = LandingActivity.createIntent(
+                    LoginActivity.this,
+                    user.getUsername(),
+                    user.getUserId(),
+                    isAdmin);
+            startActivity(intent);
+        });
+
     }
 
     private void toastMaker(String message) {

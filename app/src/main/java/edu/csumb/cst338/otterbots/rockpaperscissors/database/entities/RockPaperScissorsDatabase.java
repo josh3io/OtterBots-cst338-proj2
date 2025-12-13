@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.LocalDateTypeConverter;
-import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.User;
 
 
 
@@ -85,8 +84,14 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
             super.onCreate(db);
             Log.d(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
-                //TODO: add default values for the database here
+                // Default users for testing LoginActivity
+                // TODO: Delete default users later, possibly after RegisterActivity DB integration
+                UserDAO userDAO = INSTANCE.userDAO();
+                userDAO.insert(new User("admin", "admin", 1));
+                userDAO.insert(new User("test", "test", 0));
+
                 Log.i(MainActivity.TAG, "Inserting default data");
+
                 UserStatsDAO userStatsDAO = INSTANCE.userStatsDAO();
                 userStatsDAO.insert(new UserStats(1,1,2,3,4,4));
                 userStatsDAO.insert(new UserStats(2,2,2,3,4,4));

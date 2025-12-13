@@ -1,18 +1,14 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
-import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_IS_ADMIN;
-import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_USERNAME;
+import static edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity.EXTRA_IS_ADMIN;
+import static edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity.EXTRA_USERNAME;
+import static edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity.EXTRA_USER_ID;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,7 +37,8 @@ public class LeaderboardActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
-        String userName = intent.getStringExtra(EXTRA_USERNAME);
+        String username = intent.getStringExtra(EXTRA_USERNAME);
+        int userId = intent.getIntExtra(EXTRA_USER_ID, -1);
         boolean isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
 
         repository = RockPaperScissorsRepository.getRepository(getApplication());
@@ -54,18 +51,16 @@ public class LeaderboardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         leaderboardViewModel.getAllUserStatsByRank().observe(this, adapter::submitList);
 
-        binding.leaderboardViewGoToMainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = LandingActivity.createIntent(v.getContext(), userName, isAdmin);
-                startActivity(intent);
-            }
+        binding.leaderboardViewGoToMainButton.setOnClickListener(v -> {
+            Intent intent1 = LandingActivity.createIntent(v.getContext(), username, userId, isAdmin);
+            startActivity(intent1);
         });
     }
 
-    static Intent leaderboardActivityIntentFactory(Context context, String userName, boolean isAdmin) {
+    static Intent leaderboardActivityIntentFactory(Context context, String userName, int userId, boolean isAdmin) {
         Intent intent = new Intent(context, LeaderboardActivity.class);
         intent.putExtra(EXTRA_USERNAME, userName);
+        intent.putExtra(EXTRA_USER_ID, userId);
         intent.putExtra(EXTRA_IS_ADMIN, isAdmin);
         return intent;
     }

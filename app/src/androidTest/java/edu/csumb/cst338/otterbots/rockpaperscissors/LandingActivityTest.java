@@ -3,6 +3,8 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import static edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity.EXTRA_IS_ADMIN;
+
 import android.content.Intent;
 import android.widget.TextView;
 
@@ -22,7 +24,7 @@ public class LandingActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LandingActivity.class);
 
         // Note: Intentionally do not put EXTRA_USERNAME.
-        intent.putExtra(LoginActivity.EXTRA_IS_ADMIN, false);
+        intent.putExtra(EXTRA_IS_ADMIN, false);
 
         // Act: Launch LandingActivity with this intent.
         try (ActivityScenario<LandingActivity> scenario = ActivityScenario.launch(intent)) {

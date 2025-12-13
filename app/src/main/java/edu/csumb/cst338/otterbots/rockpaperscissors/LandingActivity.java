@@ -1,29 +1,26 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
-import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_IS_ADMIN;
-import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_USERNAME;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.api.RpsRandomNumberGenerator;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingAdminBinding;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLandingUserBinding;
 
 public class LandingActivity extends AppCompatActivity {
+    public static final String EXTRA_USERNAME = "username";
+    public static final String EXTRA_USER_ID = "userId";
+    public static final String EXTRA_IS_ADMIN = "isAdmin";
+    private int userId;
 
-    public static Intent createIntent(Context context, String userName, boolean isAdmin) {
+    public static Intent createIntent(Context context, String username, int userId, boolean isAdmin) {
         Intent intent = new Intent(context, LandingActivity.class);
-        intent.putExtra(EXTRA_USERNAME, userName);
+        intent.putExtra(EXTRA_USERNAME, username);
+        intent.putExtra(EXTRA_USER_ID, userId);
         intent.putExtra(EXTRA_IS_ADMIN, isAdmin);
         return intent;
     }
@@ -36,6 +33,7 @@ public class LandingActivity extends AppCompatActivity {
         // Get data from LoginActivity
         Intent intent = getIntent();
         String userName = intent.getStringExtra(EXTRA_USERNAME);
+        userId = intent.getIntExtra(EXTRA_USER_ID, -1);
         boolean isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
 
         if (userName == null || userName.trim().isEmpty()) {
@@ -69,14 +67,19 @@ public class LandingActivity extends AppCompatActivity {
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
-            // TODO: Refractor intents to intentfactory
+            // TODO: Refractor intents to intent factory
             toastMaker(getString(R.string.toast_start_new_game_user));
             Intent intent = new Intent(getApplicationContext(), GamePlayActivity.class);
             startActivity(intent);
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
-            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(binding.getRoot().getContext(), userName, false);
+            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(
+                    binding.getRoot().getContext(),
+                    userName,
+                    userId,
+                    false
+            );
             startActivity(intent);
         });
 
@@ -97,7 +100,12 @@ public class LandingActivity extends AppCompatActivity {
         });
 
         binding.viewLeaderboardTextView.setOnClickListener(v -> {
-            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(binding.getRoot().getContext(), userName, true);
+            Intent intent = LeaderboardActivity.leaderboardActivityIntentFactory(
+                    binding.getRoot().getContext(),
+                    userName,
+                    userId,
+                    true
+            );
             startActivity(intent);
         });
 
