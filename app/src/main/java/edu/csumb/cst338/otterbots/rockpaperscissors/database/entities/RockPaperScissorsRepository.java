@@ -109,6 +109,7 @@ public class RockPaperScissorsRepository {
      * Add or update a userStats record
      */
     public void insertOrUpdateUserStats(UserStats stats) {
+
         RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
             userStatsDAO.insert(stats);
         });
@@ -146,10 +147,21 @@ public class RockPaperScissorsRepository {
      * Insert a new user record
      * @param user the user entity to insert
      */
-    public void insertUser(User user) {
-        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
-            userDAO.insert(user);
-        });
+    public int insertUser(User user) {
+        Future<Integer> future = RockPaperScissorsDatabase.databaseWriteExecutor.submit(
+                new Callable<Integer>() {
+                    @Override
+                    public Integer call() throws Exception {
+                        return (int) userDAO.insert(user);
+                    }
+                }
+        );
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e ) {
+            Log.e(MainActivity.TAG, "Failed to insert new user record. thread error.");
+            return -1;
+        }
     }
 
 }
