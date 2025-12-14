@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLeaderboardBinding;
 import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.LeaderboardAdapter;
@@ -65,7 +66,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         return intent;
     }
 
-    private LiveData<ArrayList<UserStats>> getLeaderboardData() {
+    private LiveData<ArrayList<UserJoinUserStats>> getLeaderboardData() {
         return repository.getAllUserStatsByRank();
     }
 }

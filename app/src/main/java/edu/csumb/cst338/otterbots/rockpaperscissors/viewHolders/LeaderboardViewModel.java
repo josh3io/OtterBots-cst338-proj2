@@ -6,9 +6,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.RankedUserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 
 public class LeaderboardViewModel extends AndroidViewModel {
@@ -19,7 +21,7 @@ public class LeaderboardViewModel extends AndroidViewModel {
         repository = RockPaperScissorsRepository.getRepository(application);
     }
 
-    public LiveData<ArrayList<UserStats>> getAllUserStatsByRank() {
+    public LiveData<ArrayList<UserJoinUserStats>> getAllUserStatsByRank() {
         return repository.getAllUserStatsByRank();
     }
 

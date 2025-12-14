@@ -30,6 +30,17 @@ public class UserStats {
     private int maxStreak;
     private int currentStreak;
 
+    public UserStats(UserStats oldUserStats) {
+        if (id != null) {
+            this.id = oldUserStats.id;
+            this.userId = oldUserStats.userId;
+            this.wins = oldUserStats.wins;
+            this.losses = oldUserStats.losses;
+            this.ties = oldUserStats.ties;
+            this.maxStreak = oldUserStats.maxStreak;
+            this.currentStreak = oldUserStats.currentStreak;
+        }
+    }
     public UserStats(int userId, int wins, int losses, int ties, int maxStreak, int currentStreak) {
         this.userId = userId;
         this.wins = wins;

@@ -30,7 +30,7 @@ public class RpsRandomNumberGenerator {
 
     // when we have 10 or fewer remaining, get more!
     private static final int THRESHOLD_REMAINING_TO_PREFETCH_MORE = 10;
-    private static final String API_URL = "https://www.random.org/integers/?"
+    private static final String API_URL = "https://random.org/integers/?"
             + "num=" + RANDOM_NUMBERS_TO_FETCH
             + "&min=" + MIN_CHOICE_INT
             + "&max=" + MAX_CHOICE_INT
