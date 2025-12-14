@@ -9,7 +9,7 @@ public class RankedUserStats extends UserStats {
     private int rank;
     private String username;
 
-    public RankedUserStats(int userId, String username, UserStats userStats) {
+    public RankedUserStats(String username, UserStats userStats) {
         super(userStats);
         this.username = username;
     }
@@ -56,7 +56,6 @@ public class RankedUserStats extends UserStats {
     public static RankedUserStats getRankedUserStats(int rank, String username, UserJoinUserStats stats) {
         //RankedUserStats ranked = (RankedUserStats) stats;
         RankedUserStats ranked = new RankedUserStats(
-                stats.getUserId(),
                 stats.getUsername(),
                 stats.getUserStats());
         ranked.setRank(rank);

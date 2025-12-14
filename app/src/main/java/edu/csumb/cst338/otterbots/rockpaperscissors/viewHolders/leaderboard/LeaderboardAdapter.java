@@ -32,7 +32,6 @@ public class LeaderboardAdapter extends ListAdapter<UserJoinUserStats, RecyclerV
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        //TODO: replace userId with userName
         RankedUserStats current = RankedUserStats.getRankedUserStats(position, "", getItem(position));
         Log.d(MainActivity.TAG, current.toString());
         if (holder instanceof LeaderboardViewHolder) {
