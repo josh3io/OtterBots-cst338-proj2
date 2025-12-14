@@ -51,6 +51,8 @@ public class GamePlayActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userId = intent.getIntExtra(EXTRA_USER_ID, -1);
 
+        Log.d(MainActivity.TAG, "Created gameplay activity for user "+userId);
+
         binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setupUserUI();
@@ -203,6 +205,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
     static Intent gamePlayActivityIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, GamePlayActivity.class);
+        Log.d(MainActivity.TAG, "Creating gameplay intent for user "+userId);
         intent.putExtra(EXTRA_USER_ID, userId);
         return intent;
     }
