@@ -55,4 +55,9 @@
     <string name="invalid_password">Invalid Password</string>
     <string name="delete_users">Delete Users</string>
     <string name="delete_user_admin">Delete User (admin)</string>
+    <string name="delete_user">Delete User</string>
+    <string name="Return">Return</string>
+    <string name="confirm_username">Confirm Username</string>
+    <string name="userid">UserId</string>
+    <string name="isadmin">IsAdmin</string>
 </resources>
