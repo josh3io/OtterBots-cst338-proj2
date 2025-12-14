@@ -31,26 +31,38 @@ public class TestLiveDataObserver<T> {
     }
     public boolean test(LiveData<T> liveData, java.util.function.Predicate<T> condition, LiveDataOnChangedHandler<T> handler, Integer timeoutSeconds) throws InterruptedException {
         // set a latch that we can decrement once our tests are done
-        final CountDownLatch latch = new CountDownLatch(1);
+        final CountDownLatch latch;
+        try {
+            latch = new CountDownLatch(1);
+        } catch (Exception e) {
+            System.out.println("Cannot make new latch "+e);
+            throw new RuntimeException(e);
+        }
 
         // the actual observer
         Observer<T> observer = new Observer<T>() {
             @Override
             public void onChanged(T data) {
-                // don't act on our data too early! wait for preconditions
-                if (!condition.test(data)) {
-                    return;
-                }
-                // handler will run the actual tests we are interested in
-                handler.handle(data);
-                // now that we are done, decrement the latch
-                latch.countDown();
+                try {
+                    System.out.println("TESTING LIVE DATA CHANGE " + data);
+                    // don't act on our data too early! wait for preconditions
+                    if (!condition.test(data)) {
+                        return;
+                    }
+                    // handler will run the actual tests we are interested in
+                    handler.handle(data);
+                    // now that we are done, decrement the latch
+                    latch.countDown();
 
-                // without this, removeObserver happens in a background thread and that's broken.
-                // wrap it so it runs on the main thread.
-                ArchTaskExecutor.getInstance().executeOnMainThread(
-                        () -> liveData.removeObserver(this)
-                );
+                    // without this, removeObserver happens in a background thread and that's broken.
+                    // wrap it so it runs on the main thread.
+                    ArchTaskExecutor.getInstance().executeOnMainThread(
+                            () -> liveData.removeObserver(this)
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Error in test observer onChanged: "+e);
+                }
             }
         };
         // run the observer

@@ -26,7 +26,7 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.Loca
 //TODO: add data object entity classes here; remove Dummy
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {RpsRound.class, UserStats.class, User.class}, version = 5, exportSchema = false)
+@Database(entities = {RpsRound.class, UserStats.class, User.class}, version = 6, exportSchema = false)
 public abstract class RockPaperScissorsDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "RockPaperScissorsDatabase";
     static final String USER_TABLE = "userLogin";
@@ -84,18 +84,12 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
             super.onCreate(db);
             Log.d(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
-                // Default users for testing LoginActivity
-                // TODO: Delete default users later, possibly after RegisterActivity DB integration
+                Log.i(MainActivity.TAG, "Inserting default User data");
                 UserDAO userDAO = INSTANCE.userDAO();
+                // Default admin user
                 userDAO.insert(new User("admin", "admin", 1));
+                // Default user for testing LoginActivity
                 userDAO.insert(new User("test", "test", 0));
-
-                Log.i(MainActivity.TAG, "Inserting default data");
-
-                UserStatsDAO userStatsDAO = INSTANCE.userStatsDAO();
-                userStatsDAO.insert(new UserStats(1, 1, 2, 3, 4, 4));
-                userStatsDAO.insert(new UserStats(2, 2, 2, 3, 4, 4));
-                userStatsDAO.insert(new UserStats(3, 5, 2, 3, 4, 4));
 
             });
         }

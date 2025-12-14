@@ -214,11 +214,15 @@ public class RockPaperScissorsUserStatsDatabaseTest {
             // this is from the first query
             assertEquals(2, data.getWins());
 
-            // do the second insert
-            repository.insertOrUpdateUserStats(testStats2);
+            // update a stat
+            data.setWins(data.getWins()+1);
+
+            // do the update
+            repository.insertOrUpdateUserStats(data);
             // query again
             LiveData<UserStats> userStatsLiveData2 = repository.getUserStatsByUserId(1);
             LiveDataOnChangedHandler<UserStats> handler2 = data2 -> {
+                System.out.println("UPDATE DATA FETCH "+data2.toString());
                 assertEquals(1, data2.getUserId());
                 // this is from the update query
                 assertEquals(3, data2.getWins());
@@ -226,7 +230,10 @@ public class RockPaperScissorsUserStatsDatabaseTest {
             try {
                 assertTrue(singleUserStatsTestObserver.test(
                         userStatsLiveData2,
-                        Objects::nonNull,
+                        predicateData -> {
+                            System.out.println("Predicate for data "+predicateData);
+                            return predicateData != null;
+                        },
                         handler2
                 ));
             } catch (Exception e) {
@@ -237,15 +244,18 @@ public class RockPaperScissorsUserStatsDatabaseTest {
             LiveData<ArrayList<UserJoinUserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
             // observer the list query to be sure we only get one record back
             // waiting for two records should timeout
+            // because this should be an update
             LiveDataOnChangedHandler<ArrayList<UserJoinUserStats>> listHandler = data2 -> {
                 // this should never run
                 assertEquals(1, data2.size());
             };
             try {
-                assertFalse(userJoinUserStatsTestLiveDataObserver.test(
+                TestLiveDataObserver<ArrayList<UserJoinUserStats>> observer2 = new TestLiveDataObserver<>();
+                assertFalse(observer2.test(
                         allUserStatsLiveData,
                         data3 -> data3.size() > 1,
-                        listHandler
+                        listHandler,
+                        1
                 ));
             } catch (Exception e) {
                 fail();
@@ -255,10 +265,9 @@ public class RockPaperScissorsUserStatsDatabaseTest {
         assertTrue(singleUserStatsTestObserver.test(
                 userStatsLiveData,
                 Objects::nonNull,
-                handler
+                handler,
+                5
         ));
-
-
     }
 
     /**

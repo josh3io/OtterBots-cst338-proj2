@@ -55,9 +55,14 @@ public class RankedUserStats extends UserStats {
 
     public static RankedUserStats getRankedUserStats(int rank, UserJoinUserStats stats) {
         //RankedUserStats ranked = (RankedUserStats) stats;
+        UserStats userStats = stats.getUserStats();
+        if (userStats == null) {
+            userStats = new UserStats(stats.getUserId(), 0,0,0,0,0);
+        }
         RankedUserStats ranked = new RankedUserStats(
                 stats.getUsername(),
-                stats.getUserStats());
+                userStats
+        );
         ranked.setRank(rank);
 
         return ranked;
