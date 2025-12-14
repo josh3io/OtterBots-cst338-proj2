@@ -177,8 +177,8 @@ public class LandingActivity extends AppCompatActivity {
         // Add User (admin-only feature)
         binding.addUserTextView.setOnClickListener(v -> {
             //TODO: Refractor to have intent factory
-            Intent intnet = new Intent(this, AdminNewUserActivity.class);
-            startActivity(intnet);
+            Intent intent = new Intent(this, AdminNewUserActivity.class);
+            startActivity(intent);
 
             toastMaker(getString(R.string.toast_add_user_admin));
         });
