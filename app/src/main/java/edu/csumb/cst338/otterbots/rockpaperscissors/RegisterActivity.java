@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.User;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityRegisterBinding;
 
 /**
  * Description: Activity for a new user to register an account
+ * Author: Josh Goldberg
+ * Since: 2025.12.09
  */
 public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
@@ -37,8 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void registerUser() {
         // username can't be blank
-        String userName = binding.userNameRegisterEditText.getText().toString().trim();
-        if (userName.isEmpty()) {
+        String username = binding.userNameRegisterEditText.getText().toString().trim();
+        if (username.isEmpty()) {
             toastMaker(getString(R.string.username_must_not_be_blank));
             return;
         }
@@ -56,14 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
         if (password1.equals(password2)) {
             // Only persist username after all register validations pass
             SharedPreferences prefs = getSharedPreferences(LoginActivity.PREFS_NAME, MODE_PRIVATE);
-            prefs.edit().putString(LoginActivity.KEY_LAST_USERNAME, userName).apply();
+            prefs.edit().putString(LoginActivity.KEY_LAST_USERNAME, username).apply();
 
-            //TODO: Insert the new user record
-            // repository.insertUser(....)
-            //TODO: Initiate the user session
-            // Temp: Using -1 until RegisterActivity is wired to the DB
-            // TODO: After repository insertUser(...) is implemented, pass the real userId instead of -1
-            Intent intent = LandingActivity.createIntent(RegisterActivity.this, userName,-1,false);
+            User user = new User(username,password1,0);
+            int userId = repository.insertUser(user);
+            user.setUserId(userId);
+
+            Intent intent = LandingActivity.createIntent(RegisterActivity.this, username,user.getUserId(),false);
             startActivity(intent);
         } else {
             toastMaker(getString(R.string.password_confirmation_must_match));
