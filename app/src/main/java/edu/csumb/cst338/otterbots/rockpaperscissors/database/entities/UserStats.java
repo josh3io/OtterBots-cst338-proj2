@@ -20,6 +20,11 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.R;
         indices = {@Index(value={"userId"}, unique = true)}
 )
 public class UserStats {
+
+    public static final int WIN = 0;
+    public static final int TIE = 1;
+    public static final int LOSE = 2;
+
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 

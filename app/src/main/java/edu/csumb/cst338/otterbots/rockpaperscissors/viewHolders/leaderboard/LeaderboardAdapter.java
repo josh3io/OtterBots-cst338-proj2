@@ -8,16 +8,18 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
-import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUserStats;
+import java.util.List;
 
-public class LeaderboardAdapter extends ListAdapter<UserJoinUserStats, RecyclerView.ViewHolder> {
+import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+
+public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    public LeaderboardAdapter(@NonNull DiffUtil.ItemCallback<UserJoinUserStats> diffCallback) {
+    public LeaderboardAdapter(@NonNull DiffUtil.ItemCallback<RankedUserStats> diffCallback) {
         super(diffCallback);
     }
+
 
     @NonNull
     @Override
@@ -32,10 +34,10 @@ public class LeaderboardAdapter extends ListAdapter<UserJoinUserStats, RecyclerV
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        RankedUserStats current = RankedUserStats.getRankedUserStats(position, "", getItem(position));
-        Log.d(MainActivity.TAG, current.toString());
         if (holder instanceof LeaderboardViewHolder) {
             LeaderboardViewHolder holderInstance = (LeaderboardViewHolder) holder;
+            RankedUserStats current = getItem(position-1);
+            Log.d(MainActivity.TAG, current.toString());
             holderInstance.bind(current);
         } else if (holder instanceof LeaderboardViewHeader) {
             LeaderboardViewHeader headerInstance = (LeaderboardViewHeader) holder;
@@ -48,14 +50,21 @@ public class LeaderboardAdapter extends ListAdapter<UserJoinUserStats, RecyclerV
         return position == 0 ? TYPE_HEADER : TYPE_ITEM;
     }
 
-    public static class LeaderboardDiff extends DiffUtil.ItemCallback<UserJoinUserStats> {
+    @Override
+    public int getItemCount() {
+        return getCurrentList().size()+1;
+    }
+
+
+
+    public static class LeaderboardDiff extends DiffUtil.ItemCallback<RankedUserStats> {
         @Override
-        public boolean areItemsTheSame(@NonNull UserJoinUserStats oldItem, @NonNull UserJoinUserStats newItem) {
+        public boolean areItemsTheSame(@NonNull RankedUserStats oldItem, @NonNull RankedUserStats newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull UserJoinUserStats oldItem, @NonNull UserJoinUserStats newItem) {
+        public boolean areContentsTheSame(@NonNull RankedUserStats oldItem, @NonNull RankedUserStats newItem) {
             return oldItem.equals(newItem);
         }
     }

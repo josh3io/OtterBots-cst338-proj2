@@ -120,7 +120,7 @@ public class LandingActivity extends AppCompatActivity {
         binding.startNewGameButton.setOnClickListener(v -> {
             // TODO: Replace raw Intent with GamePlayActivity.createIntent(...)
             //  once that intent factory is implemented in GamePlayActivity.
-            Intent intent = new Intent(getApplicationContext(), GamePlayActivity.class);
+            Intent intent = GamePlayActivity.gamePlayActivityIntentFactory(this, userId);
             startActivity(intent);
         });
 

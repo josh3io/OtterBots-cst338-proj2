@@ -55,4 +55,7 @@
     <string name="invalid_password">Invalid Password</string>
     <string name="delete_users">Delete Users</string>
     <string name="delete_user_admin">Delete User (admin)</string>
+    <string name="rock_uppercase">ROCK</string>
+    <string name="paper_uppercase">PAPER</string>
+    <string name="scissors_uppercase">SCISSORS</string>
 </resources>

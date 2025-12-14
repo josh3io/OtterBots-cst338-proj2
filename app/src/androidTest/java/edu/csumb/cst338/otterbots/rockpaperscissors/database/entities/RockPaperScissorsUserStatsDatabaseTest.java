@@ -42,7 +42,7 @@ public class RockPaperScissorsUserStatsDatabaseTest {
     TestLiveDataObserver<ArrayList<UserStats>> listUserStatsTestObserver;
     TestLiveDataObserver<UserStats> singleUserStatsTestObserver;
 
-    TestLiveDataObserver<UserJoinUserStats> userJoinUserStatsTestLiveDataObserver;
+    TestLiveDataObserver<ArrayList<UserJoinUserStats>> userJoinUserStatsTestLiveDataObserver;
 
     UserStats testStats1;
     UserStats testStats2;
@@ -252,14 +252,14 @@ public class RockPaperScissorsUserStatsDatabaseTest {
         repository.insertOrUpdateUserStats(testStats3);
 
         // test that we still have two records for the two users
-        LiveData<ArrayList<UserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
+        LiveData<ArrayList<UserJoinUserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
         // observer the list query to be sure we only get one record back
         // waiting for two records should timeout
-        LiveDataOnChangedHandler<ArrayList<UserStats>> listHandler = data -> {
+        LiveDataOnChangedHandler<ArrayList<UserJoinUserStats>> listHandler = data -> {
             // this should never run
             assertEquals(2, data.size());
         };
-        assertTrue(listUserStatsTestObserver.test(
+        assertTrue(userJoinUserStatsTestLiveDataObserver.test(
                 allUserStatsLiveData,
                 data -> data.size() > 1,
                 listHandler

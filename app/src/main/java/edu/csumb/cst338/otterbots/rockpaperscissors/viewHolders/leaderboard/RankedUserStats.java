@@ -53,7 +53,7 @@ public class RankedUserStats extends UserStats {
                 '}';
     }
 
-    public static RankedUserStats getRankedUserStats(int rank, String username, UserJoinUserStats stats) {
+    public static RankedUserStats getRankedUserStats(int rank, UserJoinUserStats stats) {
         //RankedUserStats ranked = (RankedUserStats) stats;
         RankedUserStats ranked = new RankedUserStats(
                 stats.getUsername(),
