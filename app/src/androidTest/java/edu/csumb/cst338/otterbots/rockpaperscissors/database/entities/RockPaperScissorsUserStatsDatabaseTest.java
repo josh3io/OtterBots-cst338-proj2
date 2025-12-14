@@ -47,6 +47,8 @@ public class RockPaperScissorsUserStatsDatabaseTest {
     UserStats testStats1;
     UserStats testStats2;
     UserStats testStats3;
+    User testUser1;
+    User testUser2;
 
     @Before
     public void beforeEach() {
@@ -58,6 +60,13 @@ public class RockPaperScissorsUserStatsDatabaseTest {
         // create an observer for livedata tests. see the helper class below.
         listUserStatsTestObserver = new TestLiveDataObserver<>();
         singleUserStatsTestObserver = new TestLiveDataObserver<>();
+        userJoinUserStatsTestLiveDataObserver = new TestLiveDataObserver<>();
+
+        testUser1 = new User("user1","pass1",0);
+        testUser2 = new User("user2","pass2",0);
+
+        repository.insertUser(testUser1);
+        repository.insertUser(testUser2);
 
         testStats1 = new UserStats(1,2,3,4,5,5);
         testStats2 = new UserStats(1,3,3,4,5,5);
@@ -205,6 +214,43 @@ public class RockPaperScissorsUserStatsDatabaseTest {
             // this is from the first query
             assertEquals(2, data.getWins());
 
+            // do the second insert
+            repository.insertOrUpdateUserStats(testStats2);
+            // query again
+            LiveData<UserStats> userStatsLiveData2 = repository.getUserStatsByUserId(1);
+            LiveDataOnChangedHandler<UserStats> handler2 = data2 -> {
+                assertEquals(1, data2.getUserId());
+                // this is from the update query
+                assertEquals(3, data2.getWins());
+            };
+            try {
+                assertTrue(singleUserStatsTestObserver.test(
+                        userStatsLiveData2,
+                        Objects::nonNull,
+                        handler2
+                ));
+            } catch (Exception e) {
+                fail();
+            }
+
+            // test that we still only have one record
+            LiveData<ArrayList<UserJoinUserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
+            // observer the list query to be sure we only get one record back
+            // waiting for two records should timeout
+            LiveDataOnChangedHandler<ArrayList<UserJoinUserStats>> listHandler = data2 -> {
+                // this should never run
+                assertEquals(1, data2.size());
+            };
+            try {
+                assertFalse(userJoinUserStatsTestLiveDataObserver.test(
+                        allUserStatsLiveData,
+                        data3 -> data3.size() > 1,
+                        listHandler
+                ));
+            } catch (Exception e) {
+                fail();
+            }
+
         };
         assertTrue(singleUserStatsTestObserver.test(
                 userStatsLiveData,
@@ -212,34 +258,7 @@ public class RockPaperScissorsUserStatsDatabaseTest {
                 handler
         ));
 
-        // do the second insert
-        repository.insertOrUpdateUserStats(testStats2);
-        // query again
-        userStatsLiveData = repository.getUserStatsByUserId(1);
-        LiveDataOnChangedHandler<UserStats> handler2 = data2 -> {
-            assertEquals(1, data2.getUserId());
-            // this is from the update query
-            assertEquals(3, data2.getWins());
-        };
-        assertTrue(singleUserStatsTestObserver.test(
-                userStatsLiveData,
-                Objects::nonNull,
-                handler2
-        ));
 
-        // test that we still only have one record
-        LiveData<ArrayList<UserJoinUserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
-        // observer the list query to be sure we only get one record back
-        // waiting for two records should timeout
-        LiveDataOnChangedHandler<ArrayList<UserJoinUserStats>> listHandler = data -> {
-            // this should never run
-            assertEquals(1, data.size());
-        };
-        assertFalse(userJoinUserStatsTestLiveDataObserver.test(
-                allUserStatsLiveData,
-                data -> data.size() > 1,
-                listHandler
-        ));
     }
 
     /**
@@ -247,9 +266,23 @@ public class RockPaperScissorsUserStatsDatabaseTest {
      * @throws Exception
      */
     @Test
-    public void testMultipleUsers() throws Exception {
+    public void testMultipleUsersLeaderboard() throws Exception {
+
         repository.insertOrUpdateUserStats(testStats1);
         repository.insertOrUpdateUserStats(testStats3);
+
+        // assert that the stats were added
+        LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
+        LiveDataOnChangedHandler<UserStats> userStatsHandler = data -> {
+            assertEquals(1,data.getUserId());
+        };
+        assertTrue(singleUserStatsTestObserver.test(userStatsLiveData,Objects::nonNull,userStatsHandler));
+
+        userStatsLiveData = repository.getUserStatsByUserId(2);
+        userStatsHandler = data -> {
+            assertEquals(2,data.getUserId());
+        };
+        assertTrue(singleUserStatsTestObserver.test(userStatsLiveData,Objects::nonNull,userStatsHandler));
 
         // test that we still have two records for the two users
         LiveData<ArrayList<UserJoinUserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
@@ -263,6 +296,21 @@ public class RockPaperScissorsUserStatsDatabaseTest {
                 allUserStatsLiveData,
                 data -> data.size() > 1,
                 listHandler
+        ));
+    }
+
+    @Test
+    public void testUserInsertion() throws Exception {
+        // make sure the user record is there
+        LiveData<User> user1LiveData = repository.getUserByUsername("user1");
+        LiveDataOnChangedHandler<User> userHandler = userData -> {
+            assertEquals("user1", userData.getUsername());
+        };
+        TestLiveDataObserver<User> userTestLiveDataObserver = new TestLiveDataObserver<User>();
+        assertTrue(userTestLiveDataObserver.test(
+                user1LiveData,
+                Objects::nonNull,
+                userHandler
         ));
     }
 }

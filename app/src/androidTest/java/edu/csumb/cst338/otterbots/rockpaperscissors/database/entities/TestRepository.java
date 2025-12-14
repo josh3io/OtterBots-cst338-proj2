@@ -21,5 +21,7 @@ class TestRepository extends RockPaperScissorsRepository {
         // and load up the DAOs here.
         this.rpsRoundDAO = db.rpsRoundDAO();
         this.userStatsDAO = db.userStatsDAO();
+        this.userJoinUserStatsDAO = db.userJoinUserStatsDAO();
+        this.userDAO = db.userDAO();
     }
 }

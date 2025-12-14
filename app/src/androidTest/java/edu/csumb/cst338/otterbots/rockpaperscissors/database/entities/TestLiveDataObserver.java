@@ -27,6 +27,9 @@ public class TestLiveDataObserver<T> {
      * @throws InterruptedException if something interrupts the processing
      */
     public boolean test(LiveData<T> liveData, java.util.function.Predicate<T> condition, LiveDataOnChangedHandler<T> handler) throws InterruptedException {
+        return test(liveData, condition, handler, LATCH_TIMEOUT);
+    }
+    public boolean test(LiveData<T> liveData, java.util.function.Predicate<T> condition, LiveDataOnChangedHandler<T> handler, Integer timeoutSeconds) throws InterruptedException {
         // set a latch that we can decrement once our tests are done
         final CountDownLatch latch = new CountDownLatch(1);
 
@@ -54,6 +57,9 @@ public class TestLiveDataObserver<T> {
         liveData.observeForever(observer);
         // wait for the latch to decrement for up to the defined timeout value. Tests should handle the return value
         // or we could end up with false positives for tests.
-        return latch.await(LATCH_TIMEOUT, LATCH_TIMEOUT_UNITS);
+        if (timeoutSeconds == null) {
+            timeoutSeconds = LATCH_TIMEOUT;
+        }
+        return latch.await(timeoutSeconds, LATCH_TIMEOUT_UNITS);
     }
 }
