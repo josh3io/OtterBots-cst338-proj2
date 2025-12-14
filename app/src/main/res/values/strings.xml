@@ -60,4 +60,6 @@
     <string name="confirm_username">Confirm Username</string>
     <string name="userid">UserId</string>
     <string name="isadmin">IsAdmin</string>
+    <string name="new_user_details">New User Details</string>
+    <string name="enter_username_and_password">Enter Username and Password</string>
 </resources>
