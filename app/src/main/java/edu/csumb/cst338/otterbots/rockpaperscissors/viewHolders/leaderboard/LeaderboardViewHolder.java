@@ -1,4 +1,4 @@
-package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders;
+package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.R;
-import edu.csumb.cst338.otterbots.rockpaperscissors.RankedUserStats;
 
 public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
     private final TextView rankTextView;

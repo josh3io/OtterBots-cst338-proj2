@@ -1,4 +1,4 @@
-package edu.csumb.cst338.otterbots.rockpaperscissors;
+package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard;
 
 import java.util.Objects;
 

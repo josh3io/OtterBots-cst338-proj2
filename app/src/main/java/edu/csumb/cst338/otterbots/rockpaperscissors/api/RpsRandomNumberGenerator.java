@@ -115,7 +115,6 @@ public class RpsRandomNumberGenerator {
                 }
             } catch (Exception e) {
                 Log.e(MainActivity.TAG, "Random.org random number generation API call failed with exception " + e);
-                throw new RuntimeException(e);
             }
         });
     }

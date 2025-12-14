@@ -1,4 +1,4 @@
-package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders;
+package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard;
 
 import android.util.Log;
 import android.view.ViewGroup;
@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
-import edu.csumb.cst338.otterbots.rockpaperscissors.RankedUserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUserStats;
-import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 
 public class LeaderboardAdapter extends ListAdapter<UserJoinUserStats, RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;

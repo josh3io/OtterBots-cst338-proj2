@@ -18,10 +18,9 @@ import java.util.ArrayList;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUserStats;
-import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLeaderboardBinding;
-import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.LeaderboardAdapter;
-import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.LeaderboardViewModel;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard.LeaderboardAdapter;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard.LeaderboardViewModel;
 
 /**
  * Description: Show the leaderboard
