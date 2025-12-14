@@ -1,7 +1,5 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
-import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_IS_ADMIN;
-import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_USERNAME;
 
 import android.content.Context;
 import android.content.Intent;

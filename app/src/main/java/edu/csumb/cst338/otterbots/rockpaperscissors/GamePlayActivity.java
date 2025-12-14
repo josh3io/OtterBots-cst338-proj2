@@ -6,13 +6,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
-import java.util.Random;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.api.RpsRandomNumberGenerator;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityGamePlayBinding;
 
 public class GamePlayActivity extends AppCompatActivity {
 
-    Random random = new Random();
     private HashMap<Integer, String> GAME_CHOICES = new HashMap<>();
     private String npcCurrentGuess = "";
     private String userCurrentGuess = "";
@@ -31,8 +30,6 @@ public class GamePlayActivity extends AppCompatActivity {
     private int maxStreak = 0;
     private int currentStreak = 0;
 
-    // Check if rps round ends in tie
-    private boolean roundTie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +81,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
     // Function generates and sets an npcPlay to be set
      private void setNpcChoice() {
-        int npc_guess = random.nextInt(GAME_CHOICES.size());
+        int npc_guess = RpsRandomNumberGenerator.getRandomNumber();
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
 
