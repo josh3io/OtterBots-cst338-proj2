@@ -4,9 +4,12 @@ import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import org.junit.rules.Timeout;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
+import java.util.concurrent.TimeoutException;
+import java.util.function.Predicate;
 
 
 /**
@@ -26,11 +29,23 @@ public class TestLiveDataObserver<T> {
      * @return boolean if the observer times out. this will happen if our 'condition' is not met.
      * @throws InterruptedException if something interrupts the processing
      */
-    public boolean test(LiveData<T> liveData, java.util.function.Predicate<T> condition, LiveDataOnChangedHandler<T> handler) throws InterruptedException {
+    boolean test(LiveData<T> liveData, java.util.function.Predicate<T> condition, LiveDataOnChangedHandler<T> handler) throws InterruptedException {
         return test(liveData, condition, handler, LATCH_TIMEOUT);
     }
-    public boolean test(LiveData<T> liveData, java.util.function.Predicate<T> condition, LiveDataOnChangedHandler<T> handler, Integer timeoutSeconds) throws InterruptedException {
+    boolean test(LiveData<T> liveData, Predicate<T> condition, LiveDataOnChangedHandler<T> handler, Integer timeoutSeconds) throws InterruptedException {
         // set a latch that we can decrement once our tests are done
+
+        try {
+            Object data = getOrAwaitValue(liveData, condition, timeoutSeconds);
+            handler.handle((T) data);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    T getOrAwaitValue(LiveData liveData, Predicate<T> condition, Integer timeoutSeconds) throws TimeoutException {
+        final Object[] returnData = new Object[1];
         final CountDownLatch latch;
         try {
             latch = new CountDownLatch(1);
@@ -50,7 +65,7 @@ public class TestLiveDataObserver<T> {
                         return;
                     }
                     // handler will run the actual tests we are interested in
-                    handler.handle(data);
+                    returnData[0] = data;
                     // now that we are done, decrement the latch
                     latch.countDown();
 
@@ -72,6 +87,15 @@ public class TestLiveDataObserver<T> {
         if (timeoutSeconds == null) {
             timeoutSeconds = LATCH_TIMEOUT;
         }
-        return latch.await(timeoutSeconds, LATCH_TIMEOUT_UNITS);
+        boolean success = false;
+        try {
+            success = latch.await(timeoutSeconds, LATCH_TIMEOUT_UNITS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (!success) {
+            throw new TimeoutException("Latch TimeOut");
+        }
+        return (T) returnData[0];
     }
 }
