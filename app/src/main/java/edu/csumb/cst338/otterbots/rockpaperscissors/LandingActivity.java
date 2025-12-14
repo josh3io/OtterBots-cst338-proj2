@@ -1,5 +1,8 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
+import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_IS_ADMIN;
+import static edu.csumb.cst338.otterbots.rockpaperscissors.LoginActivity.EXTRA_USERNAME;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.api.RpsRandomNumberGenerator;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
@@ -118,8 +125,8 @@ public class LandingActivity extends AppCompatActivity {
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
-            // TODO: Replace raw Intent with GamePlayActivity.createIntent(...)
-            //  once that intent factory is implemented in GamePlayActivity.
+            // TODO: Refractor intents to intentfactory
+            toastMaker(getString(R.string.toast_start_new_game_user));
             Intent intent = new Intent(getApplicationContext(), GamePlayActivity.class);
             startActivity(intent);
         });
