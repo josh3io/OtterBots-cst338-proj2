@@ -24,10 +24,6 @@
     <string name="rock">Rock</string>
     <string name="paper">Paper</string>
     <string name="scissors">Scissors</string>
-    <string name="you_win">YOU WIN!</string>
-    <string name="npc_wins">NPC WINS :(</string>
-    <string name="it_s_a_tie">IT\'S A TIE</string>
-    <string name="you_lose">YOU LOSE :(</string>
 
     <string name="you_win">YOU WIN!</string>
     <string name="npc_wins">NPC WINS :(</string>
@@ -59,4 +55,6 @@
     <string name="invalid_password">Invalid Password</string>
     <string name="delete_users">Delete Users</string>
     <string name="delete_user_admin">Delete User (admin)</string>
+    <string name="new_user_details">New User Details</string>
+    <string name="enter_username_and_password">Enter Username and Password</string>
 </resources>
