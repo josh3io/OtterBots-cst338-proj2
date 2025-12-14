@@ -59,7 +59,6 @@ public class TestLiveDataObserver<T> {
             @Override
             public void onChanged(T data) {
                 try {
-                    System.out.println("TESTING LIVE DATA CHANGE " + data);
                     // don't act on our data too early! wait for preconditions
                     if (!condition.test(data)) {
                         return;

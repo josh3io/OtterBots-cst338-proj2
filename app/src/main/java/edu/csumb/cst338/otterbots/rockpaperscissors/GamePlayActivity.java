@@ -94,6 +94,9 @@ public class GamePlayActivity extends AppCompatActivity {
         Observer<UserStats> userStatsObserver = new Observer<UserStats>() {
             @Override
             public void onChanged(UserStats userStats) {
+                if (userStats == null) {
+                    userStats = new UserStats(userId,0,0,0,0,0);
+                }
                 switch(outcome) {
                     case UserStats.WIN:
                         userStats.setCurrentStreak(userStats.getCurrentStreak() + 1);
