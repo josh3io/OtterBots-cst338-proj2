@@ -17,7 +17,6 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.LocalDateTypeConverter;
 
 
-
 /**
  * Description: Manage the database for the application
  * Author: Josh Goldberg
@@ -27,7 +26,7 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.Loca
 //TODO: add data object entity classes here; remove Dummy
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {RpsRound.class, UserStats.class, User.class}, version = 5, exportSchema = false)
+@Database(entities = {RpsRound.class, UserStats.class, User.class}, version = 6, exportSchema = false)
 public abstract class RockPaperScissorsDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "RockPaperScissorsDatabase";
     static final String USER_TABLE = "userLogin";
@@ -41,6 +40,7 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
 
     /**
      * Get the singleton database instance
+     *
      * @param context some context that can get the application context
      * @return singleton database instance for the app
      */
@@ -51,7 +51,7 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
             synchronized (RockPaperScissorsDatabase.class) {
                 // we might have been queuing, so check again now that we have the lock
                 if (INSTANCE == null) {
-                    Log.d(MainActivity.TAG,"Building Room Database");
+                    Log.d(MainActivity.TAG, "Building Room Database");
                     // create the database instance
                     // delete everything and add the default values
                     //     if we're changing the db version
@@ -76,7 +76,7 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            Log.d(MainActivity.TAG,"Opening Database");
+            Log.d(MainActivity.TAG, "Opening Database");
         }
 
         @Override
@@ -84,18 +84,12 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
             super.onCreate(db);
             Log.d(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
-                // Default users for testing LoginActivity
-                // TODO: Delete default users later, possibly after RegisterActivity DB integration
+                Log.i(MainActivity.TAG, "Inserting default User data");
                 UserDAO userDAO = INSTANCE.userDAO();
+                // Default admin user
                 userDAO.insert(new User("admin", "admin", 1));
+                // Default user for testing LoginActivity
                 userDAO.insert(new User("test", "test", 0));
-
-                Log.i(MainActivity.TAG, "Inserting default data");
-
-                UserStatsDAO userStatsDAO = INSTANCE.userStatsDAO();
-                userStatsDAO.insert(new UserStats(1,1,2,3,4,4));
-                userStatsDAO.insert(new UserStats(2,2,2,3,4,4));
-                userStatsDAO.insert(new UserStats(3,5,2,3,4,4));
 
             });
         }
@@ -105,18 +99,30 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
 
     /**
      * abstract method for the rps round DAO
+     *
      * @return DAO for the rps round table
      */
     public abstract RpsRoundDAO rpsRoundDAO();
 
     /**
      * abstract method for the user stats DAO
+     *
      * @return DAO for the user stats table
      */
     public abstract UserStatsDAO userStatsDAO();
+
     /**
      * abstract method for the user DAO
+     *
      * @return DAO for the user table
      */
     public abstract UserDAO userDAO();
+
+    /**
+     * abstract method for the leaderboard join DAO
+     *
+     * @return DAO for the leaderboard data
+     */
+    public abstract UserJoinUserStatsDAO userJoinUserStatsDAO();
+
 }

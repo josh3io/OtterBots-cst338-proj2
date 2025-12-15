@@ -20,6 +20,11 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.R;
         indices = {@Index(value={"userId"}, unique = true)}
 )
 public class UserStats {
+
+    public static final int WIN = 0;
+    public static final int TIE = 1;
+    public static final int LOSE = 2;
+
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
@@ -30,6 +35,15 @@ public class UserStats {
     private int maxStreak;
     private int currentStreak;
 
+    public UserStats(UserStats oldUserStats) {
+        this.id = oldUserStats.id;
+        this.userId = oldUserStats.userId;
+        this.wins = oldUserStats.wins;
+        this.losses = oldUserStats.losses;
+        this.ties = oldUserStats.ties;
+        this.maxStreak = oldUserStats.maxStreak;
+        this.currentStreak = oldUserStats.currentStreak;
+    }
     public UserStats(int userId, int wins, int losses, int ties, int maxStreak, int currentStreak) {
         this.userId = userId;
         this.wins = wins;

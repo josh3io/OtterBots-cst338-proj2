@@ -3,6 +3,7 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class LandingActivity extends AppCompatActivity {
         String userName = intent.getStringExtra(EXTRA_USERNAME);
         userId = intent.getIntExtra(EXTRA_USER_ID, -1);
         boolean isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
+
+        Log.d(MainActivity.TAG, "Landing with userId "+userId);
 
         if (userName == null || userName.trim().isEmpty()) {
             userName = getString(R.string.default_player_name); // So UI doesn't look broken
@@ -120,7 +123,7 @@ public class LandingActivity extends AppCompatActivity {
         binding.startNewGameButton.setOnClickListener(v -> {
             // TODO: Replace raw Intent with GamePlayActivity.createIntent(...)
             //  once that intent factory is implemented in GamePlayActivity.
-            Intent intent = new Intent(getApplicationContext(), GamePlayActivity.class);
+            Intent intent = GamePlayActivity.gamePlayActivityIntentFactory(this, userId);
             startActivity(intent);
         });
 
@@ -158,7 +161,7 @@ public class LandingActivity extends AppCompatActivity {
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), GamePlayActivity.class);
+            Intent intent = GamePlayActivity.gamePlayActivityIntentFactory(this, userId);
             startActivity(intent);
         });
 
@@ -175,6 +178,9 @@ public class LandingActivity extends AppCompatActivity {
         // Delete Users (admin-only feature)
         binding.deleteUserTextView.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to ADMIN DeleteUserActivity
+            Intent intent = new Intent(getApplicationContext(), adminDeleteuserActivity.class);
+            startActivity(intent);
+
             toastMaker(getString(R.string.delete_user_admin));
         });
 
