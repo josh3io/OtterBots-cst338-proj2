@@ -76,6 +76,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/startNewGameButton" />
 
+    <!-- Change User Details -->
+    <TextView
+        android:id="@+id/changeUserDetailsTextView"
+        style="@style/ClickableText"
+        android:text="@string/change_user_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewLeaderboardTextView" />
+
     <!-- Logout -->
     <TextView
         android:id="@+id/logoutTextView"
@@ -83,6 +92,6 @@
         android:text="@string/logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewLeaderboardTextView" />
+        app:layout_constraintTop_toBottomOf="@id/changeUserDetailsTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

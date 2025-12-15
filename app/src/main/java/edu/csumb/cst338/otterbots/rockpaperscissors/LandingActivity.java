@@ -134,6 +134,10 @@ public class LandingActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        binding.changeUserDetailsTextView.setOnClickListener(v -> {
+            Intent intent = UpdateUserDetails.createIntent(this, userId);
+            startActivity(intent);
+        });
         // Logout
         binding.logoutTextView.setOnClickListener(v -> logout());
     }
@@ -181,6 +185,11 @@ public class LandingActivity extends AppCompatActivity {
             startActivity(intent);
 
             toastMaker(getString(R.string.toast_add_user_admin));
+        });
+
+        binding.changeUserDetailsTextView.setOnClickListener(v -> {
+            Intent intent = UpdateUserDetails.createIntent(this, userId);
+            startActivity(intent);
         });
 
         // Logout
