@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -175,6 +176,16 @@ public class RockPaperScissorsRepository {
             Log.e(MainActivity.TAG, "Failed to insert new user record. thread error.");
             return -1;
         }
+    }
+
+    public LiveData<List<User>> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
+    public void deleteUserByUsername(String username) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.deleteUserByUsername(username);
+        });
     }
 
 }

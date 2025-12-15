@@ -174,6 +174,9 @@ public class LandingActivity extends AppCompatActivity {
         // Delete Users (admin-only feature)
         binding.deleteUserTextView.setOnClickListener(v -> {
             // TODO: Replace toast with navigation to ADMIN DeleteUserActivity
+            Intent intent = new Intent(getApplicationContext(), adminDeleteuserActivity.class);
+            startActivity(intent);
+
             toastMaker(getString(R.string.delete_user_admin));
         });
 
