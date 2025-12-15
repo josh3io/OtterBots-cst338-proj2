@@ -13,8 +13,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.HashMap;
-import java.util.Random;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.api.RpsRandomNumberGenerator;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityGamePlayBinding;
@@ -22,7 +22,6 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityGamePlay
 public class GamePlayActivity extends AppCompatActivity {
 
     private ActivityGamePlayBinding binding;
-    Random random = new Random();
     private HashMap<Integer, String> GAME_CHOICES = new HashMap<>();
     private String npcCurrentGuess = "";
     private String userCurrentGuess = "";
@@ -134,7 +133,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
     // Function generates and sets an npcPlay to be set
     private void setNpcChoice() {
-        int npc_guess = random.nextInt(GAME_CHOICES.size());
+        int npc_guess = RpsRandomNumberGenerator.getRandomNumber();
         npcCurrentGuess = GAME_CHOICES.get(npc_guess);
     }
 
