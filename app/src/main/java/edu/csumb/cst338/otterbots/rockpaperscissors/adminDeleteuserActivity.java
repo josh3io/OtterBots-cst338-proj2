@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityAdminDeleteuserAcitivyBinding;
-import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.DeleteUserViewAdapter;
-import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.DeleteUserViewModel;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewAdapter;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewModel;
 
 public class adminDeleteuserActivity extends AppCompatActivity {
 

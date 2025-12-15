@@ -1,4 +1,4 @@
-package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders;
+package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser;
 
 import android.view.LayoutInflater;
 import android.view.View;

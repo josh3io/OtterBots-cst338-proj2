@@ -1,9 +1,9 @@
-package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders;
+package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import android.app.Application;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
