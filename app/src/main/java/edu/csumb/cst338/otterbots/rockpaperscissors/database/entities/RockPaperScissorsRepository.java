@@ -21,8 +21,11 @@ public class RockPaperScissorsRepository {
     protected UserStatsDAO userStatsDAO;
     protected UserDAO userDAO;
 
+    protected UserJoinUserStatsDAO userJoinUserStatsDAO;
+
     /**
      * Constructor
+     *
      * @param application the android application
      */
     private RockPaperScissorsRepository(Application application) {
@@ -31,6 +34,7 @@ public class RockPaperScissorsRepository {
         this.rpsRoundDAO = db.rpsRoundDAO();
         this.userStatsDAO = db.userStatsDAO();
         this.userDAO = db.userDAO();
+        this.userJoinUserStatsDAO = db.userJoinUserStatsDAO();
     }
 
     public RockPaperScissorsRepository() {
@@ -38,6 +42,7 @@ public class RockPaperScissorsRepository {
 
     /**
      * Factory method to instantiate the repository and db in a separate thread
+     *
      * @param application the android application
      * @return a RockPaperScissorsRepository object that abstracts the db
      */
@@ -60,7 +65,7 @@ public class RockPaperScissorsRepository {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            Log.i(MainActivity.TAG,"Thread Error getting the RPS Repository.");
+            Log.i(MainActivity.TAG, "Thread Error getting the RPS Repository.");
         }
 
         return null;
@@ -70,6 +75,7 @@ public class RockPaperScissorsRepository {
 
     /**
      * Add a new round to the database
+     *
      * @param round the round entity to record
      */
     public void insertRound(RpsRound round) {
@@ -80,6 +86,7 @@ public class RockPaperScissorsRepository {
 
     /**
      * Get all rps rounds for a userStatsId
+     *
      * @param userStatsId the userStatsId id to use for looking up round records
      * @return list of records or null ArrayList if none are found
      */
@@ -94,10 +101,12 @@ public class RockPaperScissorsRepository {
 
     /**
      * Get all user stats for the leaderboard
+     *
      * @return list of all user stats ordered by wins - losses
      */
-    public LiveData<ArrayList<UserStats>> getAllUserStatsByRank() {
-        return Transformations.map(userStatsDAO.getAllUserStatsByRank(), list -> {
+    public LiveData<ArrayList<UserJoinUserStats>> getAllUserStatsByRank() {
+        return Transformations.map(userJoinUserStatsDAO.getUsernameAndUserStats(), list -> {
+            Log.d(MainActivity.TAG,"List of stats "+list.toString());
             if (list == null) {
                 return new ArrayList<>();
             }
@@ -117,6 +126,7 @@ public class RockPaperScissorsRepository {
 
     /**
      * Get the stats for a single user
+     *
      * @param userId the user to get stats for
      * @return a record of userStats or null
      */
@@ -126,6 +136,7 @@ public class RockPaperScissorsRepository {
 
     /**
      * Get a user by username
+     *
      * @param username the username to look up
      * @return the user record or null
      */
@@ -135,6 +146,7 @@ public class RockPaperScissorsRepository {
 
     /**
      * Get a user by username and password for login
+     *
      * @param username the username to look up
      * @param password the password to look up
      * @return the user record or null
@@ -145,6 +157,7 @@ public class RockPaperScissorsRepository {
 
     /**
      * Insert a new user record
+     *
      * @param user the user entity to insert
      */
     public int insertUser(User user) {
@@ -158,7 +171,7 @@ public class RockPaperScissorsRepository {
         );
         try {
             return future.get();
-        } catch (InterruptedException | ExecutionException e ) {
+        } catch (InterruptedException | ExecutionException e) {
             Log.e(MainActivity.TAG, "Failed to insert new user record. thread error.");
             return -1;
         }

@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
-import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityLeaderboardBinding;
-import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.LeaderboardAdapter;
-import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.LeaderboardViewModel;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard.LeaderboardAdapter;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard.LeaderboardViewModel;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard.RankedUserStats;
 
 /**
  * Description: Show the leaderboard
@@ -49,7 +51,18 @@ public class LeaderboardActivity extends AppCompatActivity {
         final LeaderboardAdapter adapter = new LeaderboardAdapter(new LeaderboardAdapter.LeaderboardDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        leaderboardViewModel.getAllUserStatsByRank().observe(this, adapter::submitList);
+        leaderboardViewModel.getAllUserStatsByRank().observe(this, userJoinUserStatsList -> {
+            List<RankedUserStats> rankedUserStatsList = new ArrayList<RankedUserStats>();
+            for (UserJoinUserStats stats : userJoinUserStatsList) {
+                rankedUserStatsList.add(
+                        RankedUserStats.getRankedUserStats(
+                            rankedUserStatsList.size()+1,
+                            stats
+                        )
+                );
+            }
+            adapter.submitList(rankedUserStatsList);
+        });
 
         binding.leaderboardViewGoToMainButton.setOnClickListener(v -> {
             Intent intent1 = LandingActivity.createIntent(v.getContext(), username, userId, isAdmin);
@@ -65,7 +78,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         return intent;
     }
 
-    private LiveData<ArrayList<UserStats>> getLeaderboardData() {
+    private LiveData<ArrayList<UserJoinUserStats>> getLeaderboardData() {
         return repository.getAllUserStatsByRank();
     }
 }
