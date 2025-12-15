@@ -58,4 +58,6 @@
     <string name="rock_uppercase">ROCK</string>
     <string name="paper_uppercase">PAPER</string>
     <string name="scissors_uppercase">SCISSORS</string>
+    <string name="new_user_details">New User Details</string>
+    <string name="enter_username_and_password">Enter Username and Password</string>
 </resources>
