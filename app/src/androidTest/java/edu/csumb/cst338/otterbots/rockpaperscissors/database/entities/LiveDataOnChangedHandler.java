@@ -10,5 +10,5 @@ interface LiveDataOnChangedHandler<T> {
      * Handle the onChange for livedata observer
      * @param data the data we will handle.
      */
-    abstract void handle(T data);
+    abstract void handle(T data) throws InterruptedException;
 }
