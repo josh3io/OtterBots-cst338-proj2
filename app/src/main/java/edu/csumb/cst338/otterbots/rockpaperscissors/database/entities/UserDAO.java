@@ -21,4 +21,13 @@ public interface UserDAO {
     @Query("SELECT * FROM " + RockPaperScissorsDatabase.USER_TABLE +
             " WHERE userId = :id LIMIT 1")
     LiveData<User> getUserById(int id);
+
+    @Query("UPDATE " + RockPaperScissorsDatabase.USER_TABLE +
+            " SET username = :newUsername WHERE userId = :userId")
+    int updateUsername(int userId, String newUsername);
+
+    @Query("UPDATE " + RockPaperScissorsDatabase.USER_TABLE +
+            " SET password = :newPassword WHERE userId = :userId")
+    int updatePassword(int userId, String newPassword);
+
 }
