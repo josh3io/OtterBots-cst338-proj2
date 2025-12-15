@@ -84,6 +84,26 @@ public class RockPaperScissorsRepository {
             rpsRoundDAO.insert(round);
         });
     }
+    /**
+     * Update a user's username
+     * @param userId the userId to update
+     * @param newUsername the new username
+     */
+    public void updateUsername(int userId, String newUsername) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.updateUsername(userId, newUsername);
+        });
+    }
+    /**
+     * Update a user's password
+     * @param userId the userId to update
+     * @param newPassword the new password
+     */
+    public void updatePassword(int userId, String newPassword) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.updatePassword(userId, newPassword);
+        });
+    }
 
     /**
      * Get all rps rounds for a userStatsId
@@ -154,6 +174,15 @@ public class RockPaperScissorsRepository {
      */
     public LiveData<User> getUserLogin(String username, String password) {
         return userDAO.getUserLogin(username, password);
+    }
+
+    /**
+     * Get a user by userId
+     * @param userId the userId to look up
+     * @return the user record or null
+     */
+    public LiveData<User> getUserById(int userId) {
+        return userDAO.getUserById(userId);
     }
 
     /**

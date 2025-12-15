@@ -65,4 +65,11 @@
     <string name="scissors_uppercase">SCISSORS</string>
     <string name="new_user_details">New User Details</string>
     <string name="enter_username_and_password">Enter Username and Password</string>
+    <string name="update_username_and_password">Update Username and Password</string>
+    <string name="current_username">Current Username:</string>
+    <string name="new_username">New Username</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="update_user_details">Update User Details</string>
+    <string name="change_user_details">Change User Details</string>
 </resources>
