@@ -43,9 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Save only valid, non-empty usernames.
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        prefs.edit().putString(KEY_LAST_USERNAME, username).apply();
+
 
         String userPassword = binding.passwordLoginEditText.getText().toString().trim();
         if (userPassword.isEmpty()) {
@@ -61,6 +59,11 @@ public class LoginActivity extends AppCompatActivity {
                 binding.userNameLoginEditText.setSelection(0);
                 return;
             }
+
+            // Save only valid and DB verified, usernames.
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            prefs.edit().putString(KEY_LAST_USERNAME, username).apply();
+
             if (!userPassword.equals(user.getPassword())) {
                 toastMaker(getString(R.string.invalid_password));
                 binding.passwordLoginEditText.setSelection(0);
