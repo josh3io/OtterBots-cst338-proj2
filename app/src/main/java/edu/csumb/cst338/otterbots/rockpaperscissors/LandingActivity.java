@@ -144,8 +144,6 @@ public class LandingActivity extends AppCompatActivity {
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
-            // TODO: Replace raw Intent with GamePlayActivity.createIntent(...)
-            //  once that intent factory is implemented in GamePlayActivity.
             Intent intent = GamePlayActivity.gamePlayActivityIntentFactory(this, userId);
             startActivity(intent);
         });
@@ -200,7 +198,7 @@ public class LandingActivity extends AppCompatActivity {
 
         // Delete Users (admin-only feature)
         binding.deleteUserTextView.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), adminDeleteuserActivity.class);
+            Intent intent = AdminDeleteUserActivity.createIntent(this);
             startActivity(intent);
 
             toastMaker(getString(R.string.delete_user_admin));
@@ -208,8 +206,7 @@ public class LandingActivity extends AppCompatActivity {
 
         // Add User (admin-only feature)
         binding.addUserTextView.setOnClickListener(v -> {
-            //TODO: Refractor to have intent factory
-            Intent intent = new Intent(this, AdminNewUserActivity.class);
+            Intent intent = AdminNewUserActivity.createIntent(this);
             startActivity(intent);
 
             toastMaker(getString(R.string.toast_add_user_admin));

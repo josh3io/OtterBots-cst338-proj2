@@ -22,7 +22,7 @@
             android:name=".AdminNewUserActivity"
             android:exported="false" />
         <activity
-            android:name=".adminDeleteuserActivity"
+            android:name=".AdminDeleteUserActivity"
             android:exported="false" />
         <activity
             android:name=".GamePlayActivity"

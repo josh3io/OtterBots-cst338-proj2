@@ -1,5 +1,7 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,11 +14,15 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityAdminDel
 import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewAdapter;
 import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewModel;
 
-public class adminDeleteuserActivity extends AppCompatActivity {
+public class AdminDeleteUserActivity extends AppCompatActivity {
 
     private DeleteUserViewAdapter adapter;
     private ActivityAdminDeleteuserAcitivyBinding binding;
     private DeleteUserViewModel viewModel;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, AdminDeleteUserActivity.class);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,9 +40,7 @@ public class adminDeleteuserActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(DeleteUserViewModel.class);
 
-        viewModel.getAllUsers().observe(this, users -> {
-            adapter.submitList(users);
-        });
+        viewModel.getAllUsers().observe(this, users -> adapter.submitList(users));
 
         binding.returnToMainTextView.setOnClickListener(v -> finish());
 
