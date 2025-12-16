@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OtterBotsRockPaperScissors">
+        <activity
+            android:name=".ResetStats"
+            android:exported="false" />
         <activity
             android:name=".UpdateUserDetails"
             android:exported="false" />

@@ -33,7 +33,6 @@
         app:layout_constraintTop_toBottomOf="@+id/leaderboardTitleTextView"
         tools:listitem="@layout/leaderboard_recycler_item" />
 
-
     <Button
         android:id="@+id/leaderboardViewGoToMainButton"
         android:layout_width="match_parent"
@@ -44,6 +43,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leaderboardRecyclerView" />
+
+
+    <TextView
+        android:id="@+id/leaderboardResetStatsButton"
+        style="@style/ClickableText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_user_stats"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/leaderboardViewGoToMainButton"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

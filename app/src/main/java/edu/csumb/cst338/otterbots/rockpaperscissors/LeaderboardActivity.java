@@ -68,6 +68,11 @@ public class LeaderboardActivity extends AppCompatActivity {
             Intent intent1 = LandingActivity.createIntent(v.getContext(), username, userId, isAdmin);
             startActivity(intent1);
         });
+
+        binding.leaderboardResetStatsButton.setOnClickListener(v -> {
+            Intent resetIntent = ResetStats.createIntent(this, userId, username);
+            startActivity(resetIntent);
+        });
     }
 
     static Intent leaderboardActivityIntentFactory(Context context, String userName, int userId, boolean isAdmin) {

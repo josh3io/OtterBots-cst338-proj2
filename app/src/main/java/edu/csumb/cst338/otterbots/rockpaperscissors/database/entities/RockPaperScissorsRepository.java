@@ -216,5 +216,14 @@ public class RockPaperScissorsRepository {
             userDAO.deleteUserByUsername(username);
         });
     }
+    /**
+     * Reset stats for a user
+     * @param userId the userId to reset stats for
+     */
+    public void resetStatsForUser(int userId) {
+        RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            userStatsDAO.resetStatsForUser(userId);
+        });
+    }
 
 }
