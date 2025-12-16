@@ -39,4 +39,10 @@ public interface UserStatsDAO {
 
     @Query("SELECT * FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE + " ORDER BY wins - losses DESC")
     LiveData<List<UserStats>> getAllUserStatsByRank();
+
+    @Query("UPDATE " + RockPaperScissorsDatabase.USER_STATS_TABLE +
+            " SET wins = 0, losses = 0, 'ties' = 0, maxStreak = 0, currentStreak = 0 " +
+            " WHERE userId = :userId")
+    int resetStatsForUser(int userId);
+
 }

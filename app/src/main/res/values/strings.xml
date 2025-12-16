@@ -70,5 +70,9 @@
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="update_user_details">Update User Details</string>
     <string name="change_user_details">Change User Details</string>
+    <string name="reset_user_stats">Reset User Stats</string>
+    <string name="reset_stats_warning">This will reset your wins, losses, ties, and streaks to 0.</string>
+    <string name="confirm_reset">Reset User Stats</string>
+    <string name="stats_title">Stats</string>
     <string name="welcome_admin">Welcome\nAdmin %s</string>
 </resources>
