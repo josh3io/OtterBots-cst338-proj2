@@ -29,6 +29,11 @@ public interface UserJoinUserStatsDAO {
             + "FROM " + RockPaperScissorsDatabase.USER_TABLE + " u "
             + "LEFT JOIN " + RockPaperScissorsDatabase.USER_STATS_TABLE + " us "
             + "ON u.userId = us.userId "
-            + "ORDER BY us.wins - us.losses DESC")
+            + "ORDER BY " +
+            "us.wins DESC, " +          // first sort by most wins
+            "us.losses ASC, " +         // then by fewest losses
+            "us.`ties` DESC, " +        // then by most ties
+            "us.maxStreak DESC, " +     // then by max streak
+            "us.currentStreak DESC")    // then by current streak
     LiveData<List<UserJoinUserStats>> getUsernameAndUserStats();
 }
