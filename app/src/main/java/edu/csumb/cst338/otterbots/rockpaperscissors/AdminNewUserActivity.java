@@ -1,5 +1,7 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -15,6 +17,10 @@ public class AdminNewUserActivity extends AppCompatActivity {
     private String username = "";
     private String password = "";
     private String confirmPassword = "";
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, AdminNewUserActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +87,7 @@ public class AdminNewUserActivity extends AppCompatActivity {
             }
         });
 
-        binding.returnSelectableTextView.setOnClickListener(v -> {
-            finish();
-        });
+        binding.returnSelectableTextView.setOnClickListener(v -> finish());
     }
 
     private void toastMaker(String message) {

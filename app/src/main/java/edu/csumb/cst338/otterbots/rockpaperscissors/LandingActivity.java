@@ -20,7 +20,11 @@ public class LandingActivity extends AppCompatActivity {
     public static final String EXTRA_USER_ID = "userId";
     public static final String EXTRA_IS_ADMIN = "isAdmin";
     private int userId;
+    private boolean isAdmin;
     private RockPaperScissorsRepository repository;
+
+    private ActivityLandingUserBinding userBinding;
+    private ActivityLandingAdminBinding adminBinding;
 
     public static Intent createIntent(Context context, String username, int userId, boolean isAdmin) {
         Intent intent = new Intent(context, LandingActivity.class);
@@ -41,7 +45,7 @@ public class LandingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userName = intent.getStringExtra(EXTRA_USERNAME);
         userId = intent.getIntExtra(EXTRA_USER_ID, -1);
-        boolean isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
+        isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
 
         Log.d(MainActivity.TAG, "Landing with userId "+userId);
 
@@ -51,14 +55,33 @@ public class LandingActivity extends AppCompatActivity {
 
         if (isAdmin) {
             // Inflate Admin layout and set it as the content view
-            ActivityLandingAdminBinding binding = ActivityLandingAdminBinding.inflate(getLayoutInflater());
-            setContentView(binding.getRoot());
-            setupAdminUI(binding, userName);
+            adminBinding = ActivityLandingAdminBinding.inflate(getLayoutInflater());
+            setContentView(adminBinding.getRoot());
+            setupAdminUI(adminBinding, userName);
         } else {
             // Inflate User layout and set it as the content view
-            ActivityLandingUserBinding binding = ActivityLandingUserBinding.inflate(getLayoutInflater());
-            setContentView(binding.getRoot());
-            setupUserUI(binding, userName);
+            userBinding = ActivityLandingUserBinding.inflate(getLayoutInflater());
+            setContentView(userBinding.getRoot());
+            setupUserUI(userBinding, userName);
+        }
+
+        if (userId != -1) {
+            repository.getUserById(userId).observe(this, user -> {
+                if (user == null) {
+                    return;
+                }
+
+                String latestName = user.getUsername();
+                if (latestName == null || latestName.trim().isEmpty()) {
+                    latestName = getString(R.string.default_player_name);
+                }
+
+                if (isAdmin && adminBinding != null) {
+                    adminBinding.titleLandingTextView.setText(getString(R.string.welcome_admin, latestName));
+                } else if (!isAdmin && userBinding != null) {
+                    userBinding.titleLandingTextView.setText(getString(R.string.welcome_user, latestName));
+                }
+            });
         }
 
         // initialize the random number generator for gameplay
@@ -121,8 +144,6 @@ public class LandingActivity extends AppCompatActivity {
 
         // Start New Game
         binding.startNewGameButton.setOnClickListener(v -> {
-            // TODO: Replace raw Intent with GamePlayActivity.createIntent(...)
-            //  once that intent factory is implemented in GamePlayActivity.
             Intent intent = GamePlayActivity.gamePlayActivityIntentFactory(this, userId);
             startActivity(intent);
         });
@@ -177,8 +198,7 @@ public class LandingActivity extends AppCompatActivity {
 
         // Delete Users (admin-only feature)
         binding.deleteUserTextView.setOnClickListener(v -> {
-            // TODO: Replace toast with navigation to ADMIN DeleteUserActivity
-            Intent intent = new Intent(getApplicationContext(), adminDeleteuserActivity.class);
+            Intent intent = AdminDeleteUserActivity.createIntent(this);
             startActivity(intent);
 
             toastMaker(getString(R.string.delete_user_admin));
@@ -186,8 +206,7 @@ public class LandingActivity extends AppCompatActivity {
 
         // Add User (admin-only feature)
         binding.addUserTextView.setOnClickListener(v -> {
-            //TODO: Refractor to have intent factory
-            Intent intent = new Intent(this, AdminNewUserActivity.class);
+            Intent intent = AdminNewUserActivity.createIntent(this);
             startActivity(intent);
 
             toastMaker(getString(R.string.toast_add_user_admin));

@@ -62,6 +62,12 @@ public class UpdateUserDetails extends AppCompatActivity {
             repository.updateUsername(userId, newUsername);
             repository.updatePassword(userId, newPassword);
 
+            // Update login persistence so the new username is remembered
+            getSharedPreferences(LoginActivity.PREFS_NAME, MODE_PRIVATE)
+                    .edit()
+                    .putString(LoginActivity.KEY_LAST_USERNAME, newUsername)
+                    .apply();
+
             toastMaker("User details updated");
             finish();
         });

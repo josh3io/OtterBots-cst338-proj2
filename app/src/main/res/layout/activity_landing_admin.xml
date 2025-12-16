@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/titleLandingTextView"
         style="@style/PrimaryTitle"
-        android:text="@string/welcome_admin_otterbot"
+        android:text="@string/welcome_admin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
