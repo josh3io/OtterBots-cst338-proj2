@@ -36,15 +36,33 @@ public class TestLiveDataObserver<T> {
         // set a latch that we can decrement once our tests are done
 
         try {
-            Object data = getOrAwaitValue(liveData, condition, timeoutSeconds);
-            handler.handle((T) data);
+            T data = getOrAwaitValue(liveData, condition, timeoutSeconds);
+            handler.handle(data);
             return true;
         } catch (TimeoutException e) {
             return false;
         }
     }
 
-    T getOrAwaitValue(LiveData liveData, Predicate<T> condition, Integer timeoutSeconds) throws TimeoutException {
+    /**
+     * Call getOrAwaitValue with a default timeout
+     * @param liveData the data to observe for a change
+     * @param condition the predicate condition required to finalize the return data
+     * @return the type of data being held by the liveData
+     * @throws TimeoutException timeout trying to get the data observed that satisfies the predicate condition
+     */
+    T getOrAwaitValue(LiveData<T> liveData, Predicate<T> condition) throws TimeoutException {
+        return getOrAwaitValue(liveData, condition, LATCH_TIMEOUT);
+    }
+    /**
+     * Call getOrAwaitValue with a default timeout
+     * @param liveData the data to observe for a change
+     * @param condition the predicate condition required to finalize the return data
+     * @param timeoutSeconds how long to wait for the observer to meet the predicate condition
+     * @return the type of data being held by the liveData
+     * @throws TimeoutException timeout trying to get the data observed that satisfies the predicate condition
+     */
+    T getOrAwaitValue(LiveData<T> liveData, Predicate<T> condition, Integer timeoutSeconds) throws TimeoutException {
         final Object[] returnData = new Object[1];
         final CountDownLatch latch;
         try {
