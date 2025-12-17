@@ -40,5 +40,29 @@ public class LandingActivityTest {
         }
     }
 
-    // TODO: Add tests for admin vs user layouts in a future MR.
+    @Test
+    public void whenIsAdminTrue_adminLayoutLoadsAndDisplaysUsername() {
+
+        // Arrange
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LandingActivity.class);
+
+        intent.putExtra(LandingActivity.EXTRA_USERNAME, "Anthony");
+        intent.putExtra(LandingActivity.EXTRA_USER_ID, -1); // Prevents DB observer from firing
+        intent.putExtra(EXTRA_IS_ADMIN, true);
+
+        // Act
+        try (ActivityScenario<LandingActivity> scenario = ActivityScenario.launch(intent)) {
+            scenario.onActivity(activity -> {
+                TextView titleView = activity.findViewById(R.id.titleLandingTextView);
+                assertNotNull(titleView);
+
+                String actualText = titleView.getText().toString();
+                assertTrue(actualText.contains("Anthony"));
+
+                // Admin layout ONLY - confirms correct layout was inflated
+                TextView addUserView = activity.findViewById(R.id.addUserTextView);
+                assertNotNull("Admin layout should include Add User view.", addUserView);
+            });
+        }
+    }
 }
