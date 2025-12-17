@@ -25,8 +25,11 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Run the db tests for UserStats
@@ -268,6 +271,68 @@ public class RockPaperScissorsUserStatsDatabaseTest {
         assertEquals(3, leaderboardData.get(0).getUserStats().getWins()); //user 1 stats are updated here
         assertNull(leaderboardData.get(1).getUserStats()); //user 2 stats are still null
 
+    }
+
+    /**
+     * Test the different sorting critera of the leaderboard
+     */
+    @Test
+    public void testLeaderboardSorting() throws Exception {
+        // most wins first
+        repository.insertOrUpdateUserStats(
+                new UserStats(1,5,4,3,2,1)
+        );
+        repository.insertOrUpdateUserStats(
+                new UserStats(2,4,4,3,0,0)
+        );
+
+        BiFunction<LiveData<ArrayList<UserJoinUserStats>>, List<Integer>, Boolean> leaderBoardTest
+                = (LiveData<ArrayList<UserJoinUserStats>> liveData, List<Integer> expectedUserIdOrder) -> {
+            try {
+                ArrayList<UserJoinUserStats> leaderboardData
+                        = new TestLiveDataObserver<ArrayList<UserJoinUserStats>>()
+                            .getOrAwaitValue(liveData,Objects::nonNull, 2);
+                assertNotNull(leaderboardData);
+                for (int i=0;i<expectedUserIdOrder.size();i++) {
+                    assertEquals((int) expectedUserIdOrder.get(i), leaderboardData.get(i).getUserId());
+                }
+                return true;
+            } catch (TimeoutException e) {
+                fail();
+                return false;
+            }
+        };
+
+        LiveData<ArrayList<UserJoinUserStats>> leaderboardLiveData = repository.getAllUserStatsByRank();
+        assertTrue(leaderBoardTest.apply(leaderboardLiveData, List.of(1,2)));
+
+        // make user 2 have same wins, fewest losses. should become top rank
+        repository.insertOrUpdateUserStats(
+                new UserStats(2,5,2,3,2,1)
+        );
+        leaderboardLiveData = repository.getAllUserStatsByRank();
+        assertTrue(leaderBoardTest.apply(leaderboardLiveData, List.of(2,1)));
+
+        // when wins and losses are equal, most ties is top rank
+        repository.insertOrUpdateUserStats(
+                new UserStats(2,5,4,0,0,0)
+        );
+        leaderboardLiveData = repository.getAllUserStatsByRank();
+        assertTrue(leaderBoardTest.apply(leaderboardLiveData, List.of(1,2)));
+
+        // when wins and losses and ties are equal, max streak desc
+        repository.insertOrUpdateUserStats(
+                new UserStats(2,5,4,3,4,0)
+        );
+        leaderboardLiveData = repository.getAllUserStatsByRank();
+        assertTrue(leaderBoardTest.apply(leaderboardLiveData, List.of(2,1)));
+
+        // when wins and losses and ties and maxStreak are equal, current streak desc
+        repository.insertOrUpdateUserStats(
+                new UserStats(2,5,4,3,2,0)
+        );
+        leaderboardLiveData = repository.getAllUserStatsByRank();
+        assertTrue(leaderBoardTest.apply(leaderboardLiveData, List.of(1,2)));
     }
 
     /**
