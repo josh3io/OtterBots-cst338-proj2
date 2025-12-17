@@ -2,11 +2,8 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import android.content.Intent;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -18,7 +15,6 @@ import org.junit.runner.RunWith;
 public class UpdateUserDetailsTest {
     @Test
     public void launches_withIntent_andViewsExist() {
-        // Arrange: create the intent the same way your app does
         Intent intent = UpdateUserDetails.createIntent(
                 ApplicationProvider.getApplicationContext(),
                 1
