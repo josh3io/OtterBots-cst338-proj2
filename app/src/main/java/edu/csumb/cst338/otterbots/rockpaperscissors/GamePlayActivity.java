@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.api.RpsRandomNumberGenerator;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RpsRound;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityGamePlayBinding;
 
@@ -84,6 +85,28 @@ public class GamePlayActivity extends AppCompatActivity {
         updateDatabaseStats(outcome);
     }
 
+    private int convertChoiceToIndex(String choice) {
+        switch (choice) {
+            case "ROCK":
+                return 0;
+            case "PAPER":
+                return 1;
+            case "SCISSORS":
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
+    private String outcomeToString(int outcome) {
+        switch (outcome) {
+            case UserStats.WIN: return "WIN";
+            case UserStats.TIE: return "TIE";
+            case UserStats.LOSE: return "LOSE";
+            default: return "UNKNOWN";
+        }
+    }
+
     private void updateDatabaseStats(int outcome) {
         Log.d(MainActivity.TAG,"update db stats with outcome "+outcome);
         RockPaperScissorsRepository repository = RockPaperScissorsRepository.getRepository(getApplication());
@@ -98,6 +121,15 @@ public class GamePlayActivity extends AppCompatActivity {
                 if (userStats == null) {
                     userStats = new UserStats(userId,0,0,0,0,0);
                 }
+
+                int userChoiceIndex = convertChoiceToIndex(userCurrentGuess);
+                int npcChoiceIndex = convertChoiceToIndex(npcCurrentGuess);
+                String resultString = outcomeToString(outcome);
+
+                RpsRound round = new RpsRound(userId, userChoiceIndex, npcChoiceIndex, resultString);
+                repository.insertRound(round);
+                Log.d(MainActivity.TAG, "Inserted round: " + round);
+
                 switch(outcome) {
                     case UserStats.WIN:
                         userStats.setCurrentStreak(userStats.getCurrentStreak() + 1);
