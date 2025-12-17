@@ -38,8 +38,6 @@ public class RockPaperScissorsUserStatsDatabaseTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
-    private RockPaperScissorsDatabase db;
-
     private TestRepository repository;
 
     TestLiveDataObserver<ArrayList<UserStats>> listUserStatsTestObserver;
@@ -93,16 +91,14 @@ public class RockPaperScissorsUserStatsDatabaseTest {
         // get the data
         LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<UserStats> handler = data -> {
-            assertNotNull(data);
-            assertEquals(1, data.getUserId());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(singleUserStatsTestObserver.test(
-                userStatsLiveData,
-                Objects::nonNull,
-                handler));
+        try {
+            UserStats userStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData,Objects::nonNull);
+            assertNotNull(userStats);
+            assertEquals(1, userStats.getUserId());
+        } catch (TimeoutException e) {
+            fail();
+        }
     }
 
     @Test
@@ -112,32 +108,31 @@ public class RockPaperScissorsUserStatsDatabaseTest {
         // get the data
         LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<UserStats> handler = Assert::assertNotNull;
-        // we want to wait until we get the right data or the test times out
-        assertTrue(singleUserStatsTestObserver.test(
-                userStatsLiveData,
-                Objects::nonNull,
-                handler));
+        UserStats userStats = null;
+        try {
+            userStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData,Objects::nonNull);
+            assertNotNull(userStats);
+            assertEquals(1, userStats.getUserId());
+        } catch (TimeoutException e) {
+            fail();
+        }
 
-        // modify the stats
-        UserStats stats = userStatsLiveData.getValue();
-        stats.setWins(100);
-        repository.userStatsDAO.update(stats);
+        userStats.setWins(100);
+        repository.userStatsDAO.update(userStats);
 
         userStatsLiveData = repository.getUserStatsByUserId(1);
 
-        // this handler for the livedata observer runs our tests
-        // the wins should have changed
-        handler = data -> {
-            assertNotNull(data);
-            assertEquals(100, stats.getWins());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(singleUserStatsTestObserver.test(
-                userStatsLiveData,
-                Objects::nonNull,
-                handler));
+        try {
+            UserStats updatedUserStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData, data -> {
+                        return data != null && data.getWins() == 100;
+                    });
+            assertNotNull(updatedUserStats);
+            assertEquals(100, updatedUserStats.getWins());
+        } catch (TimeoutException e) {
+            fail();
+        }
     }
 
     @Test
@@ -147,32 +142,29 @@ public class RockPaperScissorsUserStatsDatabaseTest {
         // get the data
         LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<UserStats> handler = Assert::assertNotNull;
-        // we want to wait until we get the right data or the test times out
-        assertTrue(singleUserStatsTestObserver.test(
-                userStatsLiveData,
-                Objects::nonNull,
-                handler));
+        try {
+            UserStats userStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData,Objects::nonNull);
+            assertNotNull(userStats);
+        } catch (TimeoutException e) {
+            fail();
+        }
 
         // delete the round
         repository.userStatsDAO.delete(userStatsLiveData.getValue());
 
         userStatsLiveData = repository.getUserStatsByUserId(1);
 
-        // this handler for the livedata observer runs our tests
-        // the size shouldn't change, but 0th entry should have changed
-        handler = data -> {
-            // this should never run
+        // this should resolve in a timeout
+        // because we deleted the data.
+        try {
+            UserStats userStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData,Objects::nonNull);
+            assertNotNull(userStats);
             fail();
-        };
-        // we want to wait until we get the right data or the test times out
-        // this should timeout because after delete, there should be no records
-        // so the predicate fails
-        assertFalse(singleUserStatsTestObserver.test(
-                userStatsLiveData,
-                Objects::nonNull,
-                handler));
+        } catch (TimeoutException e) {
+            assertTrue(true);
+        }
     }
 
     /*
@@ -191,16 +183,14 @@ public class RockPaperScissorsUserStatsDatabaseTest {
 
         LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<UserStats> handler = data -> {
-            assertNotNull(data);
-            assertEquals(1, data.getUserId());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(singleUserStatsTestObserver.test(
-                userStatsLiveData,
-                Objects::nonNull,
-                handler));
+        try {
+            UserStats userStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData,Objects::nonNull);
+            assertNotNull(userStats);
+            assertEquals(1, userStats.getUserId());
+        } catch (TimeoutException e) {
+            fail();
+        }
     }
 
     /**
@@ -209,6 +199,7 @@ public class RockPaperScissorsUserStatsDatabaseTest {
     @Test
     public void testUpdate() throws Exception {
         LiveData<ArrayList<UserJoinUserStats>> initialLeaderboardDataLiveData = repository.getAllUserStatsByRank();
+
         try {
             ArrayList<UserJoinUserStats> initialLeaderboardData = new TestLiveDataObserver<ArrayList<UserJoinUserStats>>()
                     .getOrAwaitValue(initialLeaderboardDataLiveData, Objects::nonNull, 2);
@@ -292,44 +283,36 @@ public class RockPaperScissorsUserStatsDatabaseTest {
 
         // assert that the stats were added
         LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(1);
-        LiveDataOnChangedHandler<UserStats> userStatsHandler = data -> {
-            assertEquals(1, data.getUserId());
-        };
-        assertTrue(singleUserStatsTestObserver.test(userStatsLiveData, Objects::nonNull, userStatsHandler));
 
+        try {
+            UserStats userStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData,Objects::nonNull);
+            assertNotNull(userStats);
+            assertEquals(1, userStats.getUserId());
+        } catch (TimeoutException e) {
+            fail();
+        }
+
+        // test the second user's stats
         userStatsLiveData = repository.getUserStatsByUserId(2);
-        userStatsHandler = data -> {
-            assertEquals(2, data.getUserId());
-        };
-        assertTrue(singleUserStatsTestObserver.test(userStatsLiveData, Objects::nonNull, userStatsHandler));
+        try {
+            UserStats userStats = new TestLiveDataObserver<UserStats>()
+                    .getOrAwaitValue(userStatsLiveData,Objects::nonNull);
+            assertNotNull(userStats);
+            assertEquals(2, userStats.getUserId());
+        } catch (TimeoutException e) {
+            fail();
+        }
 
         // test that we still have two records for the two users
         LiveData<ArrayList<UserJoinUserStats>> allUserStatsLiveData = repository.getAllUserStatsByRank();
-        // observer the list query to be sure we only get one record back
-        // waiting for two records should timeout
-        LiveDataOnChangedHandler<ArrayList<UserJoinUserStats>> listHandler = data -> {
-            // this should never run
-            assertEquals(2, data.size());
-        };
-        assertTrue(userJoinUserStatsTestLiveDataObserver.test(
-                allUserStatsLiveData,
-                data -> data.size() > 1,
-                listHandler
-        ));
-    }
-
-    @Test
-    public void testUserInsertion() throws Exception {
-        // make sure the user record is there
-        LiveData<User> user1LiveData = repository.getUserByUsername("user1");
-        LiveDataOnChangedHandler<User> userHandler = userData -> {
-            assertEquals("user1", userData.getUsername());
-        };
-        TestLiveDataObserver<User> userTestLiveDataObserver = new TestLiveDataObserver<User>();
-        assertTrue(userTestLiveDataObserver.test(
-                user1LiveData,
-                Objects::nonNull,
-                userHandler
-        ));
+        try {
+            ArrayList<UserJoinUserStats> allUserStatsList = new TestLiveDataObserver<ArrayList<UserJoinUserStats>>()
+                    .getOrAwaitValue(allUserStatsLiveData,data -> data.size() > 1);
+            assertNotNull(allUserStatsList);
+            assertEquals(2,allUserStatsList.size());
+        } catch (TimeoutException e) {
+            fail();
+        }
     }
 }

@@ -25,8 +25,10 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 
 
 /**
@@ -82,17 +84,27 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
         // get the data
         LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
-            assertNotNull(data);
-            assertEquals(1, data.size());
-            assertEquals("win", data.get(0).getResult());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 1,
-                handler));
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 1);
+            assertNotNull(lookupRounds);
+            assertEquals(1, lookupRounds.size());
+            assertEquals("win", lookupRounds.get(0).getResult());
+        } catch (TimeoutException e) {
+            fail();
+        }
+
+        repository.rpsRoundDAO.insert(testRound2);
+
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 2);
+            assertNotNull(lookupRounds);
+            assertEquals(2, lookupRounds.size());
+        } catch (TimeoutException e) {
+            fail();
+        }
+
     }
 
     @Test
@@ -102,17 +114,15 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
         // get the data
         LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
-            assertNotNull(data);
-            assertEquals(1, data.size());
-            assertEquals("win", data.get(0).getResult());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 1,
-                handler));
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 1);
+            assertNotNull(lookupRounds);
+            assertEquals(1, lookupRounds.size());
+            assertEquals("win", lookupRounds.get(0).getResult());
+        } catch (TimeoutException e) {
+            fail();
+        }
 
         // modify the round
         RpsRound roundToUpdate = lookupRoundLiveData.getValue().get(0);
@@ -121,18 +131,15 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
 
         lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
 
-        // this handler for the livedata observer runs our tests
-        // the size shouldn't change, but 0th entry should have changed
-        handler = data -> {
-            assertNotNull(data);
-            assertEquals(1, data.size());
-            assertEquals("FOO", data.get(0).getResult());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 1,
-                handler));
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 1);
+            assertNotNull(lookupRounds);
+            assertEquals(1, lookupRounds.size());
+            assertEquals("FOO", lookupRounds.get(0).getResult());
+        } catch (TimeoutException e) {
+            fail();
+        }
     }
 
     @Test
@@ -142,17 +149,15 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
         // get the data
         LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
-            assertNotNull(data);
-            assertEquals(1, data.size());
-            assertEquals("win", data.get(0).getResult());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 1,
-                handler));
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 1);
+            assertNotNull(lookupRounds);
+            assertEquals(1, lookupRounds.size());
+            assertEquals("win", lookupRounds.get(0).getResult());
+        } catch (TimeoutException e) {
+            fail();
+        }
 
         // modify the round
         RpsRound roundToUpdate = lookupRoundLiveData.getValue().get(0);
@@ -160,19 +165,13 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
 
         lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
 
-        // this handler for the livedata observer runs our tests
-        // the size shouldn't change, but 0th entry should have changed
-        handler = data -> {
-            // this should never run
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 1);
             fail();
-        };
-        // we want to wait until we get the right data or the test times out
-        // this should timeout because after delete, there should be no records
-        // so the predicate fails
-        assertFalse(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 1,
-                handler));
+        } catch (TimeoutException e) {
+            assertTrue(true);
+        }
     }
 
     /*
@@ -191,17 +190,15 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
         // get the data
         LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
 
-        // this handler for the livedata observer runs our tests
-        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
-            assertNotNull(data);
-            assertEquals(1, data.size());
-            assertEquals("win", data.get(0).getResult());
-        };
-        // we want to wait until we get the right data or the test times out
-        assertTrue(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 1,
-                handler));
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 1);
+            assertNotNull(lookupRounds);
+            assertEquals(1, lookupRounds.size());
+            assertEquals("win", lookupRounds.get(0).getResult());
+        } catch (TimeoutException e) {
+            fail();
+        }
     }
 
     /**
@@ -215,14 +212,14 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
         repository.insertRound(testRound2);
 
         LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
-        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
-            assertNotNull(data);
-            assertEquals(2, data.size());
-        };
-        assertTrue(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 2,
-                handler));
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 2);
+            assertNotNull(lookupRounds);
+            assertEquals(2, lookupRounds.size());
+        } catch (TimeoutException e) {
+            fail();
+        }
     }
 
     /**
@@ -233,15 +230,17 @@ public class RockPaperScissorsRpsRoundDatabaseTest {
         repository.insertRound(testRound1);
         repository.insertRound(testRound2);
         repository.insertRound(testRound3);
+
         LiveData<ArrayList<RpsRound>> lookupRoundLiveData = repository.getAllUserStatsIdRounds(1);
-        LiveDataOnChangedHandler<ArrayList<RpsRound>> handler = data -> {
-            assertNotNull(data);
-            assertEquals(2, data.size());
-        };
-        assertTrue(rpsRoundTestObserver.test(
-                lookupRoundLiveData,
-                data -> data != null && data.size() == 2,
-                handler));
+        try {
+            ArrayList<RpsRound> lookupRounds = new TestLiveDataObserver<ArrayList<RpsRound>>()
+                    .getOrAwaitValue(lookupRoundLiveData, data -> data != null && data.size() == 2);
+            assertNotNull(lookupRounds);
+            assertEquals(2, lookupRounds.size());
+        } catch (TimeoutException e) {
+            fail();
+        }
+
     }
 
 }
