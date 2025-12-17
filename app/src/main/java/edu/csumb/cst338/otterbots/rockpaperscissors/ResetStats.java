@@ -3,11 +3,7 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import android.content.Context;
 import android.content.Intent;
 
@@ -21,7 +17,6 @@ public class ResetStats extends AppCompatActivity {
     private ActivityResetStatsBinding binding;
     public static final String EXTRA_USER_ID = "extra_user_id";
     public static final String EXTRA_USERNAME = "extra_username";
-
 
     public static Intent createIntent(Context context, int userId, String username) {
         Intent intent = new Intent(context, ResetStats.class);
@@ -41,9 +36,27 @@ public class ResetStats extends AppCompatActivity {
         userId = getIntent().getIntExtra(EXTRA_USER_ID, -1);
 
         String username = getIntent().getStringExtra(EXTRA_USERNAME);
-        if (username == null) username = "User";
 
-        binding.Title.setText(username + " Stats");
+        if (username == null || username.trim().isEmpty()) {
+            username = getString(R.string.default_player_name);
+        }
+
+        binding.Title.setText(username + " " + getString(R.string.stats_title));
+
+        if (userId != -1) {
+            repository.getUserById(userId).observe(this, user -> {
+                if (user == null) {
+                    return;
+                }
+
+                String latestName = user.getUsername();
+                if (latestName == null || latestName.trim().isEmpty()) {
+                    latestName = getString(R.string.default_player_name);
+                }
+
+                binding.Title.setText(latestName + " " + getString(R.string.stats_title));
+            });
+        }
 
         repository.getUserStatsByUserId(userId).observe(this, stats -> {
             if (stats == null) return;
