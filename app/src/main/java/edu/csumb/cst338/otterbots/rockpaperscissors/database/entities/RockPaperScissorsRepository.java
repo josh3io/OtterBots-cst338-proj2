@@ -213,6 +213,15 @@ public class RockPaperScissorsRepository {
 
     public void deleteUserByUsername(String username) {
         RockPaperScissorsDatabase.databaseWriteExecutor.execute(() -> {
+            // 1. Find the user by username (sync)
+            User user = userDAO.getUserByUsernameSync(username);
+            int userId = user.getUserId();
+
+            rpsRoundDAO.deleteRoundsByUserStatsId(userId);
+            // 4. Delete the stats row(s) for this user
+            userStatsDAO.deleteUserStatsByUserId(userId);
+
+            // 5. Finally, delete the user record
             userDAO.deleteUserByUsername(username);
         });
     }

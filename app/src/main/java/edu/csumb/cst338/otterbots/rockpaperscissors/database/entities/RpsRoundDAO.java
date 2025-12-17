@@ -33,4 +33,9 @@ public interface RpsRoundDAO {
      */
     @Query("SELECT * FROM " + RockPaperScissorsDatabase.RPS_ROUND_TABLE + " WHERE userStatsId = :userStatsId ORDER BY date DESC")
     LiveData<List<RpsRound>> getAllRoundsByUserStatsId(int userStatsId);
+
+    @Query("DELETE FROM " + RockPaperScissorsDatabase.RPS_ROUND_TABLE +
+            " WHERE userStatsId = :userStatsId")
+    void deleteRoundsByUserStatsId(int userStatsId);
+
 }
