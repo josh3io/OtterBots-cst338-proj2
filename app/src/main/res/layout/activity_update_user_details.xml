@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".UpdateUserDetails">
-
+U
     <TextView
         android:id="@+id/Title"
         style="@style/PrimaryTitle"
@@ -65,11 +65,5 @@
         app:layout_constraintTop_toBottomOf="@id/UpdateButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
