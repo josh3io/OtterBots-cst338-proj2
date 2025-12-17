@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityAdminDeleteuserAcitivyBinding;
 import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewAdapter;
 import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewModel;
@@ -19,6 +20,7 @@ public class AdminDeleteUserActivity extends AppCompatActivity {
     private DeleteUserViewAdapter adapter;
     private ActivityAdminDeleteuserAcitivyBinding binding;
     private DeleteUserViewModel viewModel;
+    private RockPaperScissorsRepository repository;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, AdminDeleteUserActivity.class);
@@ -39,6 +41,7 @@ public class AdminDeleteUserActivity extends AppCompatActivity {
         binding.adminDeleteUserRecyclerView.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(this).get(DeleteUserViewModel.class);
+        repository = RockPaperScissorsRepository.getRepository(getApplication());
 
         viewModel.getAllUsers().observe(this, users -> adapter.submitList(users));
 
@@ -49,20 +52,31 @@ public class AdminDeleteUserActivity extends AppCompatActivity {
             String confirm = binding.confirmUsernameEditTextView.getText().toString().trim();
 
             if (username.isEmpty() || confirm.isEmpty()) {
-                Toast.makeText(this, "Please fill in both username fields", Toast.LENGTH_SHORT).show();
+                toastMaker("Please fill in both username fields");
                 return;
             }
 
             if (!username.equals(confirm)) {
-                Toast.makeText(this, "Usernames do not match", Toast.LENGTH_SHORT).show();
+                toastMaker("Usernames do not match");
                 return;
             }
 
-            viewModel.deleteUserByUsername(username);
-            Toast.makeText(this, "Delete requested for user: " + username, Toast.LENGTH_SHORT).show();
+            repository.getUserByUsername(username).observe(this, user -> {
+                if (user == null) {
+                    toastMaker("User does not exist");
+                } else {
+                    viewModel.deleteUserByUsername(username);
+                    toastMaker("User deleted");
+                }
+                binding.usernameEditTextView.setText("");
+                binding.confirmUsernameEditTextView.setText("");
 
-            binding.usernameEditTextView.setText("");
-            binding.confirmUsernameEditTextView.setText("");
+                repository.getUserByUsername(username).removeObservers(this);
+            });
         });
+    }
+
+    private void toastMaker(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

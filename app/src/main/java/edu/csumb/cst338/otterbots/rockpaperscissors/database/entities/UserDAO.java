@@ -41,4 +41,8 @@ public interface UserDAO {
     @Query("DELETE FROM " + RockPaperScissorsDatabase.USER_TABLE +
             " WHERE username = :username")
     void deleteUserByUsername(String username);
+
+    @Query("SELECT * FROM " + RockPaperScissorsDatabase.USER_TABLE +
+            " WHERE username = :username LIMIT 1")
+    User getUserByUsernameSync(String username);
 }

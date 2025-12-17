@@ -45,4 +45,8 @@ public interface UserStatsDAO {
             " WHERE userId = :userId")
     int resetStatsForUser(int userId);
 
+    @Query("DELETE FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE +
+            " WHERE userId = :userId")
+    void deleteUserStatsByUserId(int userId);
+
 }
