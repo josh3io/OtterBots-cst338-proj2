@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
@@ -38,7 +39,7 @@ public class GamePlayActivityTest {
         ActivityScenario.launch(intent)) {
 
       scenario.onActivity(activity -> {
-        Button rockButton = activity.findViewById(R.id.rockPlayButton);
+        ImageButton rockButton = activity.findViewById(R.id.rockPlayButton);
         TextView youChoseText = activity.findViewById(R.id.youChoseOutputTextView);
 
         assertNotNull(rockButton);
@@ -65,7 +66,7 @@ public class GamePlayActivityTest {
         ActivityScenario.launch(intent)) {
 
       scenario.onActivity(activity -> {
-        Button paperButton = activity.findViewById(R.id.paperPlayButton);
+        ImageButton paperButton = activity.findViewById(R.id.paperPlayButton);
         TextView youChoseText = activity.findViewById(R.id.youChoseOutputTextView);
 
         assertNotNull(paperButton);
@@ -90,7 +91,7 @@ public class GamePlayActivityTest {
         ActivityScenario.launch(intent)) {
 
       scenario.onActivity(activity -> {
-        Button scissorsButton = activity.findViewById(R.id.scissorsPlayButton);
+        ImageButton scissorsButton = activity.findViewById(R.id.scissorsPlayButton);
         TextView youChoseText = activity.findViewById(R.id.youChoseOutputTextView);
 
         assertNotNull(scissorsButton);
