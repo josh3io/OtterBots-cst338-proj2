@@ -1,97 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootLandingUser"
-    style="@style/ScreenRoot"
-    tools:context=".LandingActivity">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/rootLandingUser"
+  style="@style/ScreenRoot"
+  tools:context=".LandingActivity">
 
-    <!-- Welcome Title -->
-    <TextView
-        android:id="@+id/titleLandingTextView"
-        style="@style/PrimaryTitle"
-        android:text="@string/welcome_username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+  <!-- Welcome Title -->
+  <Button
+    android:id="@+id/startNewGameButton"
+    style="@style/PrimaryButton"
+    android:text="@string/start_new_game"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/gamesPlayedTextView" />
 
-    <!-- Stats Labels -->
-    <TextView
-        android:id="@+id/winsLabelTextView"
-        style="@style/StatLabel"
-        android:text="@string/wins"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleLandingTextView" />
+  <!-- Stats Labels -->
+  <TextView
+    android:id="@+id/titleLandingTextView"
+    style="@style/PrimaryTitle"
+    android:text="@string/welcome_username"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lossesLabelTextView"
-        style="@style/StatLabel"
-        android:text="@string/losses"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/winsLabelTextView" />
+  <TextView
+    android:id="@+id/winsLabelTextView"
+    style="@style/StatLabel"
+    android:text="@string/wins"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/titleLandingTextView" />
 
-    <TextView
-        android:id="@+id/tiesLabelTextView"
-        style="@style/StatLabel"
-        android:text="@string/ties"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lossesLabelTextView" />
+  <TextView
+    android:id="@+id/lossesLabelTextView"
+    style="@style/StatLabel"
+    android:text="@string/losses"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/winsLabelTextView" />
 
-    <TextView
-        android:id="@+id/currentStreakLabelTextView"
-        style="@style/StatLabel"
-        android:text="@string/current_streak"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tiesLabelTextView" />
+  <TextView
+    android:id="@+id/tiesLabelTextView"
+    style="@style/StatLabel"
+    android:text="@string/ties"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/lossesLabelTextView" />
 
-    <TextView
-        android:id="@+id/maxStreakLabelTextView"
-        style="@style/StatLabel"
-        android:text="@string/max_streak"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/currentStreakLabelTextView" />
+  <TextView
+    android:id="@+id/currentStreakLabelTextView"
+    style="@style/StatLabel"
+    android:text="@string/current_streak"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tiesLabelTextView" />
 
-    <TextView
-        android:id="@+id/gamesPlayedTextView"
-        style="@style/StatLabel"
-        android:text="@string/games_played"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/maxStreakLabelTextView" />
+  <TextView
+    android:id="@+id/maxStreakLabelTextView"
+    style="@style/StatLabel"
+    android:text="@string/max_streak"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/currentStreakLabelTextView" />
 
-    <!-- Start New Game Button -->
-    <Button
-        android:id="@+id/startNewGameButton"
-        style="@style/PrimaryButton"
-        android:text="@string/start_new_game"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gamesPlayedTextView" />
+  <!-- Start New Game Button -->
+  <TextView
+    android:id="@+id/gamesPlayedTextView"
+    style="@style/StatLabel"
+    android:text="@string/games_played"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/maxStreakLabelTextView" />
 
-    <!-- View Leaderboard -->
-    <TextView
-        android:id="@+id/viewLeaderboardTextView"
-        style="@style/ClickableText"
-        android:text="@string/view_leaderboard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/startNewGameButton" />
+  <!-- View Leaderboard -->
+  <TextView
+    android:id="@+id/viewLeaderboardTextView"
+    style="@style/ClickableText"
+    android:text="@string/view_leaderboard"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/startNewGameButton" />
 
-    <!-- Change User Details -->
-    <TextView
-        android:id="@+id/changeUserDetailsTextView"
-        style="@style/ClickableText"
-        android:text="@string/change_user_details"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewLeaderboardTextView" />
+  <!-- Change User Details -->
+  <TextView
+    android:id="@+id/changeUserDetailsTextView"
+    style="@style/ClickableText"
+    android:text="@string/change_user_details"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/viewLeaderboardTextView" />
 
-    <!-- Logout -->
-    <TextView
-        android:id="@+id/logoutTextView"
-        style="@style/ClickableText"
-        android:text="@string/logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/changeUserDetailsTextView" />
+  <!-- Logout -->
+  <TextView
+    android:id="@+id/logoutTextView"
+    style="@style/ClickableText"
+    android:text="@string/logout"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/changeUserDetailsTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

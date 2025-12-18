@@ -1,60 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".LeaderboardActivity">
+
+  <Button
+    android:id="@+id/leaderboardViewGoToMainButton"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LeaderboardActivity">
+    android:layout_height="105dp"
+    android:layout_margin="16dp"
+    android:text="@string/return_to_main"
+    android:textSize="24sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/leaderboardRecyclerView" />
 
-    <TextView
-        android:id="@+id/leaderboardTitleTextView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:padding="2dp"
-        android:layout_margin="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="16dp"
-        android:text="@string/leaderboard"
-        />
+  <TextView
+    android:id="@+id/leaderboardTitleTextView"
+    style="@style/PrimaryTitle"
+    android:text="@string/leaderboard"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/leaderboardRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="16dp"
-        android:nestedScrollingEnabled="false"
-        android:overScrollMode="never"
-        android:padding="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboardTitleTextView"
-        tools:listitem="@layout/leaderboard_recycler_item" />
-
-    <Button
-        android:id="@+id/leaderboardViewGoToMainButton"
-        android:layout_width="match_parent"
-        android:layout_height="105dp"
-        android:layout_margin="16dp"
-        android:text="@string/return_to_main"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboardRecyclerView" />
+  <TextView
+    android:id="@+id/leaderboardResetStatsButton"
+    style="@style/ClickableText"
+    android:text="@string/reset_user_stats"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/leaderboardViewGoToMainButton" />
 
 
-    <TextView
-        android:id="@+id/leaderboardResetStatsButton"
-        style="@style/ClickableText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reset_user_stats"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/leaderboardViewGoToMainButton"/>
-
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/leaderboardRecyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="16dp"
+    android:padding="2dp"
+    android:nestedScrollingEnabled="false"
+    android:overScrollMode="never"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/leaderboardTitleTextView"
+    tools:listitem="@layout/leaderboard_recycler_item" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

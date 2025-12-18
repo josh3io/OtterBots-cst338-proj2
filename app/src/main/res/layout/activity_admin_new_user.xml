@@ -1,82 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
-    style="@style/ScreenRoot"
-    tools:context=".AdminNewUserActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  style="@style/ScreenRoot"
+  tools:context=".AdminNewUserActivity">
 
-    <!--New user title-->
-    <TextView
-        android:id="@+id/newUserTitleTextView"
-        style="@style/PrimaryTitle"
-        android:text="@string/new_user_details"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+  <!--New user title-->
+  <Button
+    android:id="@+id/addUserButton"
+    style="@style/PrimaryButton"
+    android:text="@string/add_user"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/adminConfirmPasswordEditText" />
 
-    <TextView
-        android:id="@+id/enterUserDetailsTextView"
-        style="@style/PrimaryTitle"
-        android:text="@string/enter_username_and_password"
-        app:layout_constraintTop_toBottomOf="@+id/newUserTitleTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+  <Button
+    android:id="@+id/addAdminButton"
+    style="@style/PrimaryButton"
+    android:text="@string/add_admin"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/addUserButton" />
 
-    <EditText
-        android:id="@+id/adminUsernameEditText"
-        style="@style/PrimaryInput"
-        android:autofillHints="username"
-        android:hint="@string/username"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterUserDetailsTextView" />
+  <EditText
+    android:id="@+id/adminConfirmPasswordEditText"
+    style="@style/PrimaryInput"
+    android:autofillHints="username"
+    android:hint="@string/confirm_password"
+    android:inputType="text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/adminPasswordEditText" />
 
-    <EditText
-        android:id="@+id/adminPasswordEditText"
-        style="@style/PrimaryInput"
-        android:autofillHints="username"
-        android:hint="@string/password"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminUsernameEditText"
-        />
+  <EditText
+    android:id="@+id/adminUsernameEditText"
+    style="@style/PrimaryInput"
+    android:autofillHints="username"
+    android:hint="@string/username"
+    android:inputType="text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/enterUserDetailsTextView" />
 
-    <EditText
-        android:id="@+id/adminConfirmPasswordEditText"
-        style="@style/PrimaryInput"
-        android:autofillHints="username"
-        android:hint="@string/confirm_password"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminPasswordEditText"/>
+  <EditText
+    android:id="@+id/adminPasswordEditText"
+    style="@style/PrimaryInput"
+    android:autofillHints="username"
+    android:hint="@string/password"
+    android:inputType="text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/adminUsernameEditText" />
 
-   <Button
-        android:id="@+id/addUserButton"
-        style="@style/PrimaryButton"
-        android:text="@string/add_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adminConfirmPasswordEditText" />
+  <TextView
+    android:id="@+id/enterUserDetailsTextView"
+    style="@style/PrimaryTitle"
+    android:text="@string/enter_username_and_password"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/newUserTitleTextView" />
 
-    <Button
-        android:id="@+id/addAdminButton"
-        style="@style/PrimaryButton"
-        android:text="Add Admin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addUserButton" />
+  <TextView
+    android:id="@+id/newUserTitleTextView"
+    style="@style/PrimaryTitle"
+    android:text="@string/new_user_details"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/returnSelectableTextView"
-        style="@style/ClickableText"
-        android:text="@string/return_to_main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addAdminButton" />
+  <TextView
+    android:id="@+id/returnSelectableTextView"
+    style="@style/ClickableText"
+    android:text="@string/return_to_main"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/addAdminButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
