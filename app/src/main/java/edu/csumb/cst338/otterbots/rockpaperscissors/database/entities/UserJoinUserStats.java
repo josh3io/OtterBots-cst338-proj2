@@ -9,6 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Description: entity for the join query of userLogin and userStats
+ * Author: Josh Goldberg
+ * Since: 2025.12.14
+ */
 @Entity
 public class UserJoinUserStats {
     private int userId;

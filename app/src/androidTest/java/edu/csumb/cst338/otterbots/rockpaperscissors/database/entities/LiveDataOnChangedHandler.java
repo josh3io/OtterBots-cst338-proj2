@@ -1,7 +1,7 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors.database.entities;
 
 /**
-        * Handler function template for LiveData Observer
+ * Handler function template for LiveData Observer
  * @param <T> the type we will be operating on.
  */
 @FunctionalInterface
