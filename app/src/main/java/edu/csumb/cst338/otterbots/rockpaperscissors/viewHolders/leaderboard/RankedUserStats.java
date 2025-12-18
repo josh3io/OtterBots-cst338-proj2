@@ -61,7 +61,8 @@ public class RankedUserStats extends UserStats {
 
     /**
      * Factory function for a new RankedUserStats object
-     * @param rank the rank to show for this object on the leaderboard
+     *
+     * @param rank  the rank to show for this object on the leaderboard
      * @param stats the object that is a room entity join of user and user stats tables
      * @return a new RankedUserStats object
      */
@@ -70,7 +71,7 @@ public class RankedUserStats extends UserStats {
         if (userStats == null) {
             // this could be null since it's from a left join
             // so if it is, default to zeroes for this user
-            userStats = new UserStats(stats.getUserId(), 0,0,0,0,0);
+            userStats = new UserStats(stats.getUserId(), 0, 0, 0, 0, 0);
         }
         RankedUserStats ranked = new RankedUserStats(
                 stats.getUsername(),

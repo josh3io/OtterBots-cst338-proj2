@@ -38,6 +38,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         ActivityLeaderboardBinding binding = ActivityLeaderboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // get the user information from the intent
         Intent intent = getIntent();
         String username = intent.getStringExtra(EXTRA_USERNAME);
         int userId = intent.getIntExtra(EXTRA_USER_ID, -1);
@@ -45,13 +46,18 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         repository = RockPaperScissorsRepository.getRepository(getApplication());
 
+
         LeaderboardViewModel leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
+        // setup the recycler view
         RecyclerView recyclerView = binding.leaderboardRecyclerView;
         final LeaderboardAdapter adapter = new LeaderboardAdapter(new LeaderboardAdapter.LeaderboardDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // observe the live data from the view model
         leaderboardViewModel.getAllUserStatsByRank().observe(this, userJoinUserStatsList -> {
+            // transform into a list of RankedUserStats objects
             List<RankedUserStats> rankedUserStatsList = new ArrayList<RankedUserStats>();
             for (UserJoinUserStats stats : userJoinUserStatsList) {
                 rankedUserStatsList.add(
@@ -81,9 +87,5 @@ public class LeaderboardActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_USER_ID, userId);
         intent.putExtra(EXTRA_IS_ADMIN, isAdmin);
         return intent;
-    }
-
-    private LiveData<ArrayList<UserJoinUserStats>> getLeaderboardData() {
-        return repository.getAllUserStatsByRank();
     }
 }

@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 
 /**
@@ -28,6 +26,7 @@ public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerVie
 
     /**
      * Create the view holder
+     *
      * @param parent   The ViewGroup into which the new View will be added after it is bound to
      *                 an adapter position.
      * @param viewType The view type of the new View.
@@ -47,14 +46,15 @@ public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerVie
 
     /**
      * Bind an object to the holder
-     * @param holder the view holder to bind
+     *
+     * @param holder   the view holder to bind
      * @param position what position in the recycler to bind this to
      */
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof LeaderboardViewHolder) {
             LeaderboardViewHolder holderInstance = (LeaderboardViewHolder) holder;
-            RankedUserStats current = getItem(position-1);
+            RankedUserStats current = getItem(position - 1);
             Log.d(MainActivity.TAG, current.toString());
             holderInstance.bind(current);
         } else if (holder instanceof LeaderboardViewHeader) {
@@ -65,6 +65,7 @@ public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerVie
 
     /**
      * If it's the zeroth position, get a header. otherwise get an item
+     *
      * @param position position to query
      * @return the type based on the position
      */
@@ -75,11 +76,12 @@ public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerVie
 
     /**
      * Get a count of the items in the adapter
+     *
      * @return total count of items, plus 1 for the header
      */
     @Override
     public int getItemCount() {
-        return getCurrentList().size()+1;
+        return getCurrentList().size() + 1;
     }
 
     public static class LeaderboardDiff extends DiffUtil.ItemCallback<RankedUserStats> {

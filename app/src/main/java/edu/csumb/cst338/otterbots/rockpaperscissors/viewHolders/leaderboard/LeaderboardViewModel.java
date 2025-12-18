@@ -26,6 +26,7 @@ public class LeaderboardViewModel extends AndroidViewModel {
 
     /**
      * Get the list of all user stats, sorted by leaderboard rank
+     *
      * @return live data of the users' gameplay statistics
      */
     public LiveData<ArrayList<UserJoinUserStats>> getAllUserStatsByRank() {
