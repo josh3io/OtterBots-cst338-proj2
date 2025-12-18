@@ -3,7 +3,7 @@ package edu.csumb.cst338.otterbots.rockpaperscissors;
  * Description: Tests for UpdateUserDetails activity to ensure UI components
  * are present and initialized correctly.
  * Author: Murtaza Badri
- * Since: 2025.12.09
+ * Since: 2025.12.15
  */
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
