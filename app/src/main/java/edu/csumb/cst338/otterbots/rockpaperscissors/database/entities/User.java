@@ -4,23 +4,28 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 /**
- * Description: Author: Murtaza Badri Since: 12/09/2025
+ * Description: Entity class representing a user in the Rock-Paper-Scissors application.
+ * Author: Murtaza Badri
+ * Since: 12/09/2025
  */
+
+// Room Entity for User table
 @Entity(tableName = RockPaperScissorsDatabase.USER_TABLE)
 public class User {
 
+  // Primary key with auto-generation
   @PrimaryKey(autoGenerate = true)
   private int userId;
   private String username;
   private String password;
   private int isAdmin;
-
+  // Constructor
   public User(String username, String password, int isAdmin) {
     this.username = username;
     this.password = password;
     this.isAdmin = isAdmin;
   }
-
+  // Getters and Setters
   public int getUserId() {
     return userId;
   }
