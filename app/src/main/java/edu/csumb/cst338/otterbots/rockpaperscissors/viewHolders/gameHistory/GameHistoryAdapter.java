@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+import edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RpsRound;
 
 public class GameHistoryAdapter extends ListAdapter<RpsRound, RecyclerView.ViewHolder> {
@@ -37,7 +37,7 @@ public class GameHistoryAdapter extends ListAdapter<RpsRound, RecyclerView.ViewH
         if (holder instanceof GameHistoryViewHolder) {
             GameHistoryViewHolder holderInstance = (GameHistoryViewHolder) holder;
             RpsRound current = getItem(position-1);
-            Log.d(MainActivity.TAG, current.toString());
+            Log.d(LandingActivity.TAG, current.toString());
             holderInstance.bind(current);
         } else if (holder instanceof GameHistoryViewHeader) {
             GameHistoryViewHeader headerInstance = (GameHistoryViewHeader) holder;

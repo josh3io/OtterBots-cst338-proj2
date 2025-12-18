@@ -42,7 +42,7 @@ public class GamePlayActivity extends AppCompatActivity {
   private ActivityGamePlayBinding binding;
 
   // Maps integer random values to gameplay choices (0=ROCK, 1=PAPER, 2=SCISSORS)
-  private final HashMap<Integer, String> GAME_CHOICES = new HashMap<>();
+  private HashMap<Integer, String> GAME_CHOICES = new HashMap<>();
 
   private String npcCurrentGuess = "";
   private String userCurrentGuess = "";
@@ -114,7 +114,7 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     private void loadHistory() {
-        Log.d(MainActivity.TAG, "Loading History, id "+userId);
+        Log.d(LandingActivity.TAG, "Loading History, id "+userId);
 
         RecyclerView recyclerView = binding.gameHistoryRecyclerView;
         final GameHistoryAdapter adapter = new GameHistoryAdapter(new GameHistoryAdapter.GameHistoryDiff());
