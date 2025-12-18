@@ -11,6 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.R;
 
+/**
+ * Description: Item holder for the leaderboard.
+ * Author: Josh Goldberg
+ * Since: 2025.12.08
+ */
 public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
     private final TextView rankTextView;
     private final TextView usernameTextView;
@@ -27,6 +32,10 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
         tiesTextView = leaderboardView.findViewById(R.id.recyclerItemTiesTextView);
     }
 
+    /**
+     * Bind the fields to the text views of the view
+     * @param stats a RankedUserStats object that has all the data needed for display
+     */
     public void bind(RankedUserStats stats) {
         Log.d(MainActivity.TAG,"User Stats binding "+stats);
         rankTextView.setText(String.valueOf(stats.getRank()));
