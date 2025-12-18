@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashMap;
 
@@ -19,6 +21,8 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperS
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RpsRound;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityGamePlayBinding;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.gameHistory.GameHistoryAdapter;
+import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.gameHistory.GameHistoryViewModel;
 
 /**
  * GamePlayActivity
@@ -49,6 +53,15 @@ public class GamePlayActivity extends AppCompatActivity {
 
   // Player ID for which this gameplay is occurring
   private int userId;
+    private Integer userStatsId = null;
+
+    public static HashMap<Integer,String> makeGameChoices() {
+        HashMap<Integer,String> choices = new HashMap<>();
+        choices.put(0, "ROCK");
+        choices.put(1, "PAPER");
+        choices.put(2, "SCISSORS");
+        return choices;
+    }
 
   /**
    * Factory method for creating an Intent that launches gameplay for the given user ID.
@@ -65,15 +78,15 @@ public class GamePlayActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     // Initialize the game choice map
-    GAME_CHOICES.put(0, "ROCK");
-    GAME_CHOICES.put(1, "PAPER");
-    GAME_CHOICES.put(2, "SCISSORS");
+        GAME_CHOICES = makeGameChoices();
 
     // Retrieve the user ID passed from the previous activity
     Intent intent = getIntent();
     userId = intent.getIntExtra(EXTRA_USER_ID, -1);
 
-    Log.d(LandingActivity.TAG, "Created gameplay activity for user " + userId);
+    getUserStatsId();
+
+        Log.d(LandingActivity.TAG, "Created gameplay activity for user " + userId);
 
     // Bind UI layout
     binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
@@ -98,7 +111,39 @@ public class GamePlayActivity extends AppCompatActivity {
 
     // Return to previous activity
     binding.returnSelectableTextView.setOnClickListener(v -> finish());
-  }
+;
+        loadHistory();
+    }
+
+    private void loadHistory() {
+        if (userStatsId == null) {
+            return;
+        }
+
+        RecyclerView recyclerView = binding.gameHistoryRecyclerView;
+        final GameHistoryAdapter adapter = new GameHistoryAdapter(new GameHistoryAdapter().GameHistoryDiff());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        GameHistoryViewModel.getAllRoundsByUser(userStatsId).observe(this, rounds -> {
+            adapter.submitList(rounds);
+        });
+    }
+
+    private void getUserStatsId() {
+
+        RockPaperScissorsRepository repository = RockPaperScissorsRepository.getRepository(getApplication());
+        LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(userId);
+        Observer<UserStats> userStatsObserver = new Observer<UserStats>() {
+            @Override
+            public void onChanged(UserStats userStats) {
+                if (userStats == null) {
+                    return;
+                }
+                userStatsId = userStats.getId();
+                loadHistory();
+            }
+        };
+    }
 
   /**
    * Main handler for each gameplay round.
