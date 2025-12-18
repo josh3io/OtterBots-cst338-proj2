@@ -45,6 +45,9 @@ public interface UserStatsDAO {
             " WHERE userId = :userId")
     int resetStatsForUser(int userId);
 
+
+    // Deletes all statistics associated with the given userId.
+    // Must be executed off the main thread since this performs a write operation.
     @Query("DELETE FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE +
             " WHERE userId = :userId")
     void deleteUserStatsByUserId(int userId);
