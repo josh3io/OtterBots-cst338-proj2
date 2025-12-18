@@ -18,7 +18,8 @@ public class LandingActivity extends AppCompatActivity {
   public static final String EXTRA_USERNAME = "username";
   public static final String EXTRA_USER_ID = "userId";
   public static final String EXTRA_IS_ADMIN = "isAdmin";
-  private int userId;
+    public static final String TAG = "Otterbots.RPS";
+    private int userId;
   private boolean isAdmin;
   private RockPaperScissorsRepository repository;
 
@@ -46,7 +47,7 @@ public class LandingActivity extends AppCompatActivity {
     userId = intent.getIntExtra(EXTRA_USER_ID, -1);
     isAdmin = intent.getBooleanExtra(EXTRA_IS_ADMIN, false);
 
-    Log.d(MainActivity.TAG, "Landing with userId " + userId);
+    Log.d(TAG, "Landing with userId " + userId);
 
     if (userName == null || userName.trim().isEmpty()) {
       userName = getString(R.string.default_player_name); // So UI doesn't look broken

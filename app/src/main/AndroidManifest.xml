@@ -35,9 +35,6 @@
       android:exported="false"
       android:name=".LandingActivity" />
     <activity
-      android:exported="false"
-      android:name=".MainActivity" />
-    <activity
       android:exported="true"
       android:name=".LoginActivity">
       <intent-filter>

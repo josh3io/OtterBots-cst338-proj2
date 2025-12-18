@@ -40,7 +40,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
   static Intent gamePlayActivityIntentFactory(Context context, int userId) {
     Intent intent = new Intent(context, GamePlayActivity.class);
-    Log.d(MainActivity.TAG, "Creating gameplay intent for user " + userId);
+    Log.d(LandingActivity.TAG, "Creating gameplay intent for user " + userId);
     intent.putExtra(EXTRA_USER_ID, userId);
     return intent;
   }
@@ -55,7 +55,7 @@ public class GamePlayActivity extends AppCompatActivity {
     Intent intent = getIntent();
     userId = intent.getIntExtra(EXTRA_USER_ID, -1);
 
-    Log.d(MainActivity.TAG, "Created gameplay activity for user " + userId);
+    Log.d(LandingActivity.TAG, "Created gameplay activity for user " + userId);
 
     binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
@@ -116,7 +116,7 @@ public class GamePlayActivity extends AppCompatActivity {
   }
 
   private void updateDatabaseStats(int outcome) {
-    Log.d(MainActivity.TAG, "update db stats with outcome " + outcome);
+    Log.d(LandingActivity.TAG, "update db stats with outcome " + outcome);
     RockPaperScissorsRepository repository = RockPaperScissorsRepository.getRepository(
         getApplication());
     if (repository == null) {
@@ -137,7 +137,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
         RpsRound round = new RpsRound(userId, userChoiceIndex, npcChoiceIndex, resultString);
         repository.insertRound(round);
-        Log.d(MainActivity.TAG, "Inserted round: " + round);
+        Log.d(LandingActivity.TAG, "Inserted round: " + round);
 
         switch (outcome) {
           case UserStats.WIN:
@@ -156,10 +156,10 @@ public class GamePlayActivity extends AppCompatActivity {
             userStats.setLosses(userStats.getLosses() + 1);
             break;
           default:
-            Log.e(MainActivity.TAG, "Unhandled outcome option: " + outcome);
+            Log.e(LandingActivity.TAG, "Unhandled outcome option: " + outcome);
         }
 
-        Log.d(MainActivity.TAG, "Updating user stats " + userStats);
+        Log.d(LandingActivity.TAG, "Updating user stats " + userStats);
         repository.insertOrUpdateUserStats(userStats);
         userStatsLiveData.removeObserver(this);
       }

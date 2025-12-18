@@ -8,7 +8,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+
+import edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.typeConverters.LocalDateTypeConverter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,15 +41,15 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
     @Override
     public void onOpen(@NonNull SupportSQLiteDatabase db) {
       super.onOpen(db);
-      Log.d(MainActivity.TAG, "Opening Database");
+      Log.d(LandingActivity.TAG, "Opening Database");
     }
 
     @Override
     public void onCreate(@NonNull SupportSQLiteDatabase db) {
       super.onCreate(db);
-      Log.d(MainActivity.TAG, "DATABASE CREATED!");
+      Log.d(LandingActivity.TAG, "DATABASE CREATED!");
       databaseWriteExecutor.execute(() -> {
-        Log.i(MainActivity.TAG, "Inserting default User data");
+        Log.i(LandingActivity.TAG, "Inserting default User data");
         UserDAO userDAO = INSTANCE.userDAO();
         // Default admin user
         userDAO.insert(new User("admin", "admin", 1));
@@ -66,13 +67,13 @@ public abstract class RockPaperScissorsDatabase extends RoomDatabase {
    * @return singleton database instance for the app
    */
   static RockPaperScissorsDatabase getDatabase(final Context context) {
-    Log.d(MainActivity.TAG, "Getting database singleton");
+    Log.d(LandingActivity.TAG, "Getting database singleton");
     if (INSTANCE == null) {
       // lock for singleton creation
       synchronized (RockPaperScissorsDatabase.class) {
         // we might have been queuing, so check again now that we have the lock
         if (INSTANCE == null) {
-          Log.d(MainActivity.TAG, "Building Room Database");
+          Log.d(LandingActivity.TAG, "Building Room Database");
           // create the database instance
           // delete everything and add the default values
           //     if we're changing the db version

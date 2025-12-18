@@ -1,7 +1,9 @@
 package edu.csumb.cst338.otterbots.rockpaperscissors.api;
 
 import android.util.Log;
-import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+
+import edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -102,15 +104,15 @@ public class RpsRandomNumberGenerator {
           String inputLine;
           while ((inputLine = in.readLine()) != null) {
             int number = Integer.parseInt(inputLine);
-            Log.d(MainActivity.TAG, "Adding number " + number);
+            Log.d(LandingActivity.TAG, "Adding number " + number);
             INSTANCE.randomNumbers.add(number);
           }
           in.close();
         } else {
-          Log.e(MainActivity.TAG, "Random.org random number generation API call failed");
+          Log.e(LandingActivity.TAG, "Random.org random number generation API call failed");
         }
       } catch (Exception e) {
-        Log.e(MainActivity.TAG,
+        Log.e(LandingActivity.TAG,
             "Random.org random number generation API call failed with exception " + e);
       }
     });

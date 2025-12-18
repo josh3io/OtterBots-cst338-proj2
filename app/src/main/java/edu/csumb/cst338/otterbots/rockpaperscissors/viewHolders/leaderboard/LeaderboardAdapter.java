@@ -6,7 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+
+import edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity;
 
 public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerView.ViewHolder> {
 
@@ -34,7 +35,7 @@ public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerVie
     if (holder instanceof LeaderboardViewHolder) {
       LeaderboardViewHolder holderInstance = (LeaderboardViewHolder) holder;
       RankedUserStats current = getItem(position - 1);
-      Log.d(MainActivity.TAG, current.toString());
+      Log.d(LandingActivity.TAG, current.toString());
       holderInstance.bind(current);
     } else if (holder instanceof LeaderboardViewHeader) {
       LeaderboardViewHeader headerInstance = (LeaderboardViewHeader) holder;

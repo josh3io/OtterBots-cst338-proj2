@@ -4,7 +4,9 @@ import android.app.Application;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
-import edu.csumb.cst338.otterbots.rockpaperscissors.MainActivity;
+
+import edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -28,7 +30,7 @@ public class RockPaperScissorsRepository {
    * @param application the android application
    */
   private RockPaperScissorsRepository(Application application) {
-    Log.d(MainActivity.TAG, "Instantiating Repository");
+    Log.d(LandingActivity.TAG, "Instantiating Repository");
     RockPaperScissorsDatabase db = RockPaperScissorsDatabase.getDatabase(application);
     this.rpsRoundDAO = db.rpsRoundDAO();
     this.userStatsDAO = db.userStatsDAO();
@@ -64,7 +66,7 @@ public class RockPaperScissorsRepository {
       return future.get();
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
-      Log.i(MainActivity.TAG, "Thread Error getting the RPS Repository.");
+      Log.i(LandingActivity.TAG, "Thread Error getting the RPS Repository.");
     }
 
     return null;
@@ -129,7 +131,7 @@ public class RockPaperScissorsRepository {
    */
   public LiveData<ArrayList<UserJoinUserStats>> getAllUserStatsByRank() {
     return Transformations.map(userJoinUserStatsDAO.getUsernameAndUserStats(), list -> {
-      Log.d(MainActivity.TAG, "List of stats " + list.toString());
+      Log.d(LandingActivity.TAG, "List of stats " + list.toString());
       if (list == null) {
         return new ArrayList<>();
       }
@@ -205,7 +207,7 @@ public class RockPaperScissorsRepository {
     try {
       return future.get();
     } catch (InterruptedException | ExecutionException e) {
-      Log.e(MainActivity.TAG, "Failed to insert new user record. thread error.");
+      Log.e(LandingActivity.TAG, "Failed to insert new user record. thread error.");
       return -1;
     }
   }
@@ -221,7 +223,7 @@ public class RockPaperScissorsRepository {
 
       // Null check to prevent crash
       if (user == null) {
-        Log.w(MainActivity.TAG, "DeleteUser: No User Found with Username = " + username);
+        Log.w(LandingActivity.TAG, "DeleteUser: No User Found with Username = " + username);
         return; // No user to delete
       }
 
