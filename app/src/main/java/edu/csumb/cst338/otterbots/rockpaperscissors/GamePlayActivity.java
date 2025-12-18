@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +54,6 @@ public class GamePlayActivity extends AppCompatActivity {
 
   // Player ID for which this gameplay is occurring
   private int userId;
-    private Integer userStatsId = null;
 
     public static HashMap<Integer,String> makeGameChoices() {
         HashMap<Integer,String> choices = new HashMap<>();
@@ -83,8 +83,6 @@ public class GamePlayActivity extends AppCompatActivity {
     // Retrieve the user ID passed from the previous activity
     Intent intent = getIntent();
     userId = intent.getIntExtra(EXTRA_USER_ID, -1);
-
-    getUserStatsId();
 
         Log.d(LandingActivity.TAG, "Created gameplay activity for user " + userId);
 
@@ -116,34 +114,20 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     private void loadHistory() {
-        if (userStatsId == null) {
-            return;
-        }
+        Log.d(MainActivity.TAG, "Loading History, id "+userId);
 
         RecyclerView recyclerView = binding.gameHistoryRecyclerView;
-        final GameHistoryAdapter adapter = new GameHistoryAdapter(new GameHistoryAdapter().GameHistoryDiff());
+        final GameHistoryAdapter adapter = new GameHistoryAdapter(new GameHistoryAdapter.GameHistoryDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        GameHistoryViewModel.getAllRoundsByUser(userStatsId).observe(this, rounds -> {
-            adapter.submitList(rounds);
+        GameHistoryViewModel gameHistoryViewModel = new ViewModelProvider(this).get(GameHistoryViewModel.class);
+        gameHistoryViewModel.getLatestRoundsByUser(userId).observe(this, rounds -> {
+            adapter.submitList(rounds, () -> {
+                recyclerView.smoothScrollToPosition(0);
+            });
         });
     }
 
-    private void getUserStatsId() {
-
-        RockPaperScissorsRepository repository = RockPaperScissorsRepository.getRepository(getApplication());
-        LiveData<UserStats> userStatsLiveData = repository.getUserStatsByUserId(userId);
-        Observer<UserStats> userStatsObserver = new Observer<UserStats>() {
-            @Override
-            public void onChanged(UserStats userStats) {
-                if (userStats == null) {
-                    return;
-                }
-                userStatsId = userStats.getId();
-                loadHistory();
-            }
-        };
-    }
 
   /**
    * Main handler for each gameplay round.

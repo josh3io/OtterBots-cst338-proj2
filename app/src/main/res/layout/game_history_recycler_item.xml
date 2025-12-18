@@ -52,7 +52,7 @@
         android:layout_height="35dp"
         android:layout_row="0"
         android:layout_column="3"
-        android:layout_columnWeight="3"
+        android:layout_columnWeight="4"
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="4dp"

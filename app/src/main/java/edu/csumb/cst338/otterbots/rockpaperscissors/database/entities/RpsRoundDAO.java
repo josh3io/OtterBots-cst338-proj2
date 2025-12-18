@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
 import java.util.List;
 
 /**
@@ -35,7 +36,10 @@ public interface RpsRoundDAO {
       + " WHERE userStatsId = :userStatsId ORDER BY date DESC")
   LiveData<List<RpsRound>> getAllRoundsByUserStatsId(int userStatsId);
 
-  @Query("DELETE FROM " + RockPaperScissorsDatabase.RPS_ROUND_TABLE +
+  @Query("SELECT * FROM " + RockPaperScissorsDatabase.RPS_ROUND_TABLE + " WHERE userStatsId = :userStatsId ORDER BY date DESC LIMIT 10")
+    LiveData<List<RpsRound>> getLatestRoundsByUser(int userStatsId);
+
+    @Query("DELETE FROM " + RockPaperScissorsDatabase.RPS_ROUND_TABLE +
       " WHERE userStatsId = :userStatsId")
   void deleteRoundsByUserStatsId(int userStatsId);
 

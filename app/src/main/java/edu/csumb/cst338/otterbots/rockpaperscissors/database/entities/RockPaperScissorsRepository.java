@@ -124,6 +124,15 @@ public class RockPaperScissorsRepository {
     });
   }
 
+    public LiveData<ArrayList<RpsRound>> getLatestRoundsByUser(int userId) {
+        return Transformations.map(rpsRoundDAO.getLatestRoundsByUser(userId), list -> {
+            if (list == null) {
+                return new ArrayList<>();
+            }
+            return new ArrayList<>(list);
+        });
+    }
+
   /**
    * Get all user stats for the leaderboard
    *

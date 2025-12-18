@@ -19,7 +19,7 @@ public class GameHistoryViewModel extends AndroidViewModel {
         repository = RockPaperScissorsRepository.getRepository(application);
     }
 
-    public LiveData<ArrayList<RpsRound>> getAllRoundsByUser(int userStatsId) {
-        return repository.getAllUserStatsIdRounds(userStatsId);
+    public LiveData<ArrayList<RpsRound>> getLatestRoundsByUser(int userId) {
+        return repository.getLatestRoundsByUser(userId);
     }
 }
