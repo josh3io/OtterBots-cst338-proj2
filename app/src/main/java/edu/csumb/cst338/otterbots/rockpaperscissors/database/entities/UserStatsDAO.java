@@ -10,10 +10,10 @@ import androidx.room.Update;
 import java.util.List;
 
 /**
- * Description: DAO interface for user stats database records Author: Josh Goldberg Since:
- * 2025.12.06
+ * Description: DAO interface for user stats database records
+ * Author: Josh Goldberg
+ * Since: 2025.12.06
  */
-
 @Dao
 public interface UserStatsDAO {
 
@@ -27,16 +27,17 @@ public interface UserStatsDAO {
   void delete(UserStats stats);
 
   /**
-   * Get stats record for a user
+   * Get stats record for a user.
    *
    * @param userId user id to get stats for
    * @return the user stats record for the given user
    */
-  @Query("SELECT * FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE + " WHERE userId = :userId")
+  @Query("SELECT * FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE +
+      " WHERE userId = :userId")
   LiveData<UserStats> getUserStatsByUserId(int userId);
 
-  @Query("SELECT * FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE
-      + " ORDER BY wins - losses DESC")
+  @Query("SELECT * FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE +
+      " ORDER BY wins - losses DESC")
   LiveData<List<UserStats>> getAllUserStatsByRank();
 
   @Query("UPDATE " + RockPaperScissorsDatabase.USER_STATS_TABLE +
@@ -44,8 +45,11 @@ public interface UserStatsDAO {
       " WHERE userId = :userId")
   int resetStatsForUser(int userId);
 
+  /**
+   * Deletes all statistics associated with the given userId.
+   * Must be executed off the main thread since this performs a write operation.
+   */
   @Query("DELETE FROM " + RockPaperScissorsDatabase.USER_STATS_TABLE +
       " WHERE userId = :userId")
   void deleteUserStatsByUserId(int userId);
-
 }
