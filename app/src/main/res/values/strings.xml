@@ -76,4 +76,7 @@
   <string name="stats_title">Stats</string>
   <string name="welcome_admin">Welcome\nAdmin %s</string>
   <string name="add_admin">Add Admin</string>
+  <string name="user">User</string>
+  <string name="npc">npc</string>
+  <string name="date">date</string>
 </resources>
