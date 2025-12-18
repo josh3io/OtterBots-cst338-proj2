@@ -15,23 +15,35 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Instrumented UI tests for AdminNewUserActivity. These tests interact only with the UI (EditTexts,
- * Buttons, TextView)
+ * Instrumented UI test suite for AdminNewUserActivity.
+ *
+ * @author Christopher Buenrostro
+ *
+ * These tests verify front-end behavior only and do not interact with
+ * Room or any backend logic. Their purpose is to ensure:
+ *   • Fields retain user-entered values when input validation fails.
+ *   • Fields also retain values when validation succeeds (per UI design).
+ *   • The “Return” navigation element correctly closes the activity.
+ *
+ * This keeps validation predictable and avoids silently altering user input.
  */
 @RunWith(AndroidJUnit4.class)
 public class AdminNewUserActivityTest {
 
-  // ------------------------------------------------------------
-  // 1. Mismatched passwords test
-  // ------------------------------------------------------------
+  // ========================================================================
+  // 1. CASE: Password fields do NOT match
+  // EXPECTATION:
+  //   • User-entered values remain unchanged after clicking "Add User"
+  //   • Mismatch is detected and fields are NOT cleared by the UI
+  // ========================================================================
   @Test
   public void whenPasswordsDoNotMatch_afterClick_fieldsStillContainValues() {
     Intent intent = AdminNewUserActivity.createIntent(
-        ApplicationProvider.getApplicationContext()
+            ApplicationProvider.getApplicationContext()
     );
 
     try (ActivityScenario<AdminNewUserActivity> scenario =
-        ActivityScenario.launch(intent)) {
+                 ActivityScenario.launch(intent)) {
 
       scenario.onActivity(activity -> {
         EditText username = activity.findViewById(R.id.adminUsernameEditText);
@@ -39,44 +51,46 @@ public class AdminNewUserActivityTest {
         EditText confirm = activity.findViewById(R.id.adminConfirmPasswordEditText);
         Button addUser = activity.findViewById(R.id.addUserButton);
 
+        // Verify all UI references exist
         assertNotNull(username);
         assertNotNull(password);
         assertNotNull(confirm);
         assertNotNull(addUser);
 
-        // Fill fields
+        // Pre-fill fields using intentionally mismatched passwords
         username.setText("testUser");
         password.setText("1234");
         confirm.setText("0000");
 
-        // Perform click
+        // Trigger "Add User" action
         addUser.performClick();
 
-        // Assertions AFTER the click
+        // POST-CONDITIONS:
+        // UI should leave existing values untouched
         assertEquals("testUser", username.getText().toString());
         assertEquals("1234", password.getText().toString());
         assertEquals("0000", confirm.getText().toString());
 
-        // Confirm passwords still do NOT match
-        assertTrue(
-            !password.getText().toString()
-                .equals(confirm.getText().toString())
-        );
+        // And confirm mismatch is still true
+        assertTrue(!password.getText().toString().equals(confirm.getText().toString()));
       });
     }
   }
 
-  // ------------------------------------------------------------
-  // 2. Matching password test
-  // ------------------------------------------------------------
+  // ========================================================================
+  // 2. CASE: Password fields DO match
+  // EXPECTATION:
+  //   • UI keeps all entered field values as-is after clicking "Add Admin"
+  //   • Matching passwords are recognized, but UI still does not clear fields
+  // ========================================================================
   @Test
   public void whenPasswordsMatch_afterClick_fieldsStillContainValues() {
     Intent intent = AdminNewUserActivity.createIntent(
-        ApplicationProvider.getApplicationContext()
+            ApplicationProvider.getApplicationContext()
     );
 
     try (ActivityScenario<AdminNewUserActivity> scenario =
-        ActivityScenario.launch(intent)) {
+                 ActivityScenario.launch(intent)) {
 
       scenario.onActivity(activity -> {
         EditText username = activity.findViewById(R.id.adminUsernameEditText);
@@ -89,48 +103,48 @@ public class AdminNewUserActivityTest {
         assertNotNull(confirm);
         assertNotNull(addAdmin);
 
-        // Fill fields
+        // Provide consistent, matching passwords
         username.setText("adminTest");
         password.setText("abcd");
         confirm.setText("abcd");
 
-        // Perform click
+        // Trigger the add-admin action
         addAdmin.performClick();
 
-        // Assertions AFTER the click
+        // POST-CONDITION:
+        // All input values should remain present
         assertEquals("adminTest", username.getText().toString());
         assertEquals("abcd", password.getText().toString());
         assertEquals("abcd", confirm.getText().toString());
 
-        // Confirm passwords DO match
-        assertEquals(
-            password.getText().toString(),
-            confirm.getText().toString()
-        );
+        // Passwords should match at this stage
+        assertEquals(password.getText().toString(), confirm.getText().toString());
       });
     }
   }
 
-  // ------------------------------------------------------------
-  // 3. Clicking "return" finishes activity
-  // ------------------------------------------------------------
+  // ========================================================================
+  // 3. CASE: User taps the "Return" TextView
+  // EXPECTATION:
+  //   • Activity should transition into closing state (finish/destroy)
+  // ========================================================================
   @Test
   public void clickingReturn_afterClick_activityIsClosing() {
     Intent intent = AdminNewUserActivity.createIntent(
-        ApplicationProvider.getApplicationContext()
+            ApplicationProvider.getApplicationContext()
     );
 
     try (ActivityScenario<AdminNewUserActivity> scenario =
-        ActivityScenario.launch(intent)) {
+                 ActivityScenario.launch(intent)) {
 
       scenario.onActivity(activity -> {
         TextView returnText = activity.findViewById(R.id.returnSelectableTextView);
         assertNotNull(returnText);
 
-        // Perform click
+        // Simulate user action
         returnText.performClick();
 
-        // Assert AFTER click → activity should be finishing or destroyed
+        // POST-CONDITION: Activity must be closing
         assertTrue(activity.isFinishing() || activity.isDestroyed());
       });
     }

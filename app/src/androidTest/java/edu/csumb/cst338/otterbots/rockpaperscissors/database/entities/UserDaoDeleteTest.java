@@ -3,8 +3,10 @@ package edu.csumb.cst338.otterbots.rockpaperscissors.database.entities;
 /*
  * Author: Christopher Buenrostro
  * Description:
- *   Instrumented test verifying that deleting a user by username
- *   removes only that specific user from the in-memory Room database.
+ *   Instrumented test validating that the UserDAO correctly removes
+ *   only the targeted user when deleteUserByUsername() is executed.
+ *   This ensures that user deletion is precise and does not affect
+ *   other existing records in the Room database.
  */
 
 import static org.junit.Assert.*;
@@ -34,19 +36,23 @@ public class UserDaoDeleteTest {
     private UserDAO userDao;
 
     /**
-     * Creates a fresh in-memory database before each test.
+     * Before each test, build a brand-new in-memory Room database.
+     * Using an in-memory instance ensures isolation between tests
+     * and avoids persisting data across runs. The database allows
+     * main-thread queries because this is a controlled test environment.
      */
     @Before
     public void setup() {
         Context context = ApplicationProvider.getApplicationContext();
         db = Room.inMemoryDatabaseBuilder(context, RockPaperScissorsDatabase.class)
-                .allowMainThreadQueries() // Safe for testing
+                .allowMainThreadQueries() // Safe and convenient for testing
                 .build();
         userDao = db.userDAO();
     }
 
     /**
-     * Closes the database after each test.
+     * After each test, close the database to release resources and
+     * guarantee a clean starting point for the next test method.
      */
     @After
     public void tearDown() {
@@ -54,31 +60,37 @@ public class UserDaoDeleteTest {
     }
 
     /**
-     * Level 1 Test:
-     * Ensures deleteUserByUsername removes only the specified user.
+     * Level 1 Test Requirement:
+     * Verifies that deleteUserByUsername() removes exactly one user—
+     * the one matching the provided username—while leaving all other
+     * users intact. This test inserts two users, deletes one of them,
+     * and then checks that the remaining user is still present.
      */
     @Test
     public void deleteUserByUsername_removesOnlyThatUser() throws Exception {
-        // Insert two test users
+        // Insert initial test users
         userDao.insert(new User("user1", "pw1", 0));
         userDao.insert(new User("user2", "pw2", 1));
 
-        // Sanity check: two users should exist
+        // Confirm that two users exist before deletion
         List<User> initial = getOrAwaitValue(userDao.getAllUsers());
         assertEquals(2, initial.size());
 
-        // Delete user1
+        // Delete the first user
         userDao.deleteUserByUsername("user1");
 
-        // Verify only user2 remains
+        // Verify that only the second user remains
         List<User> remaining = getOrAwaitValue(userDao.getAllUsers());
         assertEquals(1, remaining.size());
         assertEquals("user2", remaining.get(0).getUsername());
     }
 
     /**
-     * Utility method:
-     * Retrieves a value from LiveData synchronously for testing.
+     * Helper utility for retrieving the current value from LiveData
+     * in a blocking, synchronous manner. This enables test assertions
+     * to operate on LiveData values directly. The method observes
+     * LiveData forever, captures the emitted value, and unblocks the
+     * test thread once the data is received or the timeout expires.
      */
     private static <T> T getOrAwaitValue(LiveData<T> liveData) throws InterruptedException {
         final Object[] data = new Object[1];
