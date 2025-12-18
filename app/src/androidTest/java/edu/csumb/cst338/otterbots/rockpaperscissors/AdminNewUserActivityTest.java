@@ -17,6 +17,8 @@ import org.junit.runner.RunWith;
 /**
  * Instrumented UI test suite for AdminNewUserActivity.
  *
+ * @author Christopher Buenrostro
+ *
  * These tests verify front-end behavior only and do not interact with
  * Room or any backend logic. Their purpose is to ensure:
  *   • Fields retain user-entered values when input validation fails.

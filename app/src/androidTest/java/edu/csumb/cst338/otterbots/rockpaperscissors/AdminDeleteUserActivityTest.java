@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
+ *
+ * @author Christopher Buenrostro
  * Instrumented UI test suite for AdminDeleteUserActivity.
  *
  * These tests confirm the following UI behaviors:
