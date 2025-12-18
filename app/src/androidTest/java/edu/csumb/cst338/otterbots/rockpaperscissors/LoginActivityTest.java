@@ -13,11 +13,27 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Unit style instrumentation tests for LoginActivity.
+ * Instrumentation tests for {@link LoginActivity}.
+ *
+ * <p>These tests verify:
+ * <ul>
+ *   <li>{@link LoginActivity#createLogoutIntent(Context)} targets LoginActivity and applies the
+ *       correct back stack clearing flags.</li>
+ *   <li>A previously saved username in SharedPreferences is pre-filled into the username field
+ *       when LoginActivity launches.</li>
+ * </ul>
  */
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
 
+  /**
+   * Verifies that {@link LoginActivity#createLogoutIntent(Context)} returns an Intent that:
+   * <ul>
+   *   <li>Targets {@link LoginActivity}</li>
+   *   <li>Includes the {@link Intent#FLAG_ACTIVITY_CLEAR_TOP} and
+   *       {@link Intent#FLAG_ACTIVITY_NEW_TASK} flags to clear the back stack.</li>
+   * </ul>
+   */
   @Test
   public void createLogoutIntent_targetLoginActivityWithClearBackStackFlags() {
     // Arrange
@@ -36,6 +52,11 @@ public class LoginActivityTest {
     assertEquals(expectedFlags, logoutIntent.getFlags());
   }
 
+  /**
+   * Verifies that when a last username is stored in SharedPreferences under
+   * {@link LoginActivity#KEY_LAST_USERNAME}, launching {@link LoginActivity} pre-fills that value
+   * into the username input field.
+   */
   @Test
   public void whenLastUsernameSaved_prefillsUsernameFieldsOnLaunch() {
     // Arrange: write a fake saved username into SharedPreferences
