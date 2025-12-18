@@ -6,6 +6,11 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.csumb.cst338.otterbots.rockpaperscissors.R;
 
+/**
+ * Description: Header for the leaderboard. we don't set any fields here, use static strings.
+ * Author: Josh Goldberg
+ * Since: 2025.12.08
+ */
 public class LeaderboardViewHeader extends RecyclerView.ViewHolder {
 
   private LeaderboardViewHeader(View leaderboardView) {

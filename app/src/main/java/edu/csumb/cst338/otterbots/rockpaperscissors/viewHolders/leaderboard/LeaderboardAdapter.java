@@ -2,6 +2,7 @@ package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.leaderboard;
 
 import android.util.Log;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
@@ -9,6 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity;
 
+/**
+ * Description: display adapter for the leaderboard recycler view.
+ * Author: Josh Goldberg
+ * Since: 2025.12.08
+ */
 public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerView.ViewHolder> {
 
   private static final int TYPE_HEADER = 0;
@@ -18,11 +24,19 @@ public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerVie
     super(diffCallback);
   }
 
-
+  /**
+   * Create the view holder.
+   *
+   * @param parent The ViewGroup into which the new View will be added after it is bound to
+   *               an adapter position.
+   * @param viewType The view type of the new View.
+   */
   @NonNull
   @Override
-  public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public RecyclerView.ViewHolder onCreateViewHolder(
+      @NonNull ViewGroup parent, int viewType) {
     if (viewType == TYPE_HEADER) {
+      // Show a header as the first item in the view.
       return LeaderboardViewHeader.create(parent);
     } else if (viewType == TYPE_ITEM) {
       return LeaderboardViewHolder.create(parent);
@@ -30,41 +44,54 @@ public class LeaderboardAdapter extends ListAdapter<RankedUserStats, RecyclerVie
     return null;
   }
 
+  /**
+   * Bind an object to the holder.
+   *
+   * @param holder   the view holder to bind
+   * @param position what position in the recycler to bind this to
+   */
   @Override
-  public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
     if (holder instanceof LeaderboardViewHolder) {
       LeaderboardViewHolder holderInstance = (LeaderboardViewHolder) holder;
+      // position 0 is the header, so items start at position 1
       RankedUserStats current = getItem(position - 1);
       Log.d(LandingActivity.TAG, current.toString());
       holderInstance.bind(current);
     } else if (holder instanceof LeaderboardViewHeader) {
-      LeaderboardViewHeader headerInstance = (LeaderboardViewHeader) holder;
-      // use default text values for the header. no binding.
+      // Use default text values for the header; no binding needed.
     }
   }
 
+  /**
+   * If it's the zeroth position, get a header; otherwise get an item.
+   */
   @Override
   public int getItemViewType(int position) {
     return position == 0 ? TYPE_HEADER : TYPE_ITEM;
   }
 
+  /**
+   * Get a count of the items in the adapter.
+   *
+   * @return total count of items, plus 1 for the header
+   */
   @Override
   public int getItemCount() {
     return getCurrentList().size() + 1;
   }
 
-
   public static class LeaderboardDiff extends DiffUtil.ItemCallback<RankedUserStats> {
 
     @Override
-    public boolean areItemsTheSame(@NonNull RankedUserStats oldItem,
-        @NonNull RankedUserStats newItem) {
+    public boolean areItemsTheSame(
+        @NonNull RankedUserStats oldItem, @NonNull RankedUserStats newItem) {
       return oldItem == newItem;
     }
 
     @Override
-    public boolean areContentsTheSame(@NonNull RankedUserStats oldItem,
-        @NonNull RankedUserStats newItem) {
+    public boolean areContentsTheSame(
+        @NonNull RankedUserStats oldItem, @NonNull RankedUserStats newItem) {
       return oldItem.equals(newItem);
     }
   }

@@ -8,6 +8,11 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUs
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 import java.util.ArrayList;
 
+ /**
+ * Description: View model for the leaderboard
+ * Author: Josh Goldberg
+ * Since: 2025.12.08
+ */
 public class LeaderboardViewModel extends AndroidViewModel {
 
   private final RockPaperScissorsRepository repository;
@@ -17,6 +22,11 @@ public class LeaderboardViewModel extends AndroidViewModel {
     repository = RockPaperScissorsRepository.getRepository(application);
   }
 
+  /**
+  * Get the list of all user stats, sorted by leaderboard rank
+  *
+  * @return live data of the users' gameplay statistics
+  */
   public LiveData<ArrayList<UserJoinUserStats>> getAllUserStatsByRank() {
     return repository.getAllUserStatsByRank();
   }

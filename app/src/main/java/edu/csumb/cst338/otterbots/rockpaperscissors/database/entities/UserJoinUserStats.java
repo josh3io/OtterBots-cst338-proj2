@@ -4,6 +4,11 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import java.util.Objects;
 
+/**
+ * Description: entity for the join query of userLogin and userStats
+ * Author: Josh Goldberg
+ * Since: 2025.12.14
+ */
 @Entity
 public class UserJoinUserStats {
 

@@ -5,11 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import edu.csumb.cst338.otterbots.rockpaperscissors.LandingActivity;
 import edu.csumb.cst338.otterbots.rockpaperscissors.R;
 
+/**
+ * Description: Item holder for the leaderboard.
+ * Author: Josh Goldberg
+ * Since: 2025.12.08
+ */
 public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
 
   private final TextView rankTextView;
@@ -18,7 +23,7 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
   private final TextView lossesTextView;
   private final TextView tiesTextView;
 
-  private LeaderboardViewHolder(View leaderboardView) {
+  private LeaderboardViewHolder(@NonNull View leaderboardView) {
     super(leaderboardView);
     rankTextView = leaderboardView.findViewById(R.id.recyclerItemRankTextView);
     usernameTextView = leaderboardView.findViewById(R.id.recyclerItemUsernameTextView);
@@ -27,13 +32,19 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
     tiesTextView = leaderboardView.findViewById(R.id.recyclerItemTiesTextView);
   }
 
-  static LeaderboardViewHolder create(ViewGroup parent) {
-    View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.leaderboard_recycler_item, parent, false);
+  static LeaderboardViewHolder create(@NonNull ViewGroup parent) {
+    View view =
+        LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.leaderboard_recycler_item, parent, false);
     return new LeaderboardViewHolder(view);
   }
 
-  public void bind(RankedUserStats stats) {
+  /**
+   * Bind the fields to the text views of the view.
+   *
+   * @param stats a RankedUserStats object that has all the data needed for display
+   */
+  void bind(@NonNull RankedUserStats stats) {
     Log.d(LandingActivity.TAG, "User Stats binding " + stats);
     rankTextView.setText(String.valueOf(stats.getRank()));
     usernameTextView.setText(stats.getUsername());

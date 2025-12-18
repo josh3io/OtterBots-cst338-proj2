@@ -4,6 +4,12 @@ import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserJoinUs
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.UserStats;
 import java.util.Objects;
 
+/**
+ * Description: A wrapper around the UserStats entity that adds rank and username fields for
+ * displaying on the leaderboard activity.
+ * Author: Josh Goldberg
+ * Since: 2025.12.14
+ */
 public class RankedUserStats extends UserStats {
 
   private int rank;
@@ -14,18 +20,25 @@ public class RankedUserStats extends UserStats {
     this.username = username;
   }
 
+  /**
+   * Factory function for a new RankedUserStats object.
+   *
+   * @param rank  the rank to show for this object on the leaderboard
+   * @param stats the object that is a Room entity join of user and user-stats tables
+   * @return a new RankedUserStats object
+   */
   public static RankedUserStats getRankedUserStats(int rank, UserJoinUserStats stats) {
-    //RankedUserStats ranked = (RankedUserStats) stats;
     UserStats userStats = stats.getUserStats();
     if (userStats == null) {
+      // This could be null since it's from a left join; default to zeroes for this user.
       userStats = new UserStats(stats.getUserId(), 0, 0, 0, 0, 0);
     }
+
     RankedUserStats ranked = new RankedUserStats(
         stats.getUsername(),
         userStats
     );
     ranked.setRank(rank);
-
     return ranked;
   }
 
@@ -47,6 +60,9 @@ public class RankedUserStats extends UserStats {
 
   @Override
   public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
@@ -70,5 +86,4 @@ public class RankedUserStats extends UserStats {
         ", userStats=" + super.toString() +
         '}';
   }
-
 }

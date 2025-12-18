@@ -10,6 +10,12 @@ import java.util.function.Predicate;
 
 
 /**
+ * Description: Template class to aid in LiveData testing
+ * Author: Josh Goldberg
+ * Since: 2025.12.08
+ */
+
+/**
  * Template class to observe live data change results
  *
  * @param <T> the type of data we will be acting on in our change handler
