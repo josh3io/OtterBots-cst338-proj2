@@ -1,106 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  style="@style/ScreenRoot"
+  tools:context=".AdminDeleteUserActivity">
+
+  <!-- delete user title -->
+  <Button
+    android:id="@+id/deleteUserButton"
+    style="@style/PrimaryButton"
+    android:text="@string/delete_user"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/confirmUsernameEditTextView" />
+
+  <EditText
+    android:id="@+id/confirmUsernameEditTextView"
+    style="@style/PrimaryInput"
+    android:autofillHints="password"
+    android:hint="@string/confirm_username"
+    android:inputType="textPassword"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/usernameEditTextView" />
+
+  <EditText
+    android:id="@+id/usernameEditTextView"
+    style="@style/PrimaryInput"
+    android:autofillHints="username"
+    android:hint="@string/username"
+    android:inputType="text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/adminDeleteUserRecyclerView" />
+
+
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    tools:context=".AdminDeleteUserActivity">
-
-    <!-- delete user title -->
-    <TextView
-        android:id="@+id/deleteUserTitleTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/delete_user_admin"
-        android:textSize="33sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deleteUserTitleTextView">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/userid" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/username" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/isadmin" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/adminDeleteUserRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="16dp"
-        android:nestedScrollingEnabled="false"
-        android:overScrollMode="never"
-        android:padding="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deleteUserTitleTextView"
-        tools:listitem="@layout/delete_user_recycler_item" />
-
-
-    <EditText
-        android:id="@+id/usernameEditTextView"
-        style="@style/PrimaryInput"
-        android:autofillHints="username"
-        android:hint="@string/username"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adminDeleteUserRecyclerView" />
-
-    <EditText
-        android:id="@+id/confirmUsernameEditTextView"
-        style="@style/PrimaryInput"
-        android:autofillHints="password"
-        android:hint="@string/confirm_username"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/usernameEditTextView" />
-
-    <Button
-        android:id="@+id/deleteUserButton"
-        style="@style/PrimaryButton"
-        android:text="@string/delete_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmUsernameEditTextView" />
-
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/deleteUserTitleTextView">
 
     <TextView
-        android:id="@+id/returnToMainTextView"
-        style="@style/ClickableText"
-        android:text="@string/Return"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deleteUserButton"
-        />
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:gravity="center"
+      android:text="@string/userid" />
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:gravity="center"
+      android:text="@string/username" />
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:gravity="center"
+      android:text="@string/isAdmin" />
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/deleteUserTitleTextView"
+    style="@style/PrimaryTitle"
+    android:text="@string/delete_user_admin"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/returnToMainTextView"
+    style="@style/ClickableText"
+    android:text="@string/Return"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/deleteUserButton" />
+
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/adminDeleteUserRecyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="16dp"
+    android:padding="2dp"
+    android:nestedScrollingEnabled="false"
+    android:overScrollMode="never"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/deleteUserTitleTextView"
+    tools:listitem="@layout/delete_user_recycler_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

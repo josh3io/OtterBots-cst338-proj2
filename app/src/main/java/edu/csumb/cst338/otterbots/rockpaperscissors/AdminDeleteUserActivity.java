@@ -1,3 +1,5 @@
+package edu.csumb.cst338.otterbots.rockpaperscissors;
+
 /**
  * AdminDeleteUserActivity
  * ------------------------
@@ -7,8 +9,6 @@
  *
  * Author: Christopher Buenrostro
  */
-package edu.csumb.cst338.otterbots.rockpaperscissors;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,99 +16,108 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
+import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.User;
 import edu.csumb.cst338.otterbots.rockpaperscissors.databinding.ActivityAdminDeleteuserAcitivyBinding;
 import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewAdapter;
 import edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser.DeleteUserViewModel;
 
 public class AdminDeleteUserActivity extends AppCompatActivity {
 
-    private DeleteUserViewAdapter adapter;
-    private ActivityAdminDeleteuserAcitivyBinding binding;
-    private DeleteUserViewModel viewModel;
-    private RockPaperScissorsRepository repository;
+  private DeleteUserViewAdapter adapter;
+  private ActivityAdminDeleteuserAcitivyBinding binding;
+  private DeleteUserViewModel viewModel;
+  private RockPaperScissorsRepository repository;
+
+  /**
+   * Helper method to create an Intent for launching this activity.
+   */
+  public static Intent createIntent(Context context) {
+    return new Intent(context, AdminDeleteUserActivity.class);
+  }
+
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    // Inflate view binding for UI access
+    binding = ActivityAdminDeleteuserAcitivyBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+
+    // Setup RecyclerView layout manager
+    binding.adminDeleteUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    // Adapter setup using DiffUtil for efficient updates
+    adapter = new DeleteUserViewAdapter(new DeleteUserViewAdapter.DeleteUserDiff());
+    binding.adminDeleteUserRecyclerView.setAdapter(adapter);
+
+    // Get ViewModel and Repository instances
+    viewModel = new ViewModelProvider(this).get(DeleteUserViewModel.class);
+    repository = RockPaperScissorsRepository.getRepository(getApplication());
+
+    // Observe user list and update adapter whenever data changes
+    viewModel.getAllUsers().observe(this, users -> adapter.submitList(users));
+
+    // Return to previous screen
+    binding.returnToMainTextView.setOnClickListener(v -> finish());
 
     /**
-     * Helper method to create an Intent for launching this activity.
+     * Handles delete user button logic:
+     * - Validates username inputs
+     * - Ensures both fields match
+     * - Checks if the user exists before deleting
+     * - Uses a one-shot LiveData observer to avoid duplicate toasts
      */
-    public static Intent createIntent(Context context) {
-        return new Intent(context, AdminDeleteUserActivity.class);
-    }
+    binding.deleteUserButton.setOnClickListener(v -> {
+      String username = binding.usernameEditTextView.getText().toString().trim();
+      String confirm = binding.confirmUsernameEditTextView.getText().toString().trim();
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+      // Validate input fields
+      if (username.isEmpty() || confirm.isEmpty()) {
+        toastMaker("Please fill in both username fields");
+        return;
+      }
 
-        // Inflate view binding for UI access
-        binding = ActivityAdminDeleteuserAcitivyBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+      // Validate username confirmation
+      if (!username.equals(confirm)) {
+        toastMaker("Usernames do not match");
+        return;
+      }
 
-        // Setup RecyclerView layout manager
-        binding.adminDeleteUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+      // Clear text fields once input is validated
+      binding.usernameEditTextView.setText("");
+      binding.confirmUsernameEditTextView.setText("");
 
-        // Adapter setup using DiffUtil for efficient updates
-        adapter = new DeleteUserViewAdapter(new DeleteUserViewAdapter.DeleteUserDiff());
-        binding.adminDeleteUserRecyclerView.setAdapter(adapter);
-
-        // Get ViewModel and Repository instances
-        viewModel = new ViewModelProvider(this).get(DeleteUserViewModel.class);
-        repository = RockPaperScissorsRepository.getRepository(getApplication());
-
-        // Observe user list and update adapter whenever data changes
-        viewModel.getAllUsers().observe(this, users -> adapter.submitList(users));
-
-        // Return to previous screen
-        binding.returnToMainTextView.setOnClickListener(v -> finish());
-
-        /**
-         * Handles delete user button logic:
-         * - Validates username inputs
-         * - Ensures both fields match
-         * - Checks if the user exists before deleting
-         * - Clears fields and shows feedback via Toast
-         */
-        binding.deleteUserButton.setOnClickListener(v -> {
-            String username = binding.usernameEditTextView.getText().toString().trim();
-            String confirm = binding.confirmUsernameEditTextView.getText().toString().trim();
-
-            // Validate input fields
-            if (username.isEmpty() || confirm.isEmpty()) {
-                toastMaker("Please fill in both username fields");
-                return;
+      // One-shot observer: handle first value, then detach to prevent extra toasts
+      LiveData<User> userLiveData = repository.getUserByUsername(username);
+      Observer<User> observer =
+          new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+              if (user == null) {
+                toastMaker("User does not exist");
+              } else {
+                viewModel.deleteUserByUsername(username);
+                toastMaker("User deleted");
+              }
+              // Stop observing further changes for this click
+              userLiveData.removeObserver(this);
             }
+          };
 
-            // Validate username confirmation
-            if (!username.equals(confirm)) {
-                toastMaker("Usernames do not match");
-                return;
-            }
+      userLiveData.observe(AdminDeleteUserActivity.this, observer);
+    });
+  }
 
-            // Check if user exists before deletion
-            repository.getUserByUsername(username).observe(this, user -> {
-                if (user == null) {
-                    toastMaker("User does not exist");
-                } else {
-                    viewModel.deleteUserByUsername(username);
-                    toastMaker("User deleted");
-                }
-
-                // Clear text fields after action
-                binding.usernameEditTextView.setText("");
-                binding.confirmUsernameEditTextView.setText("");
-
-                // Remove observer to prevent LiveData repeating calls
-                repository.getUserByUsername(username).removeObservers(this);
-            });
-        });
-    }
-
-    /**
-     * Helper method to show short Toast messages.
-     */
-    private void toastMaker(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
+  /**
+   * Helper method to show short Toast messages.
+   */
+  private void toastMaker(String message) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+  }
 }

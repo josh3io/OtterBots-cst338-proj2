@@ -11,14 +11,12 @@
  */
 package edu.csumb.cst338.otterbots.rockpaperscissors.viewHolders.deleteUser;
 
+import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import android.app.Application;
-
-import java.util.List;
-
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.RockPaperScissorsRepository;
 import edu.csumb.cst338.otterbots.rockpaperscissors.database.entities.User;
+import java.util.List;
 
 public class DeleteUserViewModel extends AndroidViewModel {
 
