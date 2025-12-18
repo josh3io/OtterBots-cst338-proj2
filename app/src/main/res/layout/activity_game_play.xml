@@ -1,136 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    tools:context=".GamePlayActivity">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  style="@style/ScreenRoot"
+  tools:context=".GamePlayActivity">
 
-    <!--Game Play Title-->
-    <TextView
-        android:id="@+id/gameplayTitleTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/game_play"
-        android:textSize="33sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+  <!--Game Play Title-->
+  <Button
+    android:id="@+id/rockPlayButton"
+    style="@style/PrimaryButton"
+    android:text="@string/rock"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/npcChose" />
 
-    <!-- Gameplay feed  -->
-    <TextView
-        android:id="@+id/resultLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/result"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameplayTitleTextView" />
+  <!-- Gameplay feed  -->
+  <Button
+    android:id="@+id/paperPlayButton"
+    style="@style/PrimaryButton"
+    android:text="@string/paper"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/rockPlayButton" />
 
 
-    <TextView
-        android:id="@+id/resultOutputTextView"
-        android:layout_width="273dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:padding="8dp"
-        android:textSize="18dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/resultLabelTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/resultLabelTextView" />
+  <Button
+    android:id="@+id/scissorsPlayButton"
+    style="@style/PrimaryButton"
+    android:text="@string/scissors"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/paperPlayButton" />
 
-    <TextView
-        android:id="@+id/youChoseLabelTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/you_chose"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultLabelTextView"
-        />
+  <TextView
+    android:id="@+id/gameplayTitleTextView"
+    style="@style/PrimaryTitle"
+    android:text="@string/game_play"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/youChoseOutputTextView"
-        android:layout_width="273dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:padding="8dp"
-        android:textSize="18dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/youChoseLabelTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/youChoseLabelTextView" />
+  <TextView
+    android:id="@+id/resultLabelTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:text="@string/result"
+    android:textSize="18sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/gameplayTitleTextView" />
 
 
-    <TextView
-        android:id="@+id/npcChose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:textSize="18sp"
-        android:text="@string/npc_chose"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youChoseLabelTextView"
-        />
+  <TextView
+    android:id="@+id/resultOutputTextView"
+    android:layout_width="273dp"
+    android:layout_height="40dp"
+    android:layout_marginStart="10dp"
+    android:padding="8dp"
+    android:textSize="18sp"
+    app:layout_constraintBaseline_toBaselineOf="@+id/resultLabelTextView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toEndOf="@+id/resultLabelTextView" />
 
-    <TextView
-        android:id="@+id/npcChoseOutputTextView"
-        android:layout_width="273dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:padding="8dp"
-        android:textSize="18dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/npcChose"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/npcChose" />
+  <TextView
+    android:id="@+id/youChoseLabelTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:text="@string/you_chose"
+    android:textSize="18sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/resultLabelTextView" />
 
 
-    <!-- User play button -->
+  <!-- User play button -->
 
-    <Button
-        android:id="@+id/rockPlayButton"
-        style="@style/PrimaryButton"
-        android:text="@string/rock"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/npcChose" />
+  <TextView
+    android:id="@+id/youChoseOutputTextView"
+    android:layout_width="273dp"
+    android:layout_height="40dp"
+    android:layout_marginStart="10dp"
+    android:padding="8dp"
+    android:textSize="18sp"
+    app:layout_constraintBaseline_toBaselineOf="@+id/youChoseLabelTextView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toEndOf="@+id/youChoseLabelTextView" />
 
-    <Button
-        android:id="@+id/paperPlayButton"
-        style="@style/PrimaryButton"
-        android:text="@string/paper"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rockPlayButton" />
+  <TextView
+    android:id="@+id/npcChose"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:text="@string/npc_chose"
+    android:textSize="18sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/youChoseLabelTextView" />
 
-    <Button
-        android:id="@+id/scissorsPlayButton"
-        style="@style/PrimaryButton"
-        android:text="@string/scissors"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/paperPlayButton" />
+  <TextView
+    android:id="@+id/npcChoseOutputTextView"
+    android:layout_width="273dp"
+    android:layout_height="40dp"
+    android:layout_marginStart="10dp"
+    android:padding="8dp"
+    android:textSize="18sp"
+    app:layout_constraintBaseline_toBaselineOf="@+id/npcChose"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toEndOf="@+id/npcChose" />
 
-    <TextView
-        android:id="@+id/returnSelectableTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="5dp"
-        android:text="Return"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scissorsPlayButton"
-       />
+  <TextView
+    android:id="@+id/returnSelectableTextView"
+    style="@style/ClickableText"
+    android:text="@string/Return"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/scissorsPlayButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

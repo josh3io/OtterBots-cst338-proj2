@@ -3,135 +3,136 @@ package edu.csumb.cst338.otterbots.rockpaperscissors.database.entities;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
 import java.util.Objects;
 
-import edu.csumb.cst338.otterbots.rockpaperscissors.R;
-
 /**
- * Description: Entity for the user stats database table
- * Author: Josh Goldberg
- * Since: 2025.12.06
+ * Description: Entity for the user stats database table Author: Josh Goldberg Since: 2025.12.06
  */
 
 
 @Entity(
-        tableName = RockPaperScissorsDatabase.USER_STATS_TABLE,
-        indices = {@Index(value={"userId"}, unique = true)}
+    tableName = RockPaperScissorsDatabase.USER_STATS_TABLE,
+    indices = {@Index(value = {"userId"}, unique = true)}
 )
 public class UserStats {
 
-    public static final int WIN = 0;
-    public static final int TIE = 1;
-    public static final int LOSE = 2;
+  public static final int WIN = 0;
+  public static final int TIE = 1;
+  public static final int LOSE = 2;
 
-    @PrimaryKey(autoGenerate = true)
-    private Integer id;
+  @PrimaryKey(autoGenerate = true)
+  private Integer id;
 
-    private int userId;
-    private int wins;
-    private int losses;
-    private int ties;
-    private int maxStreak;
-    private int currentStreak;
+  private int userId;
+  private int wins;
+  private int losses;
+  private int ties;
+  private int maxStreak;
+  private int currentStreak;
 
-    public UserStats(UserStats oldUserStats) {
-        this.id = oldUserStats.id;
-        this.userId = oldUserStats.userId;
-        this.wins = oldUserStats.wins;
-        this.losses = oldUserStats.losses;
-        this.ties = oldUserStats.ties;
-        this.maxStreak = oldUserStats.maxStreak;
-        this.currentStreak = oldUserStats.currentStreak;
+  public UserStats(UserStats oldUserStats) {
+    this.id = oldUserStats.id;
+    this.userId = oldUserStats.userId;
+    this.wins = oldUserStats.wins;
+    this.losses = oldUserStats.losses;
+    this.ties = oldUserStats.ties;
+    this.maxStreak = oldUserStats.maxStreak;
+    this.currentStreak = oldUserStats.currentStreak;
+  }
+
+  public UserStats(int userId, int wins, int losses, int ties, int maxStreak, int currentStreak) {
+    this.userId = userId;
+    this.wins = wins;
+    this.losses = losses;
+    this.ties = ties;
+    this.maxStreak = maxStreak;
+    this.currentStreak = currentStreak;
+  }
+
+  @Override
+  public String toString() {
+    return "UserStats{" +
+        "id=" + id +
+        ", userId=" + userId +
+        ", wins=" + wins +
+        ", losses=" + losses +
+        ", ties=" + ties +
+        ", maxStreak=" + maxStreak +
+        ", currentStreak=" + currentStreak +
+        '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
-    public UserStats(int userId, int wins, int losses, int ties, int maxStreak, int currentStreak) {
-        this.userId = userId;
-        this.wins = wins;
-        this.losses = losses;
-        this.ties = ties;
-        this.maxStreak = maxStreak;
-        this.currentStreak = currentStreak;
-    }
+    UserStats userStats = (UserStats) o;
+    return Objects.equals(id, userStats.id) && Objects.equals(userId, userStats.userId)
+        && Objects.equals(wins, userStats.wins) && Objects.equals(losses, userStats.losses)
+        && Objects.equals(ties, userStats.ties) && Objects.equals(maxStreak, userStats.maxStreak)
+        && Objects.equals(currentStreak, userStats.currentStreak);
+  }
 
-    @Override
-    public String toString() {
-        return "UserStats{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", wins=" + wins +
-                ", losses=" + losses +
-                ", ties=" + ties +
-                ", maxStreak=" + maxStreak +
-                ", currentStreak=" + currentStreak +
-                '}';
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, userId, wins, losses, ties, maxStreak, currentStreak);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        UserStats userStats = (UserStats) o;
-        return Objects.equals(id, userStats.id) && Objects.equals(userId, userStats.userId) && Objects.equals(wins, userStats.wins) && Objects.equals(losses, userStats.losses) && Objects.equals(ties, userStats.ties) && Objects.equals(maxStreak, userStats.maxStreak) && Objects.equals(currentStreak, userStats.currentStreak);
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userId, wins, losses, ties, maxStreak, currentStreak);
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public int getUserId() {
+    return userId;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
 
-    public int getUserId() {
-        return userId;
-    }
+  public int getWins() {
+    return wins;
+  }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+  public void setWins(int wins) {
+    this.wins = wins;
+  }
 
-    public int getWins() {
-        return wins;
-    }
+  public int getLosses() {
+    return losses;
+  }
 
-    public void setWins(int wins) {
-        this.wins = wins;
-    }
+  public void setLosses(int losses) {
+    this.losses = losses;
+  }
 
-    public int getLosses() {
-        return losses;
-    }
+  public int getTies() {
+    return ties;
+  }
 
-    public void setLosses(int losses) {
-        this.losses = losses;
-    }
+  public void setTies(int ties) {
+    this.ties = ties;
+  }
 
-    public int getTies() {
-        return ties;
-    }
+  public int getMaxStreak() {
+    return maxStreak;
+  }
 
-    public void setTies(int ties) {
-        this.ties = ties;
-    }
+  public void setMaxStreak(int maxStreak) {
+    this.maxStreak = maxStreak;
+  }
 
-    public int getMaxStreak() {
-        return maxStreak;
-    }
+  public int getCurrentStreak() {
+    return currentStreak;
+  }
 
-    public void setMaxStreak(int maxStreak) {
-        this.maxStreak = maxStreak;
-    }
-
-    public int getCurrentStreak() {
-        return currentStreak;
-    }
-
-    public void setCurrentStreak(int currentStreak) {
-        this.currentStreak = currentStreak;
-    }
+  public void setCurrentStreak(int currentStreak) {
+    this.currentStreak = currentStreak;
+  }
 }
 
